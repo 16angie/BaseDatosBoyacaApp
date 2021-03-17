@@ -9,11 +9,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
@@ -48,19 +53,29 @@ public class Producto {
 	@Column(name ="pro_precio_envio",nullable = false)
 	private double precio_envio;
 	
-	@OneToMany
-	@Column(name ="pro_detalles_producto",nullable = false)
-	private List<Caracteristica> detalle ;
 
-	@OneToMany
-	private List<Caracteristica> Caracteristica ;
+	@ManyToOne
+	@JoinColumn(name ="id_empresa")
+	@JsonIgnoreProperties("listaProductos")
+	private Empresa empresaP;
 	
+	
+	@OneToMany(mappedBy = "producto",fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("producto")
+	private List<Caracteristica> caracteristicas = new ArrayList<Caracteristica>();
+	
+	
+	@OneToMany
+	private List<EspecificacionProducto> listaDeEspecificaciones = new ArrayList<EspecificacionProducto>();
+	
+	
+	@OneToMany
+	private List<Imagen> listaImagenes = new ArrayList<Imagen>();
+	
+	
+
+	/*
 	@Column(name ="pro_caracterisicas_des",nullable = false)
-	private ArrayList<String> descripcion_algunas_caracteristicas;
-	
-	@OneToMany
-	private List<EspecificacionProducto> listaDeEspecificaciones;
-	
-	@OneToMany
-	private List<Imagen> listaImagenes;
+	private ArrayList<String> descripcion_algunas_caracteristicas = new ArrayList<>();
+	*/
 }

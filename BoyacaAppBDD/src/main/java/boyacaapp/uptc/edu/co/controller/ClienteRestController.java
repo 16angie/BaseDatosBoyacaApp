@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import boyacaapp.uptc.edu.co.models.entity.Cliente;
+import boyacaapp.uptc.edu.co.models.entity.Direccion;
 import boyacaapp.uptc.edu.co.services.IClienteService;
+import boyacaapp.uptc.edu.co.services.IDireccionService;
 
 
 @CrossOrigin(origins= {"http://localhost:4200"}) //8082 // en dado caso seria el de angular oki?
@@ -24,6 +25,9 @@ public class ClienteRestController {
 
 	@Autowired
 	IClienteService clienteService;
+	
+	@Autowired
+	IDireccionService direccionservice;
 	
 	@GetMapping("/clientes")
 	public List<Cliente> index(){
@@ -36,10 +40,12 @@ public class ClienteRestController {
 		return clienteService.findById(id);
 	}
 	
-	@PostMapping("/clientes")
+	@PostMapping("/clientes/nuevo/{id_direccion}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente create(@RequestBody Cliente id){
-		return clienteService.save(id);
+	public Cliente create(@PathVariable Long id_direccion,@RequestBody Cliente cliente){
+		Direccion direcion = direccionservice.findById(id_direccion);
+		cliente.setDireccion_residencia(direcion);
+		return clienteService.save(cliente);
 	}
 
 	

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import boyacaapp.uptc.edu.co.models.entity.Direccion;
 import boyacaapp.uptc.edu.co.models.entity.Empresa;
+import boyacaapp.uptc.edu.co.services.IDireccionService;
 import boyacaapp.uptc.edu.co.services.IEmpresaService;
 
 
@@ -24,6 +26,10 @@ public class EmpresaRestController {
 
 	@Autowired
 	IEmpresaService empresaService;
+	
+
+	@Autowired
+	IDireccionService direccionservice;
 	
 	@GetMapping("/empresas")
 	public List<Empresa> index(){
@@ -36,10 +42,12 @@ public class EmpresaRestController {
 		return empresaService.findById(id);
 	}
 	
-	@PostMapping("/empresas")
+	@PostMapping("/empresas/nuevo/{id_direccion}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Empresa create(@RequestBody Empresa id){
-		return empresaService.save(id);
+	public Empresa create(@PathVariable Long id_direccion,@RequestBody Empresa empresa){
+		Direccion direcion = direccionservice.findById(id_direccion);
+		empresa.setDireccion(direcion);
+		return empresaService.save(empresa);
 	}
 
 	

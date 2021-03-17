@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import boyacaapp.uptc.edu.co.models.entity.Almacen;
+import boyacaapp.uptc.edu.co.models.entity.Direccion;
+import boyacaapp.uptc.edu.co.models.entity.Empresa;
+import boyacaapp.uptc.edu.co.services.IAlmacenService;
+import boyacaapp.uptc.edu.co.services.IDireccionService;
+import boyacaapp.uptc.edu.co.services.IEmpresaService;
 
 @CrossOrigin(origins= {"http://localhost:4200"}) // este es para comentariar al frontend
 @RestController
@@ -21,7 +26,13 @@ import boyacaapp.uptc.edu.co.models.entity.Almacen;
 public class AlmacenRestController {
 
 	@Autowired
-	boyacaapp.uptc.edu.co.services.IAlmacenService almacenService;
+	IAlmacenService almacenService;
+	
+	@Autowired
+	IDireccionService direccionservice;
+	
+	@Autowired
+	IEmpresaService empresaservice;
 	
 	@GetMapping("/almacenes")
 	public List<Almacen> index(){
@@ -29,15 +40,21 @@ public class AlmacenRestController {
 		
 	}
 	
-	@GetMapping("/almacenes{id}")
+	@GetMapping("/almacenes/{id}")
 	public Almacen show(@PathVariable Long id){
 		return almacenService.findById(id);
 	}
 	
-	@PostMapping("/almacenes")
+	@PostMapping("/almacenes/nuevo/{id_direccion}/{id_empresa}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Almacen create(@RequestBody Almacen id){
-		return almacenService.save(id);
+	public Almacen create(@PathVariable Long id_empresa,@PathVariable Long id_direccion,@RequestBody Almacen alamacen){
+		
+		Empresa empresa = empresaservice.findById(id_empresa);
+		Direccion direcion = direccionservice.findById(id_direccion);
+		
+		alamacen.setEmpresa(empresa);
+		alamacen.setDireccion(direcion);
+		return almacenService.save(alamacen);
 	}
 	
 	@PostMapping("/almacenes/{id}")

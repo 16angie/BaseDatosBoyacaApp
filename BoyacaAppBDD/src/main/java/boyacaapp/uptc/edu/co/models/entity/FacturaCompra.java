@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -41,13 +42,20 @@ public class FacturaCompra implements Serializable{
 	private double valor_total_compra;
 	// este valor se calcula
 	
+	@Column(name="com_referencia_pago")
+	private String referenciaDeCompra; // va a ser generado automaticamente ????
+	
 	@Column(name="com_estado_de_compra", nullable = false)
 	@Enumerated(value = EnumType.STRING)
 	private EstadoCompra estadodelacompra;
 	
+
+	
+	@ManyToOne
+	private Cliente cliente;
 	
 	@OneToMany
-	private List<DetalleCompra> detalleCompra;	
+	private List<DetalleCompra> detalleCompra;
 	
 	
 	@OneToOne
@@ -55,5 +63,11 @@ public class FacturaCompra implements Serializable{
 	
 	@OneToOne
 	private Envio envio;
+	
+	
+	public void generarReferencia() {
+		referenciaDeCompra +=this.id_compra+cliente.getEmail().substring(0,3)
+				+fecha_compra.getWeekYear()+detalleCompra.get(0).getProducto().getNombre().substring(0, 5);
+	}
 	
 }

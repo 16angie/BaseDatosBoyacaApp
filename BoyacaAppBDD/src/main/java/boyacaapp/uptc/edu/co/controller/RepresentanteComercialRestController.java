@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import boyacaapp.uptc.edu.co.models.entity.Direccion;
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
+import boyacaapp.uptc.edu.co.services.IDireccionService;
 import boyacaapp.uptc.edu.co.services.IRepresentanteComercialService;
 
 
@@ -24,6 +26,9 @@ public class RepresentanteComercialRestController {
 
 	@Autowired
 	IRepresentanteComercialService representanteComercialService;
+	
+	@Autowired
+	IDireccionService direccionservice;
 	
 	@GetMapping("/representantesComerciales")
 	public List<RepresentanteComercial> index(){
@@ -36,10 +41,12 @@ public class RepresentanteComercialRestController {
 		return representanteComercialService.findById(id);
 	}
 	
-	@PostMapping("/representantesComerciales")
+	@PostMapping("/representantesComerciales/nuevo/{id_direccion}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public RepresentanteComercial create(@RequestBody RepresentanteComercial id){
-		return representanteComercialService.save(id);
+	public RepresentanteComercial create(@PathVariable Long id_direccion,@RequestBody RepresentanteComercial representantes){
+		Direccion direcion = direccionservice.findById(id_direccion);
+		representantes.setDireccion_residencia(direcion);
+		return representanteComercialService.save(representantes);
 	}
 	
 	@PostMapping("/representantesComerciales/{id}")

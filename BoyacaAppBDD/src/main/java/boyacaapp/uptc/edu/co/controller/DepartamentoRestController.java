@@ -29,7 +29,6 @@ public class DepartamentoRestController {
 	@GetMapping("/departamentos")
 	public List<Departamento> index(){
 		return departamentoService.findAll();
-		
 	}
 	
 	@GetMapping("/departamentos{id}")
@@ -42,9 +41,7 @@ public class DepartamentoRestController {
 	public Departamento create(@RequestBody Departamento id){
 		return departamentoService.save(id);
 	}
-
 	
-	// agregar el metodo de las listas post?
 	@PostMapping("/departamentos/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Departamento update(@RequestBody Departamento departamento, @PathVariable Long id){
@@ -52,6 +49,7 @@ public class DepartamentoRestController {
 		departamentoActual.setNombre(departamento.getNombre());
 		return departamentoService.save(departamentoActual);
 	}
+	
 	
 	@DeleteMapping("/departamentos/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

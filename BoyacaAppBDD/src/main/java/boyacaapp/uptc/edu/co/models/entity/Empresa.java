@@ -1,11 +1,13 @@
 package boyacaapp.uptc.edu.co.models.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,11 +15,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity 
 @Table(name="empresas")
 @Data
+@EqualsAndHashCode(exclude = "listaProductos") 
 public class Empresa  implements Serializable{
 	
 	
@@ -53,11 +59,16 @@ public class Empresa  implements Serializable{
 	@OneToOne
 	private Direccion direccion;
 	
-	@OneToMany
-	private List<Almacen> listaDeAlamacenes;
 	
-	@OneToMany
-	private List<Producto> listaProductos;
+	@OneToMany(mappedBy = "empresa",fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("empresa")
+	private List<Almacen> listaDeAlamacenes = new ArrayList<>();
+	
+	
+	//---
+	@OneToMany(mappedBy = "empresaP",fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("empresaP")
+	private List<Producto> listaProductos = new ArrayList<>();
 	
 	
 	public void agregarlistaDeAlamacenes(Almacen almacen) {

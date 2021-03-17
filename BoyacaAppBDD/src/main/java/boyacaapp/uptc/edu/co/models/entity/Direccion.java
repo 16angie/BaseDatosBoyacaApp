@@ -35,7 +35,7 @@ public class Direccion implements Serializable{
 	private String via;
 	
 	@Column(name ="dir_numero",nullable = false)
-	private int numero; // este numero va dividido en dos en frontend y se une en back
+	private String numero; 
 	
 	@Column(name ="dir_datosAdicionales",nullable = false)
 	private String datosAdicionales;

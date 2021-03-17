@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import boyacaapp.uptc.edu.co.models.entity.Ciudad;
+import boyacaapp.uptc.edu.co.models.entity.Departamento;
 import boyacaapp.uptc.edu.co.services.ICiudadService;
+import boyacaapp.uptc.edu.co.services.IDepartamentoService;
 
 
 
@@ -26,21 +28,26 @@ public class CiudadRestController {
 	@Autowired
 	ICiudadService ciudadService;
 	
+	@Autowired
+	IDepartamentoService departamentoService;
+	
 	@GetMapping("/ciudades")
 	public List<Ciudad> index(){
 		return ciudadService.findAll();
 		
 	}
 	
-	@GetMapping("/ciudades{id}")
+	@GetMapping("/ciudades/{id}")
 	public Ciudad show(@PathVariable Long id){
 		return ciudadService.findById(id);
 	}
 	
-	@PostMapping("/ciudades")
+	@PostMapping("/ciudades/nueva/{id_departamento}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Ciudad create(@RequestBody Ciudad id){
-		return ciudadService.save(id);
+	public Ciudad create(@PathVariable Long id_departamento,@RequestBody Ciudad ciudad){
+		Departamento departamento =departamentoService.findById(id_departamento);
+		ciudad.setDepartamento(departamento);
+		return ciudadService.save(ciudad);
 	}
 	
 	@PostMapping("/ciudades/{id}")

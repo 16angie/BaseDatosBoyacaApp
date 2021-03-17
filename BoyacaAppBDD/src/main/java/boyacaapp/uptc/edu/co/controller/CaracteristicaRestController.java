@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import boyacaapp.uptc.edu.co.models.entity.Caracteristica;
+import boyacaapp.uptc.edu.co.models.entity.Producto;
 import boyacaapp.uptc.edu.co.services.ICaracteristicaService;
+import boyacaapp.uptc.edu.co.services.IProductoService;
 
 
 
@@ -25,6 +27,9 @@ public class CaracteristicaRestController {
 
 	@Autowired
 	ICaracteristicaService caracteristicaService;
+	
+	@Autowired
+	IProductoService productoService;
 	
 	@GetMapping("/caracteristicas")
 	public List<Caracteristica> index(){
@@ -37,10 +42,12 @@ public class CaracteristicaRestController {
 		return caracteristicaService.findById(id);
 	}
 	
-	@PostMapping("/caracteristicas")
+	@PostMapping("/caracteristicas/nuevo/{id_producto}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Caracteristica create(@RequestBody Caracteristica id){
-		return caracteristicaService.save(id);
+	public Caracteristica create(@PathVariable Long id_producto,@RequestBody Caracteristica caracteristica){
+		Producto producto = productoService.findById(id_producto);
+		caracteristica.setProducto(producto);
+		return caracteristicaService.save(caracteristica);
 	}
 	
 	@PostMapping("/caracteristicas/{id}")

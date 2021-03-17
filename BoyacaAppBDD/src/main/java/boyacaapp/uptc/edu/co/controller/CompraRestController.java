@@ -55,6 +55,7 @@ public class CompraRestController {
 		compraActual.setEstadodelacompra(compra.getEstadodelacompra());
 		compraActual.setFecha_compra(compra.getFecha_compra());
 		compraActual.setValor_total_compra(compra.getValor_total_compra());
+		compraActual.setReferenciaDeCompra(compraActual.getReferenciaDeCompra());
 		return compraService.save(compraActual);
 	}
 	
