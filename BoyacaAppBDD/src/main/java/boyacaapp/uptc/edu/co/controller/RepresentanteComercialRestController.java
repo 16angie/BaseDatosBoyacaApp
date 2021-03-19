@@ -41,12 +41,19 @@ public class RepresentanteComercialRestController {
 		return representanteComercialService.findById(id);
 	}
 	
-	@PostMapping("/representantesComerciales/nuevo/{id_direccion}")
+	@PostMapping("/representantesComerciales/nuevo")
 	@ResponseStatus(HttpStatus.CREATED)
-	public RepresentanteComercial create(@PathVariable Long id_direccion,@RequestBody RepresentanteComercial representantes){
-		Direccion direcion = direccionservice.findById(id_direccion);
-		representantes.setDireccion_residencia(direcion);
+	public RepresentanteComercial create(@RequestBody RepresentanteComercial representantes){
 		return representanteComercialService.save(representantes);
+	}
+	
+	@PostMapping("/representantesComerciales/actulizardireccion/{id_representante}/{id_direccion}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public RepresentanteComercial create(@PathVariable Long id_direccion,@PathVariable Long id_representante){
+		RepresentanteComercial representanteComercialActual = representanteComercialService.findById(id_representante);
+		Direccion direcion = direccionservice.findById(id_direccion);
+		representanteComercialActual.setDireccion_residencia(direcion);
+		return representanteComercialService.save(representanteComercialActual);
 	}
 	
 	@PostMapping("/representantesComerciales/{id}")

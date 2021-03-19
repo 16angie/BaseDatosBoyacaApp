@@ -40,11 +40,19 @@ public class ClienteRestController {
 		return clienteService.findById(id);
 	}
 	
-	@PostMapping("/clientes/nuevo/{id_direccion}")
+	@PostMapping("/clientes/actualizardireccion/{id_cliente}/{id_direccion}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente create(@PathVariable Long id_direccion,@RequestBody Cliente cliente){
+	public Cliente create(@PathVariable Long id_direccion,@PathVariable Long id_cliente){
+		Cliente clienteActual = clienteService.findById(id_cliente);
 		Direccion direcion = direccionservice.findById(id_direccion);
-		cliente.setDireccion_residencia(direcion);
+		clienteActual.setDireccion_residencia(direcion);
+		return clienteService.save(clienteActual);
+	}
+
+	
+	@PostMapping("/clientes/nuevo")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Cliente create(@RequestBody Cliente cliente){
 		return clienteService.save(cliente);
 	}
 
