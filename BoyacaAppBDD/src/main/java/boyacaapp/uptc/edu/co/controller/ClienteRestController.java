@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import boyacaapp.uptc.edu.co.models.entity.Cliente;
 import boyacaapp.uptc.edu.co.models.entity.Direccion;
-import boyacaapp.uptc.edu.co.models.entity.Imagen;
 import boyacaapp.uptc.edu.co.services.IClienteService;
 import boyacaapp.uptc.edu.co.services.IDireccionService;
 import boyacaapp.uptc.edu.co.services.IImagenService;
@@ -46,12 +45,12 @@ public class ClienteRestController {
 		return clienteService.findById(id);
 	}
 	
-	@PostMapping("/clientes/actualizardireccion/{id_cliente}/{id_direccion}")
+	@PostMapping("/clientes/actualizardireccion/{id_cliente}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente create(@PathVariable Long id_direccion,@PathVariable Long id_cliente){
+	public Cliente create(@PathVariable Long id_cliente,@RequestBody Direccion direccion){
 		Cliente clienteActual = clienteService.findById(id_cliente);
-		Direccion direcion = direccionservice.findById(id_direccion);
-		clienteActual.setDireccion_residencia(direcion);
+		direccionservice.save(direccion);
+		clienteActual.setDireccion_residencia(direccion);
 		return clienteService.save(clienteActual);
 	}
 

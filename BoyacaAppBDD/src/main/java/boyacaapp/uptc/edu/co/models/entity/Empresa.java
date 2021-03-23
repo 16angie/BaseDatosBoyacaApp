@@ -56,6 +56,7 @@ public class Empresa  implements Serializable{
 	@Enumerated(value = EnumType.STRING)
 	private Categoria categoria;
 	
+	
 	@OneToOne
 	private Direccion direccion;
 	
@@ -73,9 +74,5 @@ public class Empresa  implements Serializable{
 	@JsonIgnoreProperties("empresaP")
 	private List<Producto> listaProductos = new ArrayList<>();
 	
-	
-	public void agregarlistaDeAlamacenes(Almacen almacen) {
-		this.listaDeAlamacenes.add(almacen);
-	}
 
 }

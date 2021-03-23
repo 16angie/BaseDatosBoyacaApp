@@ -48,6 +48,7 @@ public class RepresentanteComercial {
 	@Column(name ="rep_nombre_negocio",nullable = false)
 	private String nombreNegocio;
 	
+	
 	@OneToOne
 	private Empresa empresa;
 	

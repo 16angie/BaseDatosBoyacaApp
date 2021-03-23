@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import boyacaapp.uptc.edu.co.models.entity.Ciudad;
 import boyacaapp.uptc.edu.co.models.entity.Direccion;
 import boyacaapp.uptc.edu.co.models.entity.Empresa;
 import boyacaapp.uptc.edu.co.models.entity.Imagen;
+import boyacaapp.uptc.edu.co.services.ICiudadService;
 import boyacaapp.uptc.edu.co.services.IDireccionService;
 import boyacaapp.uptc.edu.co.services.IEmpresaService;
 import boyacaapp.uptc.edu.co.services.IImagenService;
@@ -36,6 +38,9 @@ public class EmpresaRestController {
 	@Autowired
 	IImagenService imagenService;
 	
+	@Autowired
+	ICiudadService ciudadservice;
+	
 	
 	
 	@GetMapping("/empresas")
@@ -52,9 +57,19 @@ public class EmpresaRestController {
 	@PostMapping("/empresas/nueva")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Empresa create(@RequestBody Empresa empresa){
-		imagenService.save(empresa.getImagen());
 		return empresaService.save(empresa);
 	}
+	
+	@PostMapping("/empresas/nueva/direccion/imagen/{id_ciudad}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Empresa createe(@RequestBody Empresa empresa,@PathVariable Long id_ciudad){
+		Ciudad ciudad = ciudadservice.findById(id_ciudad);
+		imagenService.save(empresa.getImagen());
+		direccionservice.save(empresa.getDireccion());
+		empresa.getDireccion().setCiudad(ciudad);
+		return empresaService.save(empresa);
+	}
+	
 	
 	@PostMapping("/empresas/actualizarimagenempresa/{id_empresa}")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -66,18 +81,16 @@ public class EmpresaRestController {
 	}
 	
 	
-	
-	@PostMapping("/empresas/actualizardireccion/{id_empresa}/{id_direccion}")
+	@PostMapping("/empresas/actualizardireccion/{id_empresa}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Empresa create(@PathVariable Long id_direccion,@PathVariable Long id_empresa){
+	public Empresa create(@PathVariable Long id_empresa,@RequestBody Direccion direccion){
 		Empresa empresa = empresaService.findById(id_empresa);
-		Direccion direcion = direccionservice.findById(id_direccion);
-		empresa.setDireccion(direcion);
+		 direccionservice.save(direccion);
+		 empresa.setDireccion(direccion);
 		return empresaService.save(empresa);
 	}
 
 	
-	// to -do metodos para las listas
 	
 	@PostMapping("/empresas/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
