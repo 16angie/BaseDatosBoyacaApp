@@ -45,19 +45,25 @@ public class AlmacenRestController {
 		return almacenService.findById(id);
 	}
 	
-	@PostMapping("/almacenes/nuevo/{id_direccion}/{id_empresa}")
+	
+	@PostMapping("/almacenes/actualizarDireccion/{id_alamacen}/{id_direccion}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Almacen create(@PathVariable Long id_empresa,@PathVariable Long id_direccion,@RequestBody Almacen alamacen){
-		
+	public Almacen create(@PathVariable Long id_direccion,@PathVariable Long id_alamacen){
+		Almacen almacenActual = almacenService.findById(id_alamacen);
+		Direccion direccion = direccionservice.findById(id_direccion);
+		almacenActual.setDireccion(direccion);
+		return almacenService.save(almacenActual);
+	}
+	
+	@PostMapping("/almacenes/nuevo/{id_empresa}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Almacen create(@PathVariable Long id_empresa,@RequestBody Almacen alamacen){
 		Empresa empresa = empresaservice.findById(id_empresa);
-		Direccion direcion = direccionservice.findById(id_direccion);
-		
 		alamacen.setEmpresa(empresa);
-		alamacen.setDireccion(direcion);
 		return almacenService.save(alamacen);
 	}
 	
-	@PostMapping("/almacenes/{id}")
+	@PostMapping("/almacenes/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Almacen update(@RequestBody Almacen almacen, @PathVariable Long id){
 		Almacen almacenActual = almacenService.findById(id);

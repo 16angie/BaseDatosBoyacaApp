@@ -60,6 +60,11 @@ public class Producto {
 	private Empresa empresaP;
 	
 	
+	/*
+	 * 
+	 * 
+	 * 
+	 */
 	@OneToMany(mappedBy = "producto",fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("producto")
 	private List<Caracteristica> caracteristicas = new ArrayList<Caracteristica>();
@@ -71,7 +76,6 @@ public class Producto {
 	
 	@OneToMany
 	private List<Imagen> listaImagenes = new ArrayList<Imagen>();
-	
 	
 
 	/*

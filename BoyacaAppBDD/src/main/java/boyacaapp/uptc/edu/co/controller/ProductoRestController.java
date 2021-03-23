@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import boyacaapp.uptc.edu.co.models.entity.Empresa;
+import boyacaapp.uptc.edu.co.models.entity.Imagen;
 import boyacaapp.uptc.edu.co.models.entity.Producto;
 import boyacaapp.uptc.edu.co.services.IEmpresaService;
+import boyacaapp.uptc.edu.co.services.IImagenService;
 import boyacaapp.uptc.edu.co.services.IProductoService;
 
 
@@ -30,10 +32,12 @@ public class ProductoRestController {
 	@Autowired
 	IEmpresaService empresaService;
 	
+	@Autowired
+	IImagenService imagenesservice;
+	
 	@GetMapping("/productos")
 	public List<Producto> index(){
 		return productoService.findAll();
-		
 	}
 	
 	@GetMapping("/productos{id}")
@@ -41,9 +45,25 @@ public class ProductoRestController {
 		return productoService.findById(id);
 	}
 	
+	@PostMapping("/productos/nuevasIamgenes/{id_producto}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Producto create(@PathVariable Long id_producto,@RequestBody ArrayList<String> listaImagenes){
+		Producto producto = productoService.findById(id_producto);
+		for (String url : listaImagenes) {
+			Imagen imagen = new Imagen();
+			imagen.setFile_image(url);
+			imagenesservice.save(imagen);
+			producto.getListaImagenes().add(imagen);
+		}
+		return productoService.save(producto);
+	}
+	
+
+	
+	
 	@PostMapping("/productos/nuevo/{id_empresa}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Producto create(@PathVariable Long id_empresa,@RequestBody Producto producto,@RequestBody  ArrayList<String> listaImagenes){
+	public Producto create(@PathVariable Long id_empresa,@RequestBody Producto producto){
 		Empresa empresa = empresaService.findById(id_empresa);
 		producto.setEmpresaP(empresa);
 		return productoService.save(producto);

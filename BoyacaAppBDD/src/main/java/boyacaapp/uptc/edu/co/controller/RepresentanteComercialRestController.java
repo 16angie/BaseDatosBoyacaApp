@@ -56,6 +56,7 @@ public class RepresentanteComercialRestController {
 		return representanteComercialService.save(representanteComercialActual);
 	}
 	
+	
 	@PostMapping("/representantesComerciales/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public RepresentanteComercial update(@RequestBody RepresentanteComercial representanteComercial, @PathVariable Long id){

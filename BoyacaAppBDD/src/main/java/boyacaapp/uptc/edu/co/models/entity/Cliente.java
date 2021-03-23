@@ -15,10 +15,6 @@ import lombok.Data;
 @Table(name = "clientes")
 @Data
 public class Cliente {
-
-	/**
-	 *
-	 */
 	
 	@Id   
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -44,5 +40,9 @@ public class Cliente {
 	
 	@OneToOne
 	private Direccion direccion_residencia;
+	
+	
+	@OneToOne
+	private Imagen imagen;
 
 }

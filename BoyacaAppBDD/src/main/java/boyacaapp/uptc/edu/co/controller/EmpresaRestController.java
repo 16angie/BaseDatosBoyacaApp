@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import boyacaapp.uptc.edu.co.models.entity.Direccion;
 import boyacaapp.uptc.edu.co.models.entity.Empresa;
+import boyacaapp.uptc.edu.co.models.entity.Imagen;
 import boyacaapp.uptc.edu.co.services.IDireccionService;
 import boyacaapp.uptc.edu.co.services.IEmpresaService;
+import boyacaapp.uptc.edu.co.services.IImagenService;
 
 
 @CrossOrigin(origins= {"http://localhost:4200"})
@@ -31,20 +33,44 @@ public class EmpresaRestController {
 	@Autowired
 	IDireccionService direccionservice;
 	
+	@Autowired
+	IImagenService imagenService;
+	
+	
+	
 	@GetMapping("/empresas")
 	public List<Empresa> index(){
 		return empresaService.findAll();
 		
 	}
 	
-	@GetMapping("/empresas{id}")
+	@GetMapping("/empresas/{id}")
 	public Empresa show(@PathVariable Long id){
 		return empresaService.findById(id);
 	}
 	
-	@PostMapping("/empresas/nuevo/{id_direccion}")
+	@PostMapping("/empresas/nueva")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Empresa create(@PathVariable Long id_direccion,@RequestBody Empresa empresa){
+	public Empresa create(@RequestBody Empresa empresa){
+		imagenService.save(empresa.getImagen());
+		return empresaService.save(empresa);
+	}
+	
+	@PostMapping("/empresas/actualizarimagenempresa/{id_empresa}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Empresa create(@PathVariable Long id_empresa, @RequestBody Imagen imagen){
+		Empresa empresa = empresaService.findById(id_empresa);
+		imagenService.save(empresa.getImagen());
+		empresa.setImagen(imagen);
+		return empresaService.save(empresa);
+	}
+	
+	
+	
+	@PostMapping("/empresas/actualizardireccion/{id_empresa}/{id_direccion}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Empresa create(@PathVariable Long id_direccion,@PathVariable Long id_empresa){
+		Empresa empresa = empresaService.findById(id_empresa);
 		Direccion direcion = direccionservice.findById(id_direccion);
 		empresa.setDireccion(direcion);
 		return empresaService.save(empresa);

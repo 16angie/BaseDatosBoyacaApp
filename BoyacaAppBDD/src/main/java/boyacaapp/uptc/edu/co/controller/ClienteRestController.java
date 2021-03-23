@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import boyacaapp.uptc.edu.co.models.entity.Cliente;
 import boyacaapp.uptc.edu.co.models.entity.Direccion;
+import boyacaapp.uptc.edu.co.models.entity.Imagen;
 import boyacaapp.uptc.edu.co.services.IClienteService;
 import boyacaapp.uptc.edu.co.services.IDireccionService;
+import boyacaapp.uptc.edu.co.services.IImagenService;
 
 
 @CrossOrigin(origins= {"http://localhost:4200"}) //8082 // en dado caso seria el de angular oki?
@@ -28,6 +30,10 @@ public class ClienteRestController {
 	
 	@Autowired
 	IDireccionService direccionservice;
+	
+	@Autowired
+	
+	IImagenService imagenservice;
 	
 	@GetMapping("/clientes")
 	public List<Cliente> index(){
@@ -55,8 +61,14 @@ public class ClienteRestController {
 	public Cliente create(@RequestBody Cliente cliente){
 		return clienteService.save(cliente);
 	}
-
 	
+	@PostMapping("/clientes/nuevoconimagen")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Cliente createw(@RequestBody Cliente cliente){
+		imagenservice.save(cliente.getImagen());
+		return clienteService.save(cliente);
+	}
+
 	
 	// TO-DO falta agregar el meetodo de set para la lista de facturas
 	

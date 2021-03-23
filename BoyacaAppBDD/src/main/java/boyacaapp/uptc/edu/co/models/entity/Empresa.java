@@ -28,7 +28,7 @@ public class Empresa  implements Serializable{
 	
 	
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	
@@ -58,6 +58,9 @@ public class Empresa  implements Serializable{
 	
 	@OneToOne
 	private Direccion direccion;
+	
+	@OneToOne
+	private Imagen imagen;
 	
 	
 	@OneToMany(mappedBy = "empresa",fetch = FetchType.LAZY)
