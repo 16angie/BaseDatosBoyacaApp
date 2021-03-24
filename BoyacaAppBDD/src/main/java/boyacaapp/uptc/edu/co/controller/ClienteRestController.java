@@ -51,37 +51,28 @@ public class ClienteRestController {
 		return clienteService.findById(id);
 	}
 	
+	
+
 	/**
-	 * seteamos la ciudad a la direccion y la direccion al cliente
-	 * @param id_cliente
+	 * 
+	 * @param cliente
 	 * @param id_ciudad
-	 * @param direccion
 	 * @return
 	 */
-	
-	@PostMapping("/actualizardireccion/{id_cliente}/{id_ciudad}")
+	@PostMapping("/nuevocon/imagen/ciudad/direccion/{id_ciudad}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente create(@PathVariable Long id_cliente,@PathVariable Long id_ciudad,@RequestBody Direccion direccion){
-		Cliente clienteActual = clienteService.findById(id_cliente);
+	public Cliente create(@RequestBody Cliente cliente,@PathVariable Long id_ciudad){
 		Ciudad ciudad = ciudadservice.findById(id_ciudad);
-		direccion.setCiudad(ciudad);
-		direccionservice.save(direccion);
-		clienteActual.setDireccionResidencia(direccion);
-		return clienteService.save(clienteActual);
-	}
-
-	
-	@PostMapping("/nuevo")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente create(@RequestBody Cliente cliente){
+		direccionservice.save(cliente.getDireccionResidencia());
+		cliente.getDireccionResidencia().setCiudad(ciudad);
+		imagenservice.save(cliente.getImagen());
 		return clienteService.save(cliente);
 	}
 	
 	
-	@PostMapping("/nuevoconimagen")
+	@PostMapping("/nuevo")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cliente createw(@RequestBody Cliente cliente){
-		imagenservice.save(cliente.getImagen());
 		return clienteService.save(cliente);
 	}
 
