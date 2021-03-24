@@ -19,30 +19,30 @@ import boyacaapp.uptc.edu.co.services.IDetallesCompraService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/detallecompra")
 public class DetalleCompraRestController {
 
 	@Autowired
 	IDetallesCompraService detalleCompraService;
 	
-	@GetMapping("/detallesCompra")
+	@GetMapping("/listar")
 	public List<DetalleCompra> index(){
 		return detalleCompraService.findAll();
 		
 	}
 	
-	@GetMapping("/detallesCompra{id}")
+	@GetMapping("/listarporid/{id}")
 	public DetalleCompra show(@PathVariable Long id){
 		return detalleCompraService.findById(id);
 	}
 	
-	@PostMapping("/detallesCompra")
+	@PostMapping("/nuevo")
 	@ResponseStatus(HttpStatus.CREATED)
 	public DetalleCompra create(@RequestBody DetalleCompra id){
 		return detalleCompraService.save(id);
 	}
 	
-	@PostMapping("/detallesCompra/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public DetalleCompra update(@RequestBody DetalleCompra detalleCompra, @PathVariable Long id){
 		DetalleCompra detalleCompraActual = detalleCompraService.findById(id);
@@ -53,7 +53,7 @@ public class DetalleCompraRestController {
 		return detalleCompraService.save(detalleCompraActual);
 	}
 	
-	@DeleteMapping("/detallesCompra/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		detalleCompraService.delete(id);

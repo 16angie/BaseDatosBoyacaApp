@@ -21,7 +21,7 @@ import boyacaapp.uptc.edu.co.services.IProductoService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/imagenes")
 public class ImagenRestController {
 
 	@Autowired
@@ -31,18 +31,18 @@ public class ImagenRestController {
 	IProductoService productoService;
 	
 	
-	@GetMapping("/imagenes")
+	@GetMapping("/listar")
 	public List<Imagen> index(){
 		return imagenService.findAll();
 		
 	}
 	
-	@GetMapping("/imagenes/{id}")
+	@GetMapping("/listarporid/{id}")
 	public Imagen show(@PathVariable Long id){
 		return imagenService.findById(id);
 	}
 	
-	@PostMapping("/imagenes/nueva/{id_producto}")
+	@PostMapping("/nuevaparaproducto/{id_producto}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Imagen create(@RequestBody Imagen imagen, @PathVariable Long id_producto){
 		Producto producto = productoService.findById(id_producto);
@@ -51,14 +51,14 @@ public class ImagenRestController {
 	}
 	
 	
-	@PostMapping("/imagenes/nueva")
+	@PostMapping("/nueva")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Imagen create(@RequestBody Imagen imagen){
 		return imagenService.save(imagen);
 	}
 	
 	
-	@PostMapping("/imagenes/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Imagen update(@RequestBody Imagen imagen, @PathVariable Long id){
 		Imagen imagenActual = imagenService.findById(id);
@@ -66,7 +66,7 @@ public class ImagenRestController {
 		return imagenService.save(imagenActual);
 	}
 	
-	@DeleteMapping("/imagenes/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		imagenService.delete(id);

@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import boyacaapp.uptc.edu.co.models.entity.Ciudad;
 import boyacaapp.uptc.edu.co.models.entity.Cliente;
 import boyacaapp.uptc.edu.co.models.entity.Direccion;
+import boyacaapp.uptc.edu.co.services.ICiudadService;
 import boyacaapp.uptc.edu.co.services.IClienteService;
 import boyacaapp.uptc.edu.co.services.IDireccionService;
 import boyacaapp.uptc.edu.co.services.IImagenService;
@@ -27,6 +30,9 @@ public class ClienteRestController {
 	@Autowired()
 	IClienteService clienteService;
 	
+	@Autowired()
+	ICiudadService ciudadservice;
+	
 	@Autowired
 	IDireccionService direccionservice;
 	
@@ -34,35 +40,45 @@ public class ClienteRestController {
 	
 	IImagenService imagenservice;
 	
-	@GetMapping("/clientes")
+	@GetMapping("/listar")
 	public List<Cliente> index(){
 		return (List<Cliente>) clienteService.findAll();
 		
 	}
 	
-	@GetMapping("/clientes{id}")
+	@GetMapping("/listarporid/{id}")
 	public Cliente show(@PathVariable Long id){
 		return clienteService.findById(id);
 	}
 	
-	@PostMapping("/clientes/actualizardireccion/{id_cliente}")
+	/**
+	 * seteamos la ciudad a la direccion y la direccion al cliente
+	 * @param id_cliente
+	 * @param id_ciudad
+	 * @param direccion
+	 * @return
+	 */
+	
+	@PostMapping("/actualizardireccion/{id_cliente}/{id_ciudad}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente create(@PathVariable Long id_cliente,@RequestBody Direccion direccion){
+	public Cliente create(@PathVariable Long id_cliente,@PathVariable Long id_ciudad,@RequestBody Direccion direccion){
 		Cliente clienteActual = clienteService.findById(id_cliente);
+		Ciudad ciudad = ciudadservice.findById(id_ciudad);
+		direccion.setCiudad(ciudad);
 		direccionservice.save(direccion);
 		clienteActual.setDireccionResidencia(direccion);
 		return clienteService.save(clienteActual);
 	}
 
 	
-	@PostMapping("/clientes/nuevo")
+	@PostMapping("/nuevo")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cliente create(@RequestBody Cliente cliente){
 		return clienteService.save(cliente);
 	}
 	
 	
-	@PostMapping("/clientes/nuevoconimagen")
+	@PostMapping("/nuevoconimagen")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cliente createw(@RequestBody Cliente cliente){
 		imagenservice.save(cliente.getImagen());
@@ -72,7 +88,7 @@ public class ClienteRestController {
 	
 	// TO-DO falta agregar el meetodo de set para la lista de facturas
 	
-	@PostMapping("/clientes/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cliente update(@RequestBody Cliente cliente, @PathVariable Long id){
 		Cliente clienteActual = clienteService.findById(id);
@@ -86,7 +102,7 @@ public class ClienteRestController {
 		return clienteService.save(clienteActual);
 	}
 	
-	@DeleteMapping("/clientes/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		clienteService.delete(id);

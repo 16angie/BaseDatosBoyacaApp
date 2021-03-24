@@ -20,29 +20,29 @@ import boyacaapp.uptc.edu.co.services.IDepartamentoService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/departamentos")
 public class DepartamentoRestController {
 
 	@Autowired
 	IDepartamentoService departamentoService;
 	
-	@GetMapping("/departamentos")
+	@GetMapping("/listar")
 	public List<Departamento> index(){
 		return departamentoService.findAll();
 	}
 	
-	@GetMapping("/departamentos{id}")
+	@GetMapping("/listarporid/{id}")
 	public Departamento show(@PathVariable Long id){
 		return departamentoService.findById(id);
 	}
 	
-	@PostMapping("/departamentos")
+	@PostMapping("/nuevo")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Departamento create(@RequestBody Departamento id){
 		return departamentoService.save(id);
 	}
 	
-	@PostMapping("/departamentos/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Departamento update(@RequestBody Departamento departamento, @PathVariable Long id){
 		Departamento departamentoActual = departamentoService.findById(id);
@@ -51,7 +51,7 @@ public class DepartamentoRestController {
 	}
 	
 	
-	@DeleteMapping("/departamentos/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		departamentoService.delete(id);

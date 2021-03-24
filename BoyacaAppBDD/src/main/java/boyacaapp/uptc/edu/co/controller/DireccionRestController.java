@@ -22,7 +22,7 @@ import boyacaapp.uptc.edu.co.services.IDireccionService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/direcciones")
 public class DireccionRestController {
 
 	@Autowired
@@ -31,18 +31,18 @@ public class DireccionRestController {
 	@Autowired
 	ICiudadService ciudadService;
 	
-	@GetMapping("/direcciones")
+	@GetMapping("/listar")
 	public List<Direccion> index(){
 		return direccionService.findAll();
 		
 	}
 	
-	@GetMapping("/direcciones/{id}")
+	@GetMapping("/listarporid/{id}")
 	public Direccion show(@PathVariable Long id){
 		return direccionService.findById(id);
 	}
 	
-	@PostMapping("/direcciones/nueva/{id_ciudad}")
+	@PostMapping("/nueva/{id_ciudad}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Direccion create(@RequestBody Direccion direccion,@PathVariable Long id_ciudad){
 		Ciudad ciudad = ciudadService.findById(id_ciudad);
@@ -50,7 +50,7 @@ public class DireccionRestController {
 		return direccionService.save(direccion);
 	}
 	
-	@PostMapping("/direcciones/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Direccion update(@RequestBody Direccion direccion, @PathVariable Long id){
 		Direccion direccionActual = direccionService.findById(id);
@@ -62,7 +62,7 @@ public class DireccionRestController {
 		return direccionService.save(direccionActual);
 	}
 	
-	@DeleteMapping("/direcciones/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		direccionService.delete(id);

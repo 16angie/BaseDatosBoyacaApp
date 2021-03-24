@@ -22,7 +22,7 @@ import boyacaapp.uptc.edu.co.services.IProductoService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/Caracteristicas")
+@RequestMapping("/caracteristicas")
 public class CaracteristicaRestController {
 
 	@Autowired
@@ -42,7 +42,7 @@ public class CaracteristicaRestController {
 		return caracteristicaService.findById(id);
 	}
 	
-	@PostMapping("/nuevo/{id_producto}")
+	@PostMapping("/nueva/{id_producto}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Caracteristica create(@PathVariable Long id_producto,@RequestBody Caracteristica caracteristica){
 		Producto producto = productoService.findById(id_producto);

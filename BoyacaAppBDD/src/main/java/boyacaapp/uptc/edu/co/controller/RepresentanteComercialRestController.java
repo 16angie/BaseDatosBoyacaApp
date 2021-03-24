@@ -35,7 +35,7 @@ public class RepresentanteComercialRestController {
 		
 	}
 	
-	@GetMapping("/encontrarid/{id}")
+	@GetMapping("/listarid/{id}")
 	public Usuario show(@PathVariable Long id){
 		return representanteComercialService.findById(id);
 	}

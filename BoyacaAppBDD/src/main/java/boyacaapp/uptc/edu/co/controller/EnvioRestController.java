@@ -19,30 +19,30 @@ import boyacaapp.uptc.edu.co.services.IEnvioService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/envios")
 public class EnvioRestController {
 
 	@Autowired
 	IEnvioService envioService;
 	
-	@GetMapping("/envios")
+	@GetMapping("/listar")
 	public List<Envio> index(){
 		return envioService.findAll();
 		
 	}
 	
-	@GetMapping("/envios{id}")
+	@GetMapping("/listarporid/{id}")
 	public Envio show(@PathVariable Long id){
 		return envioService.findById(id);
 	}
 	
-	@PostMapping("/envios")
+	@PostMapping("/nuevo")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Envio create(@RequestBody Envio id){
 		return envioService.save(id);
 	}
 	
-	@PostMapping("/envios/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Envio update(@RequestBody Envio envio, @PathVariable Long id){
 		Envio envioActual = envioService.findById(id);
@@ -54,7 +54,7 @@ public class EnvioRestController {
 		return envioService.save(envioActual);
 	}
 	
-	@DeleteMapping("/envios/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		envioService.delete(id);

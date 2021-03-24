@@ -19,30 +19,30 @@ import boyacaapp.uptc.edu.co.services.IEspecificacionProductoService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/especificaciones")
 public class EspecificacionProductoRestController {
 
 	@Autowired
 	IEspecificacionProductoService especificacionService;
 	
-	@GetMapping("/especificaciones")
+	@GetMapping("/listar")
 	public List<EspecificacionProducto> index(){
 		return especificacionService.findAll();
 		
 	}
 	
-	@GetMapping("/especificaciones{id}")
+	@GetMapping("/listarporid/{id}")
 	public EspecificacionProducto show(@PathVariable Long id){
 		return especificacionService.findById(id);
 	}
 	
-	@PostMapping("/especificaciones")
+	@PostMapping("/nueva")
 	@ResponseStatus(HttpStatus.CREATED)
 	public EspecificacionProducto create(@RequestBody EspecificacionProducto id){
 		return especificacionService.save(id);
 	}
 	
-	@PostMapping("/especificaciones/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public EspecificacionProducto update(@RequestBody EspecificacionProducto especificacion, @PathVariable Long id){
 		EspecificacionProducto especificacionActual = especificacionService.findById(id);
@@ -52,7 +52,7 @@ public class EspecificacionProductoRestController {
 		return especificacionService.save(especificacionActual);
 	}
 	
-	@DeleteMapping("/especificaciones/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		especificacionService.delete(id);

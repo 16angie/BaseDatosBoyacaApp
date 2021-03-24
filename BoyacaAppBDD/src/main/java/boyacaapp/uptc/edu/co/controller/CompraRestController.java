@@ -20,24 +20,24 @@ import boyacaapp.uptc.edu.co.services.ICompraFacturaService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/compras")
 public class CompraRestController {
 
 	@Autowired
 	ICompraFacturaService compraService;
 	
-	@GetMapping("/compras")
+	@GetMapping("/listar")
 	public List<FacturaCompra> index(){
 		return compraService.findAll();
 		
 	}
 	
-	@GetMapping("/compras{id}")
+	@GetMapping("/listarcomprasporid/{id}")
 	public FacturaCompra show(@PathVariable Long id){
 		return compraService.findById(id);
 	}
 	
-	@PostMapping("/compras")
+	@PostMapping("/nueva")
 	@ResponseStatus(HttpStatus.CREATED)
 	public FacturaCompra create(@RequestBody FacturaCompra id){
 		return compraService.save(id);
@@ -46,7 +46,7 @@ public class CompraRestController {
 	
 	
 	// hacer un metodo para la lista de detalles post????
-	@PostMapping("/compras/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public FacturaCompra update(@RequestBody FacturaCompra compra, @PathVariable Long id){
 		FacturaCompra compraActual = compraService.findById(id);
@@ -59,7 +59,7 @@ public class CompraRestController {
 		return compraService.save(compraActual);
 	}
 	
-	@DeleteMapping("/compras/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		compraService.delete(id);

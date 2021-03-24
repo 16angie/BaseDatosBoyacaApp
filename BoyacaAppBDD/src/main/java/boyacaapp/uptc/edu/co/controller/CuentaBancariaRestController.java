@@ -20,30 +20,30 @@ import boyacaapp.uptc.edu.co.services.ICuentaBancariaService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/cuentasbancarias")
 public class CuentaBancariaRestController {
 
 	@Autowired
 	ICuentaBancariaService cuentaBancariaService;
 	
-	@GetMapping("/cuentasBancarias")
+	@GetMapping("/listarcuentasbancarias")
 	public List<CuentaBancaria> index(){
 		return cuentaBancariaService.findAll();
 		
 	}
 	
-	@GetMapping("/cuentasBancarias{id}")
+	@GetMapping("/listarcuentasporid/{id}")
 	public CuentaBancaria show(@PathVariable Long id){
 		return cuentaBancariaService.findById(id);
 	}
 	
-	@PostMapping("/cuentasBancarias")
+	@PostMapping("/nueva")
 	@ResponseStatus(HttpStatus.CREATED)
-	public CuentaBancaria create(@RequestBody CuentaBancaria id){
-		return cuentaBancariaService.save(id);
+	public CuentaBancaria create(@RequestBody CuentaBancaria cuenta){
+		return cuentaBancariaService.save(cuenta);
 	}
 	
-	@PostMapping("/cuentasBancarias/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public CuentaBancaria update(@RequestBody CuentaBancaria cuentaBancaria, @PathVariable Long id){
 		CuentaBancaria cuentaBancariaActual = cuentaBancariaService.findById(id);
@@ -57,7 +57,7 @@ public class CuentaBancariaRestController {
 		return cuentaBancariaService.save(cuentaBancariaActual);
 	}
 	
-	@DeleteMapping("/cuentasBancarias/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		cuentaBancariaService.delete(id);

@@ -37,12 +37,12 @@ public class CiudadRestController {
 		
 	}
 	
-	@GetMapping("/ciudades/{id}")
+	@GetMapping("/listarciudadesid/{id}")
 	public Ciudad show(@PathVariable Long id){
 		return ciudadService.findById(id);
 	}
 	
-	@PostMapping("/ciudades/nueva/{id_departamento}")
+	@PostMapping("/nueva/{id_departamento}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Ciudad create(@PathVariable Long id_departamento,@RequestBody Ciudad ciudad){
 		Departamento departamento =departamentoService.findById(id_departamento);
@@ -50,7 +50,7 @@ public class CiudadRestController {
 		return ciudadService.save(ciudad);
 	}
 	
-	@PostMapping("/ciudades/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Ciudad update(@RequestBody Ciudad ciudad, @PathVariable Long id){
 		Ciudad ciudadActual = ciudadService.findById(id);
@@ -59,7 +59,7 @@ public class CiudadRestController {
 		return ciudadService.save(ciudadActual);
 	}
 	
-	@DeleteMapping("/ciudades/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		ciudadService.delete(id);

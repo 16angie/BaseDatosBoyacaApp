@@ -19,30 +19,30 @@ import boyacaapp.uptc.edu.co.services.IDomicilioService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/domicilios")
 public class DomicilioRestController {
 
 	@Autowired
 	IDomicilioService domicilioService;
 	
-	@GetMapping("/domicilios")
+	@GetMapping("/listar")
 	public List<Domicilio> index(){
 		return domicilioService.findAll();
 		
 	}
 	
-	@GetMapping("/domicilios{id}")
+	@GetMapping("/listarporid/{id}")
 	public Domicilio show(@PathVariable Long id){
 		return domicilioService.findById(id);
 	}
 	
-	@PostMapping("/domicilios")
+	@PostMapping("/nuevo")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Domicilio create(@RequestBody Domicilio id){
 		return domicilioService.save(id);
 	}
 	
-	@PostMapping("/domicilios/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Domicilio update(@RequestBody Domicilio domicilio, @PathVariable Long id){
 		Domicilio domicilioActual = domicilioService.findById(id);
@@ -53,7 +53,7 @@ public class DomicilioRestController {
 		return domicilioService.save(domicilioActual);
 	}
 	
-	@DeleteMapping("/domicilios/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		domicilioService.delete(id);
