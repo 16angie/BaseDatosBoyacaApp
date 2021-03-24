@@ -22,7 +22,7 @@ import boyacaapp.uptc.edu.co.services.IProductoService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/Caracteristicas")
 public class CaracteristicaRestController {
 
 	@Autowired
@@ -31,18 +31,18 @@ public class CaracteristicaRestController {
 	@Autowired
 	IProductoService productoService;
 	
-	@GetMapping("/caracteristicas")
+	@GetMapping("/listar")
 	public List<Caracteristica> index(){
 		return caracteristicaService.findAll();
 		
 	}
 	
-	@GetMapping("/caracteristicas{id}")
+	@GetMapping("/listarporid/{id}")
 	public Caracteristica show(@PathVariable Long id){
 		return caracteristicaService.findById(id);
 	}
 	
-	@PostMapping("/caracteristicas/nuevo/{id_producto}")
+	@PostMapping("/nuevo/{id_producto}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Caracteristica create(@PathVariable Long id_producto,@RequestBody Caracteristica caracteristica){
 		Producto producto = productoService.findById(id_producto);
@@ -50,7 +50,7 @@ public class CaracteristicaRestController {
 		return caracteristicaService.save(caracteristica);
 	}
 	
-	@PostMapping("/caracteristicas/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Caracteristica update(@RequestBody Caracteristica caracteristica, @PathVariable Long id){
 		Caracteristica caracteristicaActual = caracteristicaService.findById(id);
@@ -59,7 +59,7 @@ public class CaracteristicaRestController {
 		return caracteristicaService.save(caracteristicaActual);
 	}
 	
-	@DeleteMapping("/caracteristicas/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		caracteristicaService.delete(id);

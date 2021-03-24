@@ -15,7 +15,7 @@ import boyacaapp.uptc.edu.co.services.IUsuariosService;
 @CrossOrigin(origins= {"http://localhost:4200"}) // este es para comentariar al frontend
 @RestController
 @RequestMapping("/usuarios")
-public class UsarioRestController {
+public class UsuarioRestController {
 	//server.servlet.contextPath=/app
 	
 	@Autowired

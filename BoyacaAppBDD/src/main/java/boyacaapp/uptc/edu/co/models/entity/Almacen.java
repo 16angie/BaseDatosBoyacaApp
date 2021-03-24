@@ -59,9 +59,8 @@ public class Almacen implements Serializable{
 	private Empresa empresa;
 	
 	
-	//---
-		@OneToMany(mappedBy = "almacen",fetch = FetchType.LAZY)
-		@JsonIgnoreProperties("almacen")
-		private List<Producto> listaProductos = new ArrayList<>();
+	@OneToMany(mappedBy = "almacen",fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("almacen")
+	private List<Producto> listaProductos = new ArrayList<>();
 	
 }

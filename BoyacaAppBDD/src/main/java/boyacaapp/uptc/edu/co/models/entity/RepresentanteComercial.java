@@ -27,6 +27,7 @@ public class RepresentanteComercial extends Usuario {
 	@OneToOne
 	private Empresa empresa;
 	
+	
 	@OneToOne
 	private CuentaBancaria cuenta;
 	

@@ -32,12 +32,6 @@ public class Empresa  implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_empresa;
 	
-	@Column(name="em_nombre_representante_legal", nullable = false)
-	private String nombreRepresentanteLegal;
-	
-	@Column(name="em_cedula_representante", nullable = false)
-	private String cedulaRepresentante;
-	
 	@Column(name="em_razonSocial", nullable = false)
 	private String razonSocial;
 	
@@ -58,6 +52,9 @@ public class Empresa  implements Serializable{
 	
 	@OneToOne
 	private Imagen imagen;
+	
+	@OneToOne
+	private RepresentanteComercial representante;
 	
 	
 	@OneToMany(mappedBy = "empresa",fetch = FetchType.LAZY)

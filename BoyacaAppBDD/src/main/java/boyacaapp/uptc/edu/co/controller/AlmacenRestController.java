@@ -22,7 +22,7 @@ import boyacaapp.uptc.edu.co.services.IEmpresaService;
 
 @CrossOrigin(origins= {"http://localhost:4200"}) // este es para comentariar al frontend
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/almacenes")
 public class AlmacenRestController {
 
 	@Autowired
@@ -34,19 +34,26 @@ public class AlmacenRestController {
 	@Autowired
 	IEmpresaService empresaservice;
 	
-	@GetMapping("/almacenes")
+	@GetMapping("/listar")
 	public List<Almacen> index(){
 		return almacenService.findAll();
 		
 	}
 	
-	@GetMapping("/almacenes/{id}")
+	@GetMapping("/listarporid/{id}")
 	public Almacen show(@PathVariable Long id){
 		return almacenService.findById(id);
 	}
 	
+	@PostMapping("/nuevo/{id_empresa}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Almacen create(@PathVariable Long id_empresa,@RequestBody Almacen alamacen){
+		Empresa empresa = empresaservice.findById(id_empresa);
+		alamacen.setEmpresa(empresa);
+		return almacenService.save(alamacen);
+	}
 	
-	@PostMapping("/almacenes/actualizarDireccion/{id_alamacen}/{id_direccion}")
+	@PostMapping("/actualizarDireccion/{id_alamacen}/{id_direccion}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Almacen create(@PathVariable Long id_direccion,@PathVariable Long id_alamacen){
 		Almacen almacenActual = almacenService.findById(id_alamacen);
@@ -55,15 +62,8 @@ public class AlmacenRestController {
 		return almacenService.save(almacenActual);
 	}
 	
-	@PostMapping("/almacenes/nuevo/{id_empresa}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Almacen create(@PathVariable Long id_empresa,@RequestBody Almacen alamacen){
-		Empresa empresa = empresaservice.findById(id_empresa);
-		alamacen.setEmpresa(empresa);
-		return almacenService.save(alamacen);
-	}
 	
-	@PostMapping("/almacenes/actualizar/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Almacen update(@RequestBody Almacen almacen, @PathVariable Long id){
 		Almacen almacenActual = almacenService.findById(id);
@@ -75,7 +75,7 @@ public class AlmacenRestController {
 		return almacenService.save(almacenActual);
 	}
 	
-	@DeleteMapping("/almacenes/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		almacenService.delete(id);

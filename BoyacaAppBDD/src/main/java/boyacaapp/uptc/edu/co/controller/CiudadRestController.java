@@ -22,7 +22,7 @@ import boyacaapp.uptc.edu.co.services.IDepartamentoService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/ciudades")
 public class CiudadRestController {
 
 	@Autowired
@@ -31,7 +31,7 @@ public class CiudadRestController {
 	@Autowired
 	IDepartamentoService departamentoService;
 	
-	@GetMapping("/ciudades")
+	@GetMapping("/listar")
 	public List<Ciudad> index(){
 		return ciudadService.findAll();
 		
