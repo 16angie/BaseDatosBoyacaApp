@@ -29,7 +29,7 @@ public class Ciudad  implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_ciudad;
 	
-	@Column(name ="ci_nombre",nullable = false, unique = true)
+	@Column(name ="ci_nombre",nullable = false)
 	private String nombre;
 	
 	
