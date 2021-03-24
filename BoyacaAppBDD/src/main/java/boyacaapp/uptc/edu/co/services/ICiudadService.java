@@ -8,7 +8,7 @@ public interface ICiudadService {
 	
 	public List<Ciudad> findAll();
 	public Ciudad findById(Long id);
-	public Ciudad save(Ciudad client);
+	public Ciudad save(Ciudad ciudad);
 	public void delete(Long id);
 
 }

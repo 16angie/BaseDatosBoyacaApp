@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import boyacaapp.uptc.edu.co.models.dao.ICiudadDao;
+import boyacaapp.uptc.edu.co.models.dao.IDepartamentoDao;
 import boyacaapp.uptc.edu.co.models.entity.Ciudad;
 
 @Service
@@ -15,6 +16,9 @@ public class CiudadServiceImpl implements ICiudadService{
 	
 	@Autowired
 	private ICiudadDao ciudaddao;
+	
+	@Autowired
+	private IDepartamentoDao depdao;
 
 	@Override
 	@Transactional(readOnly= true)
