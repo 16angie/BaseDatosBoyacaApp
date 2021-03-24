@@ -57,7 +57,7 @@ public class Producto {
 	@ManyToOne
 	@JoinColumn(name ="id_empresa")
 	@JsonIgnoreProperties("listaProductos")
-	private Empresa empresaP;
+	private Almacen almacen;
 	
 	
 	/*

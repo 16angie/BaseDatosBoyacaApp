@@ -12,16 +12,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import boyacaapp.uptc.edu.co.models.entity.Direccion;
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
+import boyacaapp.uptc.edu.co.models.entity.Usuario;
 import boyacaapp.uptc.edu.co.services.IDireccionService;
 import boyacaapp.uptc.edu.co.services.IRepresentanteComercialService;
 
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/representantescomerciales")
 public class RepresentanteComercialRestController {
 
 	@Autowired
@@ -30,34 +29,25 @@ public class RepresentanteComercialRestController {
 	@Autowired
 	IDireccionService direccionservice;
 	
-	@GetMapping("/representantesComerciales")
+	@GetMapping("/listar")
 	public List<RepresentanteComercial> index(){
 		return representanteComercialService.findAll();
 		
 	}
 	
-	@GetMapping("/representantesComerciales{id}")
-	public RepresentanteComercial show(@PathVariable Long id){
+	@GetMapping("/encontrarid/{id}")
+	public Usuario show(@PathVariable Long id){
 		return representanteComercialService.findById(id);
 	}
 	
-	@PostMapping("/representantesComerciales/nuevo")
+	@PostMapping("/crear/nuevo")
 	@ResponseStatus(HttpStatus.CREATED)
-	public RepresentanteComercial create(@RequestBody RepresentanteComercial representantes){
+	public Usuario create(@RequestBody RepresentanteComercial representantes){
 		return representanteComercialService.save(representantes);
 	}
 	
-	@PostMapping("/representantesComerciales/actulizardireccion/{id_representante}/{id_direccion}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public RepresentanteComercial create(@PathVariable Long id_direccion,@PathVariable Long id_representante){
-		RepresentanteComercial representanteComercialActual = representanteComercialService.findById(id_representante);
-		Direccion direcion = direccionservice.findById(id_direccion);
-		representanteComercialActual.setDireccion_residencia(direcion);
-		return representanteComercialService.save(representanteComercialActual);
-	}
 	
-	
-	@PostMapping("/representantesComerciales/{id}")
+	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public RepresentanteComercial update(@RequestBody RepresentanteComercial representanteComercial, @PathVariable Long id){
 		RepresentanteComercial representanteComercialActual = representanteComercialService.findById(id);
@@ -66,14 +56,13 @@ public class RepresentanteComercialRestController {
 		representanteComercialActual.setNombre(representanteComercial.getNombre());
 		representanteComercialActual.setContrasena(representanteComercial.getContrasena());
 		representanteComercialActual.setCuenta(representanteComercial.getCuenta());
-		representanteComercialActual.setDireccion_residencia(representanteComercial.getDireccion_residencia());
 		representanteComercialActual.setNombreNegocio(representanteComercial.getNombreNegocio());
-		representanteComercialActual.setNumero_telefono(representanteComercial.getNumero_telefono());
+		representanteComercialActual.setNumeroTelefonico(representanteComercial.getNumeroTelefonico());
 		representanteComercialActual.setNumerodecedula(representanteComercial.getNumerodecedula());
 		return representanteComercialService.save(representanteComercialActual);
 	}
 	
-	@DeleteMapping("/representantesComerciales/{id}")
+	@DeleteMapping("/borrar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		representanteComercialService.delete(id);

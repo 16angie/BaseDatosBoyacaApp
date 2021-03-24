@@ -1,10 +1,14 @@
 package boyacaapp.uptc.edu.co.models.dao;
 
-import org.springframework.data.repository.CrudRepository;
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
 
-public interface IRepresentanteComercialDao extends CrudRepository<RepresentanteComercial,Long>{
+@Repository
+public interface IRepresentanteComercialDao extends JpaRepository<RepresentanteComercial, Long> {
 	
 
 }

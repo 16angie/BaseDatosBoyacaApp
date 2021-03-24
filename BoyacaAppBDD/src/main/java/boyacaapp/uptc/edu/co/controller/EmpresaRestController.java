@@ -25,7 +25,7 @@ import boyacaapp.uptc.edu.co.services.IImagenService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/empresas")
 public class EmpresaRestController {
 
 	@Autowired
@@ -43,24 +43,24 @@ public class EmpresaRestController {
 	
 	
 	
-	@GetMapping("/empresas")
+	@GetMapping("/listar")
 	public List<Empresa> index(){
 		return empresaService.findAll();
 		
 	}
 	
-	@GetMapping("/empresas/{id}")
+	@GetMapping("/encontrarid/{id}")
 	public Empresa show(@PathVariable Long id){
 		return empresaService.findById(id);
 	}
 	
-	@PostMapping("/empresas/nueva")
+	@PostMapping("/crear/nueva")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Empresa create(@RequestBody Empresa empresa){
 		return empresaService.save(empresa);
 	}
 	
-	@PostMapping("/empresas/nueva/direccion/imagen/{id_ciudad}")
+	@PostMapping("/nueva/direccion/imagen/{id_ciudad}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Empresa createe(@RequestBody Empresa empresa,@PathVariable Long id_ciudad){
 		Ciudad ciudad = ciudadservice.findById(id_ciudad);
@@ -71,7 +71,7 @@ public class EmpresaRestController {
 	}
 	
 	
-	@PostMapping("/empresas/actualizarimagenempresa/{id_empresa}")
+	@PostMapping("/actualizarimagenempresa/{id_empresa}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Empresa create(@PathVariable Long id_empresa, @RequestBody Imagen imagen){
 		Empresa empresa = empresaService.findById(id_empresa);
@@ -81,7 +81,7 @@ public class EmpresaRestController {
 	}
 	
 	
-	@PostMapping("/empresas/actualizardireccion/{id_empresa}")
+	@PostMapping("/actualizardireccion/{id_empresa}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Empresa create(@PathVariable Long id_empresa,@RequestBody Direccion direccion){
 		Empresa empresa = empresaService.findById(id_empresa);
@@ -92,7 +92,7 @@ public class EmpresaRestController {
 
 	
 	
-	@PostMapping("/empresas/{id}")
+	@PostMapping("/actualizarcompleta/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Empresa update(@RequestBody Empresa empresa, @PathVariable Long id){
 		Empresa empresaActual = empresaService.findById(id);
@@ -106,7 +106,7 @@ public class EmpresaRestController {
 		return empresaService.save(empresaActual);
 	}
 	
-	@DeleteMapping("/empresas/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		empresaService.delete(id);

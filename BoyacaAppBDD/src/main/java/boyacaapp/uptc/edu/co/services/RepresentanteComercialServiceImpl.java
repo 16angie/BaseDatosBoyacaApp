@@ -1,10 +1,10 @@
 package boyacaapp.uptc.edu.co.services;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import boyacaapp.uptc.edu.co.models.dao.IRepresentanteComercialDao;
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
 
@@ -17,7 +17,6 @@ public class RepresentanteComercialServiceImpl implements IRepresentanteComercia
 	@Override
 	@Transactional(readOnly= true)
 	public List<RepresentanteComercial> findAll() {
-		
 		return (List<RepresentanteComercial>) representanteComercialdao.findAll();
 	}
 
@@ -25,13 +24,13 @@ public class RepresentanteComercialServiceImpl implements IRepresentanteComercia
 	@Transactional(readOnly= true)
 	public RepresentanteComercial findById(Long id) {
 		
-		return representanteComercialdao.findById(id).orElse(null);
+		return (RepresentanteComercial) representanteComercialdao.findById(id).orElse(null);
 	}
 
 	@Override
 	@Transactional
 	public RepresentanteComercial save(RepresentanteComercial representanteComercial) {
-		return representanteComercialdao.save(representanteComercial);
+		return (RepresentanteComercial) representanteComercialdao.save(representanteComercial);
 	}
 
 	@Override

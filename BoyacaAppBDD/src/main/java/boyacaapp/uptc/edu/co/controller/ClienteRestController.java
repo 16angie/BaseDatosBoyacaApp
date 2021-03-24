@@ -21,10 +21,10 @@ import boyacaapp.uptc.edu.co.services.IImagenService;
 
 @CrossOrigin(origins= {"http://localhost:4200"}) //8082 // en dado caso seria el de angular oki?
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/clientes")
 public class ClienteRestController {
 
-	@Autowired
+	@Autowired()
 	IClienteService clienteService;
 	
 	@Autowired
@@ -36,7 +36,7 @@ public class ClienteRestController {
 	
 	@GetMapping("/clientes")
 	public List<Cliente> index(){
-		return clienteService.findAll();
+		return (List<Cliente>) clienteService.findAll();
 		
 	}
 	
@@ -50,7 +50,7 @@ public class ClienteRestController {
 	public Cliente create(@PathVariable Long id_cliente,@RequestBody Direccion direccion){
 		Cliente clienteActual = clienteService.findById(id_cliente);
 		direccionservice.save(direccion);
-		clienteActual.setDireccion_residencia(direccion);
+		clienteActual.setDireccionResidencia(direccion);
 		return clienteService.save(clienteActual);
 	}
 
@@ -60,6 +60,7 @@ public class ClienteRestController {
 	public Cliente create(@RequestBody Cliente cliente){
 		return clienteService.save(cliente);
 	}
+	
 	
 	@PostMapping("/clientes/nuevoconimagen")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -76,12 +77,12 @@ public class ClienteRestController {
 	public Cliente update(@RequestBody Cliente cliente, @PathVariable Long id){
 		Cliente clienteActual = clienteService.findById(id);
 		clienteActual.setApellido(cliente.getApellido());
-		clienteActual.setCedula(cliente.getCedula());
+		clienteActual.setNumerodecedula(cliente.getNumerodecedula());
 		clienteActual.setContrasena(cliente.getContrasena());
-		clienteActual.setDireccion_residencia(cliente.getDireccion_residencia());
+		clienteActual.setDireccionResidencia(cliente.getDireccionResidencia());
 		clienteActual.setEmail(cliente.getEmail());
 		clienteActual.setNombre(cliente.getNombre());
-		clienteActual.setNumero_telefono(cliente.getNumero_telefono());
+		clienteActual.setNumeroTelefonico(cliente.getNumeroTelefonico());
 		return clienteService.save(clienteActual);
 	}
 	

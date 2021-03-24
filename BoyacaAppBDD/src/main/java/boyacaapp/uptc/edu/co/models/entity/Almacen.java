@@ -1,24 +1,30 @@
 package boyacaapp.uptc.edu.co.models.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity 
 @Table(name="almacenes")
 @Data
+@EqualsAndHashCode(exclude = "listaProductos") 
 public class Almacen implements Serializable{
 
 	/**
@@ -51,5 +57,11 @@ public class Almacen implements Serializable{
 	@JoinColumn(name ="id_empresa")
 	@JsonIgnoreProperties("listaDeAlamacenes")
 	private Empresa empresa;
+	
+	
+	//---
+		@OneToMany(mappedBy = "almacen",fetch = FetchType.LAZY)
+		@JsonIgnoreProperties("almacen")
+		private List<Producto> listaProductos = new ArrayList<>();
 	
 }
