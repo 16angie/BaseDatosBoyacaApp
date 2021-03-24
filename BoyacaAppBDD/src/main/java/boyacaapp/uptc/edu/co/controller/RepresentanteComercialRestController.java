@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import boyacaapp.uptc.edu.co.models.entity.Ciudad;
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
 import boyacaapp.uptc.edu.co.models.entity.Usuario;
+import boyacaapp.uptc.edu.co.services.ICiudadService;
 import boyacaapp.uptc.edu.co.services.IDireccionService;
+import boyacaapp.uptc.edu.co.services.IImagenService;
 import boyacaapp.uptc.edu.co.services.IRepresentanteComercialService;
 
 
@@ -26,8 +30,10 @@ public class RepresentanteComercialRestController {
 	@Autowired
 	IRepresentanteComercialService representanteComercialService;
 	
+	
 	@Autowired
-	IDireccionService direccionservice;
+	IImagenService imagenservice;
+	
 	
 	@GetMapping("/listar")
 	public List<RepresentanteComercial> index(){
@@ -40,9 +46,10 @@ public class RepresentanteComercialRestController {
 		return representanteComercialService.findById(id);
 	}
 	
-	@PostMapping("/crear/nuevo")
+	@PostMapping("/nuevo")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario create(@RequestBody RepresentanteComercial representantes){
+		imagenservice.save(representantes.getImagen());
 		return representanteComercialService.save(representantes);
 	}
 	
