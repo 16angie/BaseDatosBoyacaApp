@@ -78,9 +78,11 @@ public class EmpresaRestController {
 	/**
 	 *nueva empresa con imagen incluida  y direccion incluida
 	 * **/
-	@PostMapping("/nuevacon/direccione/imagen/{id_ciudad}")
+	@PostMapping("/nuevacon/direccione/imagen/{id_ciudad}/{id_representante}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Empresa createe(@RequestBody Empresa empresa,@PathVariable Long id_ciudad){
+	public Empresa createe(@RequestBody Empresa empresa,@PathVariable Long id_ciudad,@PathVariable Long id_representante){
+		RepresentanteComercial representante =representanteservice.findById(id_representante);
+		empresa.setRepresentante(representante);
 		Ciudad ciudad = ciudadservice.findById(id_ciudad);
 		imagenService.save(empresa.getImagen());
 		direccionservice.save(empresa.getDireccion());
