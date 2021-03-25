@@ -23,16 +23,19 @@ public class UsuarioRestController {
 	
 	@GetMapping("/loginusuarios")
 	public UsuarioBasicoDto show(@RequestParam(value = "email") String correo,@RequestParam(value = "contrasena") String contrasena){
-		Usuario usuario = usuarioservice.findByCorreo(correo);
-		if(usuario != null) {
-		UsuarioBasicoDto usuariodto = new UsuarioBasicoDto();
-		usuariodto.setId(usuario.getId());
-		usuariodto.setOk(true);
-		usuariodto.setTipousuario(usuario instanceof Cliente?"Cliente":"Representante");
-		return usuariodto;
-		}else {
-			return null;
-		}
-	}
+        Usuario usuario = usuarioservice.findByCorreo(correo);
+        UsuarioBasicoDto usuariodto = new UsuarioBasicoDto();
+        if(usuario != null && usuario.getContrasena().equals(contrasena) && usuario.getEmail().equals(correo) ) {
+        usuariodto.setId(usuario.getId());
+        usuariodto.setOk(true);
+        usuariodto.setTipousuario(usuario instanceof Cliente?"Cliente":"Representante");
+        return usuariodto;
+        }else {
+            //UsuarioBasicoDto usuariodto = new UsuarioBasicoDto();
+            usuariodto.setId((long) 0);
+            usuariodto.setOk(false);
+            return usuariodto;
+        }
+    }
 	
 }
