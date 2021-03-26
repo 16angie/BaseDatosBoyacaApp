@@ -6,6 +6,5 @@ public interface IUsuariosService {
 	
 	public Usuario findByCorreo(String correo);
 	
-	
 
 }

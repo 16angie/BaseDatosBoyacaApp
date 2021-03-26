@@ -21,6 +21,7 @@ public class UsuarioRestController {
 	@Autowired
 	IUsuariosService usuarioservice;
 	
+	
 	@GetMapping("/loginusuarios")
 	public UsuarioBasicoDto show(@RequestParam(value = "email") String correo,@RequestParam(value = "contrasena") String contrasena){
         Usuario usuario = usuarioservice.findByCorreo(correo);
