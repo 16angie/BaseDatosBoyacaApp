@@ -15,12 +15,15 @@ public class AlmacenServiceImpl implements IAlmacenService{
 	
 	@Autowired
 	private IAlmacenDao almacendao;
+	
+	
 
 	@Override
 	@Transactional(readOnly= true)
 	public List<Almacen> findAll() {
 		
 		return (List<Almacen>) almacendao.findAll();
+		
 	}
 
 	@Override
