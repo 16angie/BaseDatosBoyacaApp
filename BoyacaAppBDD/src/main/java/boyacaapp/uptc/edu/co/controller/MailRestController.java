@@ -21,22 +21,21 @@ public class MailRestController {
 	@Autowired
 	IUsuariosService usuariosService;
 	
-	private String codigo = "";
+	
 	
 	// true si se envio, false si no
 	@GetMapping(value = "/enviarcodigo")
 	public boolean enviarCodigo(@RequestParam(value = "email") String correoRecepetor) {
 		boolean success= true;
 		if(usuariosService.findByCorreo(correoRecepetor) != null) {
-			codigo =  "hfjhdfb6675hh1u";
 			mailService.crearPropiedadesMail();
-			mailService.definirEmisor("correo@gmail.com", "password");
+			mailService.definirEmisor();
 			mailService.definirReceptor(correoRecepetor);
 			try {
-				mailService.construirMensaje("Cambio de contraseña en BoyacApp", "ingrese el siguiente código en el formulario que solicita:" +  codigo);
+				mailService.construirMensaje();
 			} catch (MessagingException e) {
 				//e.printStackTrace();
-				System.out.println("no e pudo crear el mensaje error de datos");
+				System.out.println("no se pudo crear el mensaje error de datos");
 			}
 			
 			try {
@@ -53,8 +52,9 @@ public class MailRestController {
 	}
 	
 	@GetMapping(value = "/verificarcodigo")
-	public boolean verificarCodigo(String codigoInput) {
-		if (codigo.equals(codigoInput)) {
+	public boolean verificarCodigo(@RequestParam(value = "codigo")long codigoInput) {
+		Long codigos = mailService.getNumero();
+		if (codigos == codigoInput) {
 			return true;
 		}else {
 			return false;

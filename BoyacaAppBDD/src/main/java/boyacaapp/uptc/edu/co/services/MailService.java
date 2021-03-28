@@ -2,6 +2,8 @@ package boyacaapp.uptc.edu.co.services;
 
 import org.springframework.stereotype.Service;
 
+import lombok.Data;
+
 import java.util.Date;
 import java.util.Properties;
 
@@ -15,6 +17,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 @Service
+@Data
 public class MailService {
 	
 	private String emisor;
@@ -23,6 +26,7 @@ public class MailService {
 	
 	private Session session;
 	private Message msg;
+	private long numero;
 	
 	public void crearPropiedadesMail() {
 		// definir el puerto, protocolo, autorizacion
@@ -30,19 +34,18 @@ public class MailService {
 		   props.put("mail.smtp.auth", "true");
 		   props.put("mail.smtp.starttls.enable", "true");
 		   props.put("mail.smtp.host", "smtp.gmail.com");
+		   //props.put("mail.smtp.host", "smtp.hotmail.com");
 		   props.put("mail.smtp.port", "587");
 		   
 		   //definir emisor y receptor
 		
 	}
 	
-	public void definirEmisor(String correoEmisor, String contrasena) {
-		this.emisor = correoEmisor;
-		// correo: "ramirezkarlos9@gmail.com"
-		//contra: "dulcemaria111"
+	public void definirEmisor() {
+			emisor="BoyacaApp@gmail.com";
 		   	  session = Session.getInstance(props, new javax.mail.Authenticator() {
 		      protected PasswordAuthentication getPasswordAuthentication() {
-		         return new PasswordAuthentication(correoEmisor,contrasena);
+		         return new PasswordAuthentication("BoyacaApp@gmail.com","Boyaca_1App.");
 		      }
 		   });
 	}
@@ -51,10 +54,12 @@ public class MailService {
 		this.receptor = correoReceptor;
 	}
 	
-	public void construirMensaje(String asunto, String contenido) throws AddressException, MessagingException {
+	public void construirMensaje() throws AddressException, MessagingException {
+		numero = (long)(Math.random()*1000000+10000000);
+		String asunto = "Cambio de contraseña para tu cuenta en BoyacaApp";
+		String contenido ="Este es tu codigo de verificacion:  "+ numero;
 		   msg = new MimeMessage(session);
 		   msg.setFrom(new InternetAddress(emisor, false));
-
 		   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receptor));
 		   msg.setSubject(asunto);
 		   msg.setContent(contenido, "text/html");
