@@ -16,9 +16,6 @@ public class CiudadServiceImpl implements ICiudadService{
 	
 	@Autowired
 	private ICiudadDao ciudaddao;
-	
-	@Autowired
-	private IDepartamentoDao depdao;
 
 	@Override
 	@Transactional(readOnly= true)
