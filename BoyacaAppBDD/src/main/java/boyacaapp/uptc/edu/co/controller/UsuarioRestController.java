@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import boyacaapp.uptc.edu.co.dto.UsuarioBasicoDto;
 import boyacaapp.uptc.edu.co.models.entity.Cliente;
 import boyacaapp.uptc.edu.co.models.entity.Usuario;

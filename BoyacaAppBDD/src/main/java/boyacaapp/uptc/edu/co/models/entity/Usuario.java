@@ -46,5 +46,8 @@ public  class Usuario  {
 	@OneToOne
 	private Imagen imagen;
 	
+	@Column(name ="codigoSerguridad",nullable = true, unique = true)
+	private Long codigoSeguridad;
+	
 
 }
