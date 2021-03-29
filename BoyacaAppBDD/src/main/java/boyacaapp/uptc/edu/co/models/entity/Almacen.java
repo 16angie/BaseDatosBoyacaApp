@@ -43,8 +43,6 @@ public class Almacen implements Serializable{
 	@Column(name ="al_nombre_Persona_Acargo",nullable = false)
 	private  String nombrePersonaAcargo;
 	
-	@OneToOne
-	private Direccion direccion;
 	
 	@Column(name ="al_email",nullable = false)
 	private String email;
@@ -52,6 +50,8 @@ public class Almacen implements Serializable{
 	@Column(name ="al_telefono",nullable = false, length = 10)
 	private String telefono;
 	
+	@OneToOne
+	private Direccion direccion;
 	
 	@ManyToOne
 	@JoinColumn(name ="id_empresa")

@@ -18,7 +18,8 @@ public class Imagen {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_imagen;
 	
-	@Column(name = "im_file_image",nullable = false)
-	private String file_image;
+	@Column(name = "nombreimagen",nullable = false)
+	private String nombre;
+	
 		
 }

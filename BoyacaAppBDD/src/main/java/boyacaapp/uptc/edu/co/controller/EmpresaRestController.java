@@ -66,10 +66,13 @@ public class EmpresaRestController {
 	
 	
 	
-	@PostMapping("/crear/nueva/{id_representante}")
+	@PostMapping("/nueva/{id_representante}/{id_ciudad}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Empresa create(@RequestBody Empresa empresa,@PathVariable Long id_representante){
+	public Empresa create(@RequestBody Empresa empresa,@PathVariable Long id_representante,@PathVariable Long id_ciudad){
 		RepresentanteComercial representante =representanteservice.findById(id_representante);
+		Ciudad ciudad = ciudadservice.findById(id_ciudad);
+		empresa.getDireccion().setCiudad(ciudad);
+		direccionservice.save(empresa.getDireccion());
 		empresa.setRepresentante(representante);
 		return empresaService.save(empresa);
 	}

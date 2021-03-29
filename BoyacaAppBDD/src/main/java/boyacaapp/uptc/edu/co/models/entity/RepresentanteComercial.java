@@ -5,8 +5,11 @@ package boyacaapp.uptc.edu.co.models.entity;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
@@ -24,7 +27,8 @@ public class RepresentanteComercial extends Usuario {
 	private String nombreNegocio;
 	
 	
-	@OneToOne
+	@OneToOne(mappedBy = "representante",fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("representante")
 	private Empresa empresa;
 	
 	

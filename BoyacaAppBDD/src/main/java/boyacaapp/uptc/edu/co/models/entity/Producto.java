@@ -28,8 +28,7 @@ public class Producto {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long idProducto;
-	
+	private Long idProducto;	
 	
 	@Column(name ="pro_nombre",nullable = false)
 	private String nombre;
