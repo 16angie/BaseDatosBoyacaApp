@@ -6,5 +6,5 @@ import boyacaapp.uptc.edu.co.models.entity.Imagen;
 
 public interface IImagenDao extends CrudRepository<Imagen,Long>{
 	
-
+	Imagen findByNombre(String nombre);
 }

@@ -34,36 +34,36 @@ public class MailRestController {
 	
 	// true si se envio, false si no
 	@GetMapping(value = "/enviarcodigo")
-	public boolean enviarCodigo(@RequestParam(value = "email") String correoRecepetor) {
-		boolean success= true;
-		Usuario usuario = usuariosService.findByCorreo(correoRecepetor);
-	
-		if(usuario != null) {
+	public boolean enviarCodigo(@RequestParam(value = "email") String correoReceptor) {
+		boolean success = true;
+		Usuario usuario = usuariosService.findByCorreo(correoReceptor);
+
+		if (usuario != null) {
 			mailService.crearPropiedadesMail();
 			mailService.definirEmisor();
-			mailService.definirReceptor(correoRecepetor);
+			mailService.definirReceptor(correoReceptor);
 			try {
 				mailService.construirMensaje();
 			} catch (MessagingException e) {
-				//e.printStackTrace();
+				// e.printStackTrace();
 				System.out.println("no se pudo crear el mensaje error de datos");
 			}
-			
+
 			try {
 				mailService.enviarMensaje();
-				if(usuario instanceof Cliente) {
+				if (usuario instanceof Cliente) {
 					usuario.setCodigoSeguridad(mailService.getNumero());
 					clienteservice.save((Cliente) usuario);
-				}else {
+				} else {
 					usuario.setCodigoSeguridad(mailService.getNumero());
 					representanteserive.save((RepresentanteComercial) usuario);
 				}
-				
+
 			} catch (MessagingException e) {
 				System.out.println("no se pudo enviar el mensaje");
 			}
-			success= true;
-		}else {
+			success = true;
+		} else {
 			success = false;
 		}
 		return success;

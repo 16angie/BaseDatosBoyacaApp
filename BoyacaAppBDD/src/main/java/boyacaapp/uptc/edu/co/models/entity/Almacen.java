@@ -50,7 +50,9 @@ public class Almacen implements Serializable{
 	@Column(name ="al_telefono",nullable = false, length = 10)
 	private String telefono;
 	
+	
 	@OneToOne
+	@JsonIgnoreProperties("direccion")
 	private Direccion direccion;
 	
 	@ManyToOne

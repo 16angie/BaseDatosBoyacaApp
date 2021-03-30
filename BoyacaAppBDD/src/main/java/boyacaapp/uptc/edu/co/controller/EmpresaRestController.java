@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import boyacaapp.uptc.edu.co.models.entity.Almacen;
 import boyacaapp.uptc.edu.co.models.entity.Ciudad;
 import boyacaapp.uptc.edu.co.models.entity.Direccion;
 import boyacaapp.uptc.edu.co.models.entity.Empresa;
-import boyacaapp.uptc.edu.co.models.entity.Imagen;
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
 import boyacaapp.uptc.edu.co.services.IAlmacenService;
 import boyacaapp.uptc.edu.co.services.ICiudadService;
@@ -64,6 +62,12 @@ public class EmpresaRestController {
 		return empresaService.findById(id);
 	}
 	
+	@GetMapping("/encontrarporidrepresentante/{id_representante}")
+	public Empresa showe(@PathVariable Long id_representante){
+		RepresentanteComercial representante =representanteservice.findById(id_representante);
+		return empresaService.findById(representante.getEmpresa().getId_empresa());
+	}
+	
 	
 	
 	@PostMapping("/nueva/{id_representante}/{id_ciudad}")
@@ -79,27 +83,16 @@ public class EmpresaRestController {
 	
 	
 	/**
-	 *nueva empresa con imagen incluida  y direccion incluida
+	 *nueva empresa con direccion sin imagen
 	 * **/
-	@PostMapping("/nuevacon/direccione/imagen/{id_ciudad}/{id_representante}")
+	@PostMapping("/nuevacon/direccion/{id_ciudad}/{id_representante}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Empresa createe(@RequestBody Empresa empresa,@PathVariable Long id_ciudad,@PathVariable Long id_representante){
 		RepresentanteComercial representante =representanteservice.findById(id_representante);
 		empresa.setRepresentante(representante);
 		Ciudad ciudad = ciudadservice.findById(id_ciudad);
-		imagenService.save(empresa.getImagen());
 		direccionservice.save(empresa.getDireccion());
 		empresa.getDireccion().setCiudad(ciudad);
-		return empresaService.save(empresa);
-	}
-	
-	
-	@PostMapping("/actualizarimagenempresa/{id_empresa}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Empresa create(@PathVariable Long id_empresa, @RequestBody Imagen imagen){
-		Empresa empresa = empresaService.findById(id_empresa);
-		imagenService.save(empresa.getImagen());
-		empresa.setImagen(imagen);
 		return empresaService.save(empresa);
 	}
 	
@@ -135,6 +128,7 @@ public class EmpresaRestController {
 		return empresaService.save(empresaActual);
 	}
 	
+	//hacer que no se elimine sino que se inhabiliten 
 	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){

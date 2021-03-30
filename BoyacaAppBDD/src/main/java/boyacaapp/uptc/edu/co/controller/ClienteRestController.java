@@ -51,9 +51,6 @@ public class ClienteRestController {
 		return clienteService.findById(id);
 	}
 	
-	
-	
-	
 
 	/**
 	 * 
@@ -92,6 +89,9 @@ public class ClienteRestController {
 
 	
 	// TO-DO falta agregar el meetodo de set para la lista de facturas
+	
+	
+	
 	
 	@PutMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)

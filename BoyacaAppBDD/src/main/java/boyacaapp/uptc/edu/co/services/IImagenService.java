@@ -10,5 +10,6 @@ public interface IImagenService {
 	public Imagen findById(Long id);
 	public Imagen save(Imagen imagen);
 	public void delete(Long id);
+	public Imagen findByNombre(String nombre);
 
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import boyacaapp.uptc.edu.co.dto.RepresentantesEmpresaDto;
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
 import boyacaapp.uptc.edu.co.models.entity.Usuario;
 import boyacaapp.uptc.edu.co.services.IImagenService;
@@ -43,10 +44,21 @@ public class RepresentanteComercialRestController {
 		return representanteComercialService.findById(id);
 	}
 	
+	@GetMapping("/listarPorIdEmpresa/{id_representante}")
+	public RepresentantesEmpresaDto showe(@PathVariable Long id_representante){
+		RepresentantesEmpresaDto rep = new RepresentantesEmpresaDto();
+		RepresentanteComercial representante = representanteComercialService.findById(id_representante);
+		rep.setIdRepresentante(representante.getId());
+		rep.setEmailRepresentante(representante.getEmail());
+		rep.setIdEmpresa(representante.getEmpresa().getId_empresa());
+		rep.setNombreEmempresa(representante.getEmpresa().getRazonSocial()); // es el nombre de la empresa
+		rep.setListaAlmacenes(representante.getEmpresa().getListaDeAlamacenes());
+		return rep;
+	}
+	
 	@PostMapping("/nuevo")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario create(@RequestBody RepresentanteComercial representantes){
-		imagenservice.save(representantes.getImagen());
 		return representanteComercialService.save(representantes);
 	}
 	

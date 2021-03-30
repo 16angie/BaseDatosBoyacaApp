@@ -21,5 +21,14 @@ public class Imagen {
 	@Column(name = "nombreimagen",nullable = false)
 	private String nombre;
 	
-		
+	@Column(name = "pixelesimagen")
+	private byte[] pixel;
+	
+	@Column(name = "tipoimagen")
+	private String tipo ;
+	
+	@Column(name = "tamanoimagen")
+    private Long tamano; 
+	
+	
 }

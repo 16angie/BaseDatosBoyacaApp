@@ -1,6 +1,5 @@
 package boyacaapp.uptc.edu.co.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import boyacaapp.uptc.edu.co.models.entity.Almacen;
-import boyacaapp.uptc.edu.co.models.entity.Imagen;
 import boyacaapp.uptc.edu.co.models.entity.Producto;
 import boyacaapp.uptc.edu.co.services.IAlmacenService;
 import boyacaapp.uptc.edu.co.services.IImagenService;
@@ -55,18 +53,6 @@ public class ProductoRestController {
 	}
 	
 	
-	@PostMapping("/agregar/nuevasiamgenes/{id_producto}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Producto create(@PathVariable Long id_producto,@RequestBody ArrayList<Imagen> listaImagenes){
-		Producto producto = productoService.findById(id_producto);
-		for (Imagen imagen : listaImagenes) {
-			imagenesservice.save(imagen);
-			producto.getListaImagenes().add(imagen);
-		}
-		return productoService.save(producto);
-	}
-	
-	
 	@PostMapping("/productos/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Producto update(@RequestBody Producto producto, @PathVariable Long id){
@@ -79,7 +65,7 @@ public class ProductoRestController {
 		return productoService.save(productoActual);
 	}
 	
-	@DeleteMapping("/productos/{id}")
+	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
 		productoService.delete(id);

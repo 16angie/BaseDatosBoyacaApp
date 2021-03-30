@@ -24,8 +24,14 @@ public class ImagenServiceImpl implements IImagenService{
 	@Override
 	@Transactional(readOnly= true)
 	public Imagen findById(Long id) {
-		
 		return imagendao.findById(id).orElse(null);
+	}
+	
+	
+	@Override
+	@Transactional(readOnly= true)
+	public Imagen findByNombre(String nombre) {
+		return imagendao.findByNombre(nombre);
 	}
 
 	@Override
