@@ -16,7 +16,7 @@ public class EspecificacionProducto {
 		
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long idProducto;
+	private Long idEspecificacion;
 	
 	@Column(name ="esp_nombre",nullable = false)
 	private String nombre;

@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import boyacaapp.uptc.edu.co.models.entity.EspecificacionProducto;
+import boyacaapp.uptc.edu.co.models.entity.Producto;
 import boyacaapp.uptc.edu.co.services.IEspecificacionProductoService;
+import boyacaapp.uptc.edu.co.services.IProductoService;
+import net.bytebuddy.description.ModifierReviewable.OfAbstraction;
 
 
 @CrossOrigin(origins= {"http://localhost:4200"})
@@ -24,6 +27,9 @@ public class EspecificacionProductoRestController {
 
 	@Autowired
 	IEspecificacionProductoService especificacionService;
+	
+	@Autowired
+	IProductoService productoService;
 	
 	@GetMapping("/listar")
 	public List<EspecificacionProducto> index(){
@@ -42,12 +48,27 @@ public class EspecificacionProductoRestController {
 		return especificacionService.save(id);
 	}
 	
+	@PostMapping("/nuevasparaproducto/{id_producto}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public void createsome(@RequestBody List<EspecificacionProducto> lista, @PathVariable Long id_producto){
+		Producto p = productoService.findById(id_producto);
+		
+		if(p!=null) {
+			for (EspecificacionProducto especificacionProducto : lista) {
+				especificacionService.save(especificacionProducto);
+				p.getListaDeEspecificaciones().add(especificacionProducto);
+			}
+		}
+		productoService.save(p);
+		//return especificacionService.save(id);
+	}
+	
 	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public EspecificacionProducto update(@RequestBody EspecificacionProducto especificacion, @PathVariable Long id){
 		EspecificacionProducto especificacionActual = especificacionService.findById(id);
 		especificacionActual.setCantidad(especificacion.getCantidad());
-		especificacionActual.setIdProducto(especificacion.getIdProducto());
+		especificacionActual.setIdEspecificacion(especificacion.getIdEspecificacion());
 		especificacionActual.setNombre(especificacion.getNombre());
 		return especificacionService.save(especificacionActual);
 	}
