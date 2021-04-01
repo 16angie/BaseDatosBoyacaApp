@@ -65,10 +65,8 @@ public class EmpresaRestController {
 	@GetMapping("/encontrarporidrepresentante/{id_representante}")
 	public Empresa showe(@PathVariable Long id_representante){
 		RepresentanteComercial representante =representanteservice.findById(id_representante);
-		return empresaService.findById(representante.getEmpresa().getId_empresa());
+		return representante.getEmpresa();
 	}
-	
-	
 	
 	@PostMapping("/nueva/{id_representante}/{id_ciudad}")
 	@ResponseStatus(HttpStatus.CREATED)
