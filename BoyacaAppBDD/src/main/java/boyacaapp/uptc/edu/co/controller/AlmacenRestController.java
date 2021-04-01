@@ -17,10 +17,12 @@ import boyacaapp.uptc.edu.co.models.entity.Almacen;
 import boyacaapp.uptc.edu.co.models.entity.Ciudad;
 import boyacaapp.uptc.edu.co.models.entity.Direccion;
 import boyacaapp.uptc.edu.co.models.entity.Empresa;
+import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
 import boyacaapp.uptc.edu.co.services.IAlmacenService;
 import boyacaapp.uptc.edu.co.services.ICiudadService;
 import boyacaapp.uptc.edu.co.services.IDireccionService;
 import boyacaapp.uptc.edu.co.services.IEmpresaService;
+import boyacaapp.uptc.edu.co.services.IRepresentanteComercialService;
 
 @CrossOrigin(origins= {"http://localhost:4200"}) // este es para comentariar al frontend
 @RestController
@@ -39,6 +41,9 @@ public class AlmacenRestController {
 	
 	@Autowired
 	IEmpresaService empresaservice;
+	
+	@Autowired
+	IRepresentanteComercialService representanteService;
 	
 	@GetMapping("/listar")
 	public List<Almacen> index(){
@@ -69,6 +74,12 @@ public class AlmacenRestController {
 		Direccion direccion = direccionservice.findById(id_direccion);
 		almacenActual.setDireccion(direccion);
 		return almacenService.save(almacenActual);
+	}
+	
+	@GetMapping("/listarporidrepresentante/{id_representante}")
+	public List<Almacen> showe(@PathVariable Long id_representante){
+		RepresentanteComercial representante = representanteService.findById(id_representante);
+		return representante.getEmpresa().getListaDeAlamacenes();
 	}
 	
 	
