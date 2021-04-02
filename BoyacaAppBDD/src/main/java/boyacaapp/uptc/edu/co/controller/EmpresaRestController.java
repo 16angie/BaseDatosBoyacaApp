@@ -87,22 +87,14 @@ public class EmpresaRestController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Empresa createe(@RequestBody Empresa empresa,@PathVariable Long id_ciudad,@PathVariable Long id_representante){
 		RepresentanteComercial representante =representanteservice.findById(id_representante);
-		empresa.setRepresentante(representante);
 		Ciudad ciudad = ciudadservice.findById(id_ciudad);
-		direccionservice.save(empresa.getDireccion());
 		empresa.getDireccion().setCiudad(ciudad);
+		empresa.setRepresentante(representante);
+		direccionservice.save(empresa.getDireccion());
 		return empresaService.save(empresa);
 	}
 	
 	
-	@PostMapping("/actualizardireccion/{id_empresa}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Empresa create(@PathVariable Long id_empresa,@RequestBody Direccion direccion){
-		Empresa empresa = empresaService.findById(id_empresa);
-		 direccionservice.save(direccion);
-		 empresa.setDireccion(direccion);
-		return empresaService.save(empresa);
-	}
 
 	@PostMapping("/ingresarleunalmacen/{id_empresa}")
 	@ResponseStatus(HttpStatus.CREATED)
