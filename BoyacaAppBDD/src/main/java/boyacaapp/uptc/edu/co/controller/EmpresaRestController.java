@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import boyacaapp.uptc.edu.co.models.entity.Almacen;
 import boyacaapp.uptc.edu.co.models.entity.Ciudad;
-import boyacaapp.uptc.edu.co.models.entity.Direccion;
 import boyacaapp.uptc.edu.co.models.entity.Empresa;
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
 import boyacaapp.uptc.edu.co.services.IAlmacenService;
@@ -70,13 +69,17 @@ public class EmpresaRestController {
 	
 	@PostMapping("/nueva/{id_representante}/{id_ciudad}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Empresa create(@RequestBody Empresa empresa,@PathVariable Long id_representante,@PathVariable Long id_ciudad){
+	public Empresa create(@RequestBody Empresa empresa,@PathVariable Long id_representante,@PathVariable Long id_ciudad) throws Exception{
 		RepresentanteComercial representante =representanteservice.findById(id_representante);
-		Ciudad ciudad = ciudadservice.findById(id_ciudad);
-		empresa.getDireccion().setCiudad(ciudad);
-		direccionservice.save(empresa.getDireccion());
-		empresa.setRepresentante(representante);
-		return empresaService.save(empresa);
+		if(representante.getEmpresa()== null) {
+			Ciudad ciudad = ciudadservice.findById(id_ciudad);
+			empresa.getDireccion().setCiudad(ciudad);
+			direccionservice.save(empresa.getDireccion());
+			empresa.setRepresentante(representante);
+			return  empresaService.save(empresa);
+		}else {
+			throw new Exception("No puede crear una empresa porque ya el representante ya tiene una empresa asociada");
+		}
 	}
 	
 	

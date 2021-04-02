@@ -55,8 +55,8 @@ public class Empresa  implements Serializable{
 	private Imagen imagen;
 	
 	@OneToOne
-	@JoinColumn(name ="id_empresa")
-	@JsonIgnoreProperties("empresa")
+	//@JoinColumn(name ="id_empresa")
+	//@JsonIgnoreProperties("empresa")
 	private RepresentanteComercial representante;
 	
 	
