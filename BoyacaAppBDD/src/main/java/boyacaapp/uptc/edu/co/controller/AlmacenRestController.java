@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -48,7 +49,6 @@ public class AlmacenRestController {
 	@GetMapping("/listar")
 	public List<Almacen> index(){
 		return almacenService.findAll();
-		
 	}
 	
 	@GetMapping("/listarporid/{id}")
@@ -67,12 +67,27 @@ public class AlmacenRestController {
 		return almacenService.save(alamacen);
 	}
 	
-	@PostMapping("/actualizarDireccion/{id_alamacen}/{id_direccion}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Almacen create(@PathVariable Long id_direccion,@PathVariable Long id_alamacen){
-		Almacen almacenActual = almacenService.findById(id_alamacen);
+	@PostMapping("/actualizardireccionporid/{id_almacen}/{id_direccion}")
+	@ResponseStatus(HttpStatus.OK)
+	public Almacen updatedireccion(@PathVariable Long id_direccion,@PathVariable Long id_almacen){
+		Almacen almacenActual = almacenService.findById(id_almacen);
 		Direccion direccion = direccionservice.findById(id_direccion);
 		almacenActual.setDireccion(direccion);
+		return almacenService.save(almacenActual);
+	}
+	
+	@PostMapping("/actualizardireccionporbody/{id_almacen}/{id_ciudad}")
+	@ResponseStatus(HttpStatus.OK)
+	public Almacen updatedireccionbody(@RequestBody Direccion direccion,@PathVariable Long id_almacen, @PathVariable Long id_ciudad){
+		Almacen almacenActual = almacenService.findById(id_almacen);
+		Direccion direccioneditar = direccionservice.findById(almacenActual.getDireccion().getId_direccion());
+		direccioneditar.setBarrio(direccion.getBarrio());
+		direccioneditar.setDatosAdicionales(direccion.getDatosAdicionales());
+		direccioneditar.setNumero(direccion.getNumero());
+		direccioneditar.setCiudad(ciudadservice.findById(id_ciudad));
+		direccioneditar.setVia(direccion.getVia());
+		direccionservice.save(direccioneditar);
+		almacenActual.setDireccion(direccioneditar);
 		return almacenService.save(almacenActual);
 	}
 	
@@ -82,13 +97,12 @@ public class AlmacenRestController {
 		return representante.getEmpresa().getListaDeAlamacenes();
 	}
 	
-	
-	@PostMapping("/actualizar/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
+	// actualizacion de datos basicos del almacen - NO DIRECCION, eso es otro service
+	@PutMapping("/actualizardatosbasicos/{id}")
+	@ResponseStatus(HttpStatus.OK)
 	public Almacen update(@RequestBody Almacen almacen, @PathVariable Long id){
 		Almacen almacenActual = almacenService.findById(id);
 		almacenActual.setCodigo_postal(almacen.getCodigo_postal());
-		almacenActual.setDireccion(almacen.getDireccion());
 		almacenActual.setEmail(almacen.getEmail());
 		almacenActual.setNombrePersonaAcargo(almacen.getNombrePersonaAcargo());
 		almacenActual.setTelefono(almacen.getTelefono());

@@ -63,7 +63,7 @@ public class Producto {
 	 * 
 	 */
 	@OneToMany
-	private List<Caracteristica> caracteristicas = new ArrayList<Caracteristica>();
+	private List<Caracteristica> listaCaracteristicas = new ArrayList<Caracteristica>();
 	
 	
 	@OneToMany

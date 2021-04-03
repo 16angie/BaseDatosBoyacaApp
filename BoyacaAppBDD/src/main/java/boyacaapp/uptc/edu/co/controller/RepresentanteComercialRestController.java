@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -64,19 +65,29 @@ public class RepresentanteComercialRestController {
 	
 	
 	@PostMapping("/actualizar/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.OK)
 	public RepresentanteComercial update(@RequestBody RepresentanteComercial representanteComercial, @PathVariable Long id){
 		RepresentanteComercial representanteComercialActual = representanteComercialService.findById(id);
 		representanteComercialActual.setApellido(representanteComercial.getApellido());
 		representanteComercialActual.setEmail(representanteComercial.getEmail());
 		representanteComercialActual.setNombre(representanteComercial.getNombre());
-		representanteComercialActual.setContrasena(representanteComercial.getContrasena());
-		representanteComercialActual.setCuenta(representanteComercial.getCuenta());
+		//representanteComercialActual.setContrasena(representanteComercial.getContrasena());
+		//representanteComercialActual.setCuenta(representanteComercial.getCuenta());
 		representanteComercialActual.setNombreNegocio(representanteComercial.getNombreNegocio());
 		representanteComercialActual.setNumeroTelefonico(representanteComercial.getNumeroTelefonico());
 		representanteComercialActual.setNumerodecedula(representanteComercial.getNumerodecedula());
 		return representanteComercialService.save(representanteComercialActual);
 	}
+	
+	@PostMapping("/actualizarpassword/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public RepresentanteComercial updatecontrasena(@RequestParam(value = "contrasena") String contrasena, @PathVariable Long id){
+		RepresentanteComercial representanteComercialActual = representanteComercialService.findById(id);
+		representanteComercialActual.setContrasena(contrasena);
+		return representanteComercialService.save(representanteComercialActual);
+	}
+	
+	//TODO servicio para actualizar la cuenta solita!!!!!!
 	
 	@DeleteMapping("/borrar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

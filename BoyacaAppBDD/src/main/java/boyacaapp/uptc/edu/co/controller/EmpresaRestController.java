@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import boyacaapp.uptc.edu.co.models.entity.Almacen;
 import boyacaapp.uptc.edu.co.models.entity.Ciudad;
+import boyacaapp.uptc.edu.co.models.entity.Direccion;
 import boyacaapp.uptc.edu.co.models.entity.Empresa;
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
 import boyacaapp.uptc.edu.co.services.IAlmacenService;
@@ -96,34 +97,39 @@ public class EmpresaRestController {
 		direccionservice.save(empresa.getDireccion());
 		return empresaService.save(empresa);
 	}
-	
-	
 
-	@PostMapping("/ingresarleunalmacen/{id_empresa}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Empresa create(@PathVariable Long id_empresa,@RequestBody Almacen almacen){
-		Empresa empresa = empresaService.findById(id_empresa);
-		 almacenService.save(almacen);
-		 empresa.getListaDeAlamacenes().add(almacen);
-		return empresaService.save(empresa);
-	}
-
-	
-	@PostMapping("/actualizarcompleta/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
+	//actualizar solo lo basico, no la direccion
+	@PostMapping("/actualizardatosbasicos/{id}")
+	@ResponseStatus(HttpStatus.OK)
 	public Empresa update(@RequestBody Empresa empresa, @PathVariable Long id){
 		Empresa empresaActual = empresaService.findById(id);
 		empresaActual.setCategoria(empresa.getCategoria());
 		empresaActual.setCodigoPostal(empresa.getCodigoPostal());
-		empresaActual.setDireccion(empresa.getDireccion());
+		//empresaActual.setDireccion(empresa.getDireccion());
 		empresaActual.setRazonSocial(empresa.getRazonSocial());
 		empresaActual.setTipoEmpresa(empresa.getTipoEmpresa());
 		return empresaService.save(empresaActual);
 	}
 	
+	//actualizar la direccion de una empresa
+	@PostMapping("/actualizardireccionempresa/{id_empresa}/{id_ciudad}")
+	@ResponseStatus(HttpStatus.OK)
+	public Empresa updatedireccion(@RequestBody Direccion direccion, @PathVariable Long id_empresa,@PathVariable Long id_ciudad){
+		Empresa empresaActual = empresaService.findById(id_empresa);
+		Direccion direccioneditar = direccionservice.findById(empresaActual.getDireccion().getId_direccion());
+		direccioneditar.setBarrio(direccion.getBarrio());
+		direccioneditar.setDatosAdicionales(direccion.getDatosAdicionales());
+		direccioneditar.setNumero(direccion.getNumero());
+		direccioneditar.setCiudad(ciudadservice.findById(id_ciudad));
+		direccioneditar.setVia(direccion.getVia());
+		direccionservice.save(direccioneditar);
+		empresaActual.setDireccion(direccioneditar);
+		return empresaService.save(empresaActual);
+	}
+	
 	//hacer que no se elimine sino que se inhabiliten 
 	@DeleteMapping("/eliminar/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@ResponseStatus(HttpStatus.OK)
 	public void delete(@PathVariable Long id){
 		empresaService.delete(id);
 	}

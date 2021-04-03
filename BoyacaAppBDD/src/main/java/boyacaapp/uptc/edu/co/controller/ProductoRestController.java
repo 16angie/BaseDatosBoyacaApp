@@ -66,7 +66,7 @@ public class ProductoRestController {
 	}
 	
 	@DeleteMapping("/eliminar/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@ResponseStatus(HttpStatus.OK)
 	public void delete(@PathVariable Long id){
 		productoService.delete(id);
 	}

@@ -50,6 +50,20 @@ public class CaracteristicaRestController {
 		return caracteristicaService.save(caracteristica);
 	}
 	
+	@PostMapping("/muchasnuevas/{id_producto}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public void createsome(@RequestBody List<Caracteristica> lista, @PathVariable Long id_producto){
+		Producto p = productoService.findById(id_producto);
+		
+		if(p!=null) {
+			for (Caracteristica caracteristica : lista) {
+				caracteristicaService.save(caracteristica);
+				p.getListaCaracteristicas().add(caracteristica);
+			}
+		}
+		productoService.save(p);
+	}
+	
 	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Caracteristica update(@RequestBody Caracteristica caracteristica, @PathVariable Long id){

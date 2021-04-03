@@ -17,7 +17,6 @@ import boyacaapp.uptc.edu.co.models.entity.EspecificacionProducto;
 import boyacaapp.uptc.edu.co.models.entity.Producto;
 import boyacaapp.uptc.edu.co.services.IEspecificacionProductoService;
 import boyacaapp.uptc.edu.co.services.IProductoService;
-import net.bytebuddy.description.ModifierReviewable.OfAbstraction;
 
 
 @CrossOrigin(origins= {"http://localhost:4200"})
