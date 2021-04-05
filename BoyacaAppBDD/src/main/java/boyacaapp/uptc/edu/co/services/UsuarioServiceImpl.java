@@ -12,7 +12,6 @@ public class UsuarioServiceImpl implements IUsuariosService{
 	@Autowired
 	private IUsarioDao usuariodao;
 
-	@Override
 	public Usuario findByCorreo(String correo) {
 		return usuariodao.findByEmail(correo);
 	}

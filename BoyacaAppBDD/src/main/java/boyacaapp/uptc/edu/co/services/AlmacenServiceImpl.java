@@ -18,7 +18,6 @@ public class AlmacenServiceImpl implements IAlmacenService{
 	
 	
 
-	@Override
 	@Transactional(readOnly= true)
 	public List<Almacen> findAll() {
 		
@@ -26,20 +25,17 @@ public class AlmacenServiceImpl implements IAlmacenService{
 		
 	}
 
-	@Override
 	@Transactional(readOnly= true)
 	public Almacen findById(Long id) {
 		
 		return almacendao.findById(id).orElse(null);
 	}
 
-	@Override
 	@Transactional
 	public Almacen save(Almacen almacen) {
 		return almacendao.save(almacen);
 	}
 
-	@Override
 	@Transactional
 	public void delete(Long id) {	
 		almacendao.deleteById(id);

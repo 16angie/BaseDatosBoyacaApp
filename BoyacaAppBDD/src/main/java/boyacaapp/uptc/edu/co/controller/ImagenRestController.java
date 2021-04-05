@@ -104,7 +104,7 @@ public class ImagenRestController {
 	}
 	
 	
-	@PutMapping("/actualizarimagencliente/{id_cliente}")
+	@PutMapping("/agregar/imagencliente/{id_cliente}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cliente creates(@PathVariable Long id_cliente,@RequestPart("imagen") MultipartFile imagen){
 		Cliente cliente  = clienteService.findById(id_cliente);
@@ -127,7 +127,7 @@ public class ImagenRestController {
 	}
 	
 	
-	@PutMapping("/actualizarimagenrepresentante/{id_representante}")
+	@PutMapping("/agregar/imagenrepresentante/{id_representante}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public RepresentanteComercial creat(@PathVariable Long id_representante,@RequestPart("imagen") MultipartFile imagen){
 		RepresentanteComercial representante  = representanteComercialService.findById(id_representante);
@@ -150,7 +150,7 @@ public class ImagenRestController {
 	}
 	
 	
-	@PutMapping("/actualizarimagenempresa/{id_empresa}")
+	@PutMapping("/agregar/imagenempresa/{id_empresa}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Empresa create(@PathVariable Long id_empresa, @RequestPart("imagen") MultipartFile imagen){
 		Empresa empresa = empresaService.findById(id_empresa);

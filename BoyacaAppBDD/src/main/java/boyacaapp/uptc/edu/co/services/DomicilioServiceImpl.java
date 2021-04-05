@@ -19,27 +19,23 @@ public class DomicilioServiceImpl implements IDomicilioService{
 	@Autowired
 	private IDomicilioDao domiciliodao;
 
-	@Override
 	@Transactional(readOnly= true)
 	public List<Domicilio> findAll() {
 		
 		return (List<Domicilio>) domiciliodao.findAll();
 	}
 
-	@Override
 	@Transactional(readOnly= true)
 	public Domicilio findById(Long id) {
 		
 		return domiciliodao.findById(id).orElse(null);
 	}
 
-	@Override
 	@Transactional
 	public Domicilio save(Domicilio domicilio) {
 		return domiciliodao.save(domicilio);
 	}
 
-	@Override
 	@Transactional
 	public void delete(Long id) {	
 		domiciliodao.deleteById(id);

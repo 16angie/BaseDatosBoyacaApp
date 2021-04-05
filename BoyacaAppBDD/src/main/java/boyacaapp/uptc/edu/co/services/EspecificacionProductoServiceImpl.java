@@ -14,27 +14,23 @@ public class EspecificacionProductoServiceImpl implements IEspecificacionProduct
 	@Autowired
 	private IEspecificacionProductoDao especificaciondao;
 
-	@Override
 	@Transactional(readOnly= true)
 	public List<EspecificacionProducto> findAll() {
 		
 		return (List<EspecificacionProducto>) especificaciondao.findAll();
 	}
 
-	@Override
 	@Transactional(readOnly= true)
 	public EspecificacionProducto findById(Long id) {
 		
 		return especificaciondao.findById(id).orElse(null);
 	}
 
-	@Override
 	@Transactional
 	public EspecificacionProducto save(EspecificacionProducto especificacion) {
 		return especificaciondao.save(especificacion);
 	}
 
-	@Override
 	@Transactional
 	public void delete(Long id) {	
 		especificaciondao.deleteById(id);

@@ -14,26 +14,22 @@ public class RepresentanteComercialServiceImpl implements IRepresentanteComercia
 	@Autowired
 	private IRepresentanteComercialDao representanteComercialdao;
 
-	@Override
 	@Transactional(readOnly= true)
 	public List<RepresentanteComercial> findAll() {
 		return (List<RepresentanteComercial>) representanteComercialdao.findAll();
 	}
 
-	@Override
 	@Transactional(readOnly= true)
 	public RepresentanteComercial findById(Long id) {
 		
 		return (RepresentanteComercial) representanteComercialdao.findById(id).orElse(null);
 	}
 
-	@Override
 	@Transactional
 	public RepresentanteComercial save(RepresentanteComercial representanteComercial) {
 		return (RepresentanteComercial) representanteComercialdao.save(representanteComercial);
 	}
 
-	@Override
 	@Transactional
 	public void delete(Long id) {	
 		representanteComercialdao.deleteById(id);

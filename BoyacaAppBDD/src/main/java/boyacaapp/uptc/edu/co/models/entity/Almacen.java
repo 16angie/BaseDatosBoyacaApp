@@ -63,6 +63,6 @@ public class Almacen implements Serializable{
 	
 	@OneToMany(mappedBy = "almacen",fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("almacen")
-	private List<Producto> listaProductos = new ArrayList<>();
+	private List<Producto> listaProductos = new ArrayList<Producto>();
 	
 }

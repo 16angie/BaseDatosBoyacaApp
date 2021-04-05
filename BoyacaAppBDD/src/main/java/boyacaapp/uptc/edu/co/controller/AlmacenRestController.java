@@ -98,6 +98,7 @@ public class AlmacenRestController {
 	}
 	
 	// actualizacion de datos basicos del almacen - NO DIRECCION, eso es otro service
+	
 	@PutMapping("/actualizardatosbasicos/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public Almacen update(@RequestBody Almacen almacen, @PathVariable Long id){

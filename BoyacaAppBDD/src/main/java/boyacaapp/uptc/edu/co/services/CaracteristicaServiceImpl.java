@@ -16,27 +16,23 @@ public class CaracteristicaServiceImpl implements ICaracteristicaService{
 	@Autowired
 	private ICaracteristicaDao caracteristicadao;
 
-	@Override
 	@Transactional(readOnly= true)
 	public List<Caracteristica> findAll() {
 		
 		return (List<Caracteristica>) caracteristicadao.findAll();
 	}
 
-	@Override
 	@Transactional(readOnly= true)
 	public Caracteristica findById(Long id) {
 		
 		return caracteristicadao.findById(id).orElse(null);
 	}
-
-	@Override
+	
 	@Transactional
 	public Caracteristica save(Caracteristica almacen) {
 		return caracteristicadao.save(almacen);
 	}
 
-	@Override
 	@Transactional
 	public void delete(Long id) {	
 		caracteristicadao.deleteById(id);

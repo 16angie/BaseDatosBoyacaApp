@@ -15,27 +15,23 @@ public class CiudadServiceImpl implements ICiudadService{
 	@Autowired
 	private ICiudadDao ciudaddao;
 
-	@Override
 	@Transactional(readOnly= true)
 	public List<Ciudad> findAll() {
 		
 		return (List<Ciudad>) ciudaddao.findAll();
 	}
 
-	@Override
 	@Transactional(readOnly= true)
 	public Ciudad findById(Long id) {
 		
 		return ciudaddao.findById(id).orElse(null);
 	}
 
-	@Override
 	@Transactional
 	public Ciudad save(Ciudad ciudad) {
 		return ciudaddao.save(ciudad);
 	}
 
-	@Override
 	@Transactional
 	public void delete(Long id) {	
 		ciudaddao.deleteById(id);

@@ -17,26 +17,22 @@ public class DepartamentoServiceImpl implements IDepartamentoService{
 	@Autowired
 	private IDepartamentoDao departamentodao;
 
-	@Override
 	@Transactional(readOnly= true)
 	public List<Departamento> findAll() {
 		return (List<Departamento>) departamentodao.findAll();
 	}
 
-	@Override
 	@Transactional(readOnly= true)
 	public Departamento findById(Long id) {
 		
 		return departamentodao.findById(id).orElse(null);
 	}
 
-	@Override
 	@Transactional
 	public Departamento save(Departamento departamento) {
 		return departamentodao.save(departamento);
 	}
 
-	@Override
 	@Transactional
 	public void delete(Long id) {	
 		departamentodao.deleteById(id);

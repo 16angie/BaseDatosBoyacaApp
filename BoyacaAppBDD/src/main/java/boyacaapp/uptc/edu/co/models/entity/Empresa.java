@@ -62,7 +62,7 @@ public class Empresa  implements Serializable{
 	
 	@OneToMany(mappedBy = "empresa",fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(ignoreUnknown = true, value="empresa")
-	private List<Almacen> listaDeAlamacenes = new ArrayList<>();
+	private List<Almacen> listaDeAlamacenes = new ArrayList<Almacen>();
 	
 
 }

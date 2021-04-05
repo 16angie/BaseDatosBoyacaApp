@@ -14,33 +14,28 @@ public class ImagenServiceImpl implements IImagenService{
 	@Autowired
 	private IImagenDao imagendao;
 
-	@Override
 	@Transactional(readOnly= true)
 	public List<Imagen> findAll() {
 		
 		return (List<Imagen>) imagendao.findAll();
 	}
 
-	@Override
 	@Transactional(readOnly= true)
 	public Imagen findById(Long id) {
 		return imagendao.findById(id).orElse(null);
 	}
 	
 	
-	@Override
 	@Transactional(readOnly= true)
 	public Imagen findByNombre(String nombre) {
 		return imagendao.findByNombre(nombre);
 	}
 
-	@Override
 	@Transactional
 	public Imagen save(Imagen imagen) {
 		return imagendao.save(imagen);
 	}
 
-	@Override
 	@Transactional
 	public void delete(Long id) {	
 		imagendao.deleteById(id);

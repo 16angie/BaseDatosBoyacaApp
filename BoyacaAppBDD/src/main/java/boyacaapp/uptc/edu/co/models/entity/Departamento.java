@@ -33,7 +33,7 @@ public class Departamento implements Serializable{
 	
 	@OneToMany(mappedBy = "departamento",fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("departamento")
-	private List<Ciudad> listaCiudades = new ArrayList<>();
+	private List<Ciudad> listaCiudades = new ArrayList<Ciudad>();
 	
 	
 	public void agregarCiudad(Ciudad ciudad){

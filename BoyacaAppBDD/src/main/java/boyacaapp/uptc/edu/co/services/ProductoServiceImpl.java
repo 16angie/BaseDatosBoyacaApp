@@ -15,27 +15,23 @@ public class ProductoServiceImpl implements IProductoService{
 	@Autowired
 	private IProductoDao productodao;
 
-	@Override
 	@Transactional(readOnly= true)
 	public List<Producto> findAll() {
 		
 		return (List<Producto>) productodao.findAll();
 	}
 
-	@Override
 	@Transactional(readOnly= true)
 	public Producto findById(Long id) {
 		
 		return productodao.findById(id).orElse(null);
 	}
 
-	@Override
 	@Transactional
 	public Producto save(Producto producto) {
 		return productodao.save(producto);
 	}
 
-	@Override
 	@Transactional
 	public void delete(Long id) {	
 		productodao.deleteById(id);

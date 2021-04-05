@@ -18,27 +18,23 @@ public class DetallesCompraServiceImpl implements IDetallesCompraService{
 	@Autowired
 	private IDetallesCompraDao detallecompradao;
 
-	@Override
 	@Transactional(readOnly= true)
 	public List<DetalleCompra> findAll() {
 		
 		return (List<DetalleCompra>) detallecompradao.findAll();
 	}
 
-	@Override
 	@Transactional(readOnly= true)
 	public DetalleCompra findById(Long id) {
 		
 		return detallecompradao.findById(id).orElse(null);
 	}
 
-	@Override
 	@Transactional
 	public DetalleCompra save(DetalleCompra detallecompra) {
 		return detallecompradao.save(detallecompra);
 	}
 
-	@Override
 	@Transactional
 	public void delete(Long id) {	
 		detallecompradao.deleteById(id);

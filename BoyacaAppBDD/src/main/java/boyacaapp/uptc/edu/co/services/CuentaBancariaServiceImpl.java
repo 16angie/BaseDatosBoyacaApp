@@ -17,27 +17,23 @@ public class CuentaBancariaServiceImpl implements ICuentaBancariaService{
 	@Autowired
 	private ICuentaBancariaDao cuentabancariadao;
 
-	@Override
 	@Transactional(readOnly= true)
 	public List<CuentaBancaria> findAll() {
 		
 		return (List<CuentaBancaria>) cuentabancariadao.findAll();
 	}
 
-	@Override
 	@Transactional(readOnly= true)
 	public CuentaBancaria findById(Long id) {
 		
 		return cuentabancariadao.findById(id).orElse(null);
 	}
 
-	@Override
 	@Transactional
 	public CuentaBancaria save(CuentaBancaria cuentaBancaria) {
 		return cuentabancariadao.save(cuentaBancaria);
 	}
 
-	@Override
 	@Transactional
 	public void delete(Long id) {	
 		cuentabancariadao.deleteById(id);
