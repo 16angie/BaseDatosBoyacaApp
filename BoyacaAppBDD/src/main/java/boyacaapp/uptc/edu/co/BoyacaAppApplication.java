@@ -12,6 +12,7 @@ public class BoyacaAppApplication extends SpringBootServletInitializer{
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(BoyacaAppApplication.class);
 	}
+	
 	public static void main(String[] args) {
 		SpringApplication.run(BoyacaAppApplication.class, args);
 	}
