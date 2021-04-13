@@ -28,7 +28,11 @@ public class Producto {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long idProducto;	
+	private Long idProducto;
+	
+	@Column(name ="pro_estado",nullable = false)
+	@Enumerated(value = EnumType.STRING)
+	private EstadoObjetoBD estadoObjeto;
 	
 	@Column(name ="pro_nombre",nullable = false)
 	private String nombre;

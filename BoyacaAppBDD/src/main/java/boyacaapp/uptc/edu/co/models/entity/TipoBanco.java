@@ -1,6 +1,6 @@
 package boyacaapp.uptc.edu.co.models.entity;
 
-public enum TIPO_BANCO {
+public enum TipoBanco {
 	BANCO_AGRARIO("BANCO AGRARIO"),BANCO_AV_VILLAS("BANCO AV VILLAS"),
 	BANCO_BBVA_COLOMBIA("BANCO BBVA COLOMBIA S.A."),BANCO_CAJA_SOCIAL("BANCO CAJA SOCIAL"),
 	BANCO_COOPERATIVO_COOPCENTRAL("BANCO COOPERATIVO COOPCENTRAL"),BANCO_DAVIVIENDA("BANCO DAVIVIENDA"),
@@ -16,7 +16,7 @@ public enum TIPO_BANCO {
 	
 	private String nombre;
 	
-	private TIPO_BANCO(String nombre) {
+	private TipoBanco(String nombre) {
 		this.nombre = nombre;
 	}
 

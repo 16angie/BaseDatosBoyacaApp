@@ -1,4 +1,4 @@
-package boyacaapp.uptc.edu.co;
+package boyacaapp.uptc.edu.co.utils;
 
 import java.security.SecureRandom;
 

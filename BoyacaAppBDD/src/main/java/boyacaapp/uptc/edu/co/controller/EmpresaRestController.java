@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import boyacaapp.uptc.edu.co.models.entity.Almacen;
 import boyacaapp.uptc.edu.co.models.entity.Ciudad;
 import boyacaapp.uptc.edu.co.models.entity.Direccion;
 import boyacaapp.uptc.edu.co.models.entity.Empresa;
+import boyacaapp.uptc.edu.co.models.entity.EstadoObjetoBD;
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
 import boyacaapp.uptc.edu.co.services.IAlmacenService;
 import boyacaapp.uptc.edu.co.services.ICiudadService;
@@ -65,7 +65,11 @@ public class EmpresaRestController {
 	@GetMapping("/encontrarporidrepresentante/{id_representante}")
 	public Empresa showe(@PathVariable Long id_representante){
 		RepresentanteComercial representante =representanteservice.findById(id_representante);
-		return representante.getEmpresa();
+		if (representante.getEmpresa().getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
+			return representante.getEmpresa();
+		}else {
+			return null;
+		}
 	}
 	
 	@PostMapping("/nueva/{id_representante}/{id_ciudad}")
@@ -126,11 +130,13 @@ public class EmpresaRestController {
 		empresaActual.setDireccion(direccioneditar);
 		return empresaService.save(empresaActual);
 	}
-	
-	//hacer que no se elimine sino que se inhabiliten 
+	 
 	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void delete(@PathVariable Long id){
-		empresaService.delete(id);
+		Empresa empresa = empresaService.findById(id);
+		empresa.setEstadoObjeto(EstadoObjetoBD.INACTIVO);
+		empresaService.save(empresa);
+		//empresaService.delete(id);
 	}
 }

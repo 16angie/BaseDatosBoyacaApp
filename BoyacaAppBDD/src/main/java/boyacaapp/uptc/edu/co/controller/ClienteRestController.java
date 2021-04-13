@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import boyacaapp.uptc.edu.co.models.entity.Ciudad;
 import boyacaapp.uptc.edu.co.models.entity.Cliente;
 import boyacaapp.uptc.edu.co.models.entity.Direccion;
+import boyacaapp.uptc.edu.co.models.entity.EstadoObjetoBD;
 import boyacaapp.uptc.edu.co.services.ICiudadService;
 import boyacaapp.uptc.edu.co.services.IClienteService;
 import boyacaapp.uptc.edu.co.services.IDireccionService;
@@ -64,7 +65,7 @@ public class ClienteRestController {
 		Ciudad ciudad = ciudadservice.findById(id_ciudad);
 		direccionservice.save(cliente.getDireccionResidencia());
 		cliente.getDireccionResidencia().setCiudad(ciudad);
-		imagenservice.save(cliente.getImagen());
+		//imagenservice.save(cliente.getImagen());
 		return clienteService.save(cliente);
 	}
 	
@@ -86,12 +87,8 @@ public class ClienteRestController {
 		cliente.setDireccionResidencia(direccion);
 		return clienteService.save(cliente);
 	}
-
 	
 	// TO-DO falta agregar el meetodo de set para la lista de facturas
-	
-	
-	
 	
 	@PutMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -107,8 +104,11 @@ public class ClienteRestController {
 	}
 	
 	@DeleteMapping("/eliminar/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@ResponseStatus(HttpStatus.OK)
 	public void delete(@PathVariable Long id){
-		clienteService.delete(id);
+		Cliente cliente = clienteService.findById(id);
+		cliente.setEstadoObjeto(EstadoObjetoBD.INACTIVO);
+		clienteService.save(cliente);
+		//clienteService.delete(id);
 	}
 }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import boyacaapp.uptc.edu.co.MetodosReusables;
+
 import boyacaapp.uptc.edu.co.models.entity.Almacen;
 import boyacaapp.uptc.edu.co.models.entity.Cliente;
 import boyacaapp.uptc.edu.co.models.entity.Empresa;
@@ -32,6 +32,7 @@ import boyacaapp.uptc.edu.co.services.IImagenService;
 import boyacaapp.uptc.edu.co.services.IProductoService;
 import boyacaapp.uptc.edu.co.services.IRepresentanteComercialService;
 import boyacaapp.uptc.edu.co.services.IUsuariosService;
+import boyacaapp.uptc.edu.co.utils.MetodosReusables;
 
 
 @CrossOrigin(origins= {"http://localhost:4200"})

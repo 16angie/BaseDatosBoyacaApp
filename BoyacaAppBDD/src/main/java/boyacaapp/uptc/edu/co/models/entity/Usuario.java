@@ -4,6 +4,8 @@ package boyacaapp.uptc.edu.co.models.entity;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,5 +51,7 @@ public  class Usuario  {
 	@Column(name ="codigoSerguridad",nullable = true, unique = true)
 	private Long codigoSeguridad;
 	
-
+	@Column(name ="us_estado",nullable = false)
+	@Enumerated(value = EnumType.STRING)
+	private EstadoObjetoBD estadoObjeto;
 }

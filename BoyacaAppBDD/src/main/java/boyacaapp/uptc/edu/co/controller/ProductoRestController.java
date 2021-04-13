@@ -3,8 +3,6 @@ package boyacaapp.uptc.edu.co.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import boyacaapp.uptc.edu.co.dto.ProductoBasicoDto;
 import boyacaapp.uptc.edu.co.models.entity.Almacen;
+import boyacaapp.uptc.edu.co.models.entity.EstadoObjetoBD;
 import boyacaapp.uptc.edu.co.models.entity.Producto;
 import boyacaapp.uptc.edu.co.services.IAlmacenService;
 import boyacaapp.uptc.edu.co.services.IImagenService;
@@ -42,6 +41,18 @@ public class ProductoRestController {
 	
 	@GetMapping("/listar")
 	public List<Producto> index(){
+	
+		List<Producto> listAux = new ArrayList<Producto>();
+		for (Producto pr : productoService.findAll()) {
+			if (pr.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
+				listAux.add(pr);
+			}
+		}
+		return listAux;
+	}
+	
+	@GetMapping("/listartodos")
+	public List<Producto> indextodos(){
 		return productoService.findAll();
 	}
 	
@@ -108,7 +119,6 @@ public class ProductoRestController {
 		return found;
 	}
 	
-	
 	@PostMapping("/nuevo/{id_alamacen}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Producto create(@PathVariable Long id_alamacen,@RequestBody Producto producto){
@@ -116,7 +126,6 @@ public class ProductoRestController {
 		producto.setAlmacen(alamacen);
 		return productoService.save(producto);
 	}
-	
 	
 	@PostMapping("/productos/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -133,6 +142,10 @@ public class ProductoRestController {
 	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void delete(@PathVariable Long id){
-		productoService.delete(id);
+		Producto producto = productoService.findById(id);
+		producto.setEstadoObjeto(EstadoObjetoBD.valueOf("INACTIVO"));
+		productoService.save(producto);
+		//return producto.getEstadoObjeto().getEstado();
+		//productoService.delete(id);
 	}
 }

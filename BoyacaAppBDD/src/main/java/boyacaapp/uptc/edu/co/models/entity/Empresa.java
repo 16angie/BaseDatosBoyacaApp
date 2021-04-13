@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -22,8 +21,7 @@ import lombok.Data;
 @Table(name="empresas")
 @Data
 public class Empresa  implements Serializable{
-	
-	
+		
 	/**
 	 *
 	 */
@@ -47,6 +45,9 @@ public class Empresa  implements Serializable{
 	@Enumerated(value = EnumType.STRING)
 	private Categoria categoria;
 	
+	@Column(name ="em_estado",nullable = false)
+	@Enumerated(value = EnumType.STRING)
+	private EstadoObjetoBD estadoObjeto;
 	
 	@OneToOne
 	private Direccion direccion;
@@ -59,10 +60,8 @@ public class Empresa  implements Serializable{
 	//@JsonIgnoreProperties("empresa")
 	private RepresentanteComercial representante;
 	
-	
 	@OneToMany(mappedBy = "empresa",fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(ignoreUnknown = true, value="empresa")
 	private List<Almacen> listaDeAlamacenes = new ArrayList<Almacen>();
-	
 
 }

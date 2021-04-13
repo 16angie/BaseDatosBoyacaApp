@@ -41,7 +41,7 @@ public class Envio {
 	
 	@Column(name="env_estado_envio", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private ESTADO_ENVIO estado_envio;
+	private EstadoEnvio estado_envio;
 	
 	
 }

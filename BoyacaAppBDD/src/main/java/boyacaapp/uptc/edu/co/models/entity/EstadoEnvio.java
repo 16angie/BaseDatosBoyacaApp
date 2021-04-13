@@ -1,13 +1,13 @@
 package boyacaapp.uptc.edu.co.models.entity;
 
-public enum ESTADO_ENVIO {
+public enum EstadoEnvio {
 
 	
 	ENVIADO("Enviado"),RECIBIDO("Recibido"),DEVUELTO("Devuelto");
 	
 	private String nombre;
 	
-	private ESTADO_ENVIO(String nombre) {
+	private EstadoEnvio(String nombre) {
 		this.nombre = nombre;
 	}
 

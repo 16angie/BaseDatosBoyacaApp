@@ -38,7 +38,7 @@ public class CuentaBancaria {
 	
 	@Column(name="cu_tipoBanco", nullable = false)
 	@Enumerated(value = EnumType.STRING)
-	private TIPO_BANCO tipoBanco;
+	private TipoBanco tipoBanco;
 	
 	
 	@Column(name="cu_nit_tipoCuenta", nullable = false)

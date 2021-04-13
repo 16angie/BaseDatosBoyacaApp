@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import boyacaapp.uptc.edu.co.dto.RepresentantesEmpresaDto;
+import boyacaapp.uptc.edu.co.models.entity.EstadoObjetoBD;
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
 import boyacaapp.uptc.edu.co.models.entity.Usuario;
 import boyacaapp.uptc.edu.co.services.IImagenService;
@@ -90,8 +91,11 @@ public class RepresentanteComercialRestController {
 	//TODO servicio para actualizar la cuenta solita!!!!!!
 	
 	@DeleteMapping("/borrar/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@ResponseStatus(HttpStatus.OK)
 	public void delete(@PathVariable Long id){
-		representanteComercialService.delete(id);
+		RepresentanteComercial representanteComercialActual = representanteComercialService.findById(id);
+		representanteComercialActual.setEstadoObjeto(EstadoObjetoBD.INACTIVO);
+		representanteComercialService.save(representanteComercialActual);
+		//representanteComercialService.delete(id);
 	}
 }

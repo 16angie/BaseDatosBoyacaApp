@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -50,6 +52,9 @@ public class Almacen implements Serializable{
 	@Column(name ="al_telefono",nullable = false, length = 10)
 	private String telefono;
 	
+	@Column(name ="al_estado",nullable = false)
+	@Enumerated(value = EnumType.STRING)
+	private EstadoObjetoBD estadoObjeto;
 	
 	@OneToOne
 	@JsonIgnoreProperties("direccion")
