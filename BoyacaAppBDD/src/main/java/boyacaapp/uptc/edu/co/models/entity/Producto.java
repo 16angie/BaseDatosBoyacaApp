@@ -30,9 +30,9 @@ public class Producto {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idProducto;
 	
-	@Column(name ="pro_estado",nullable = false)
+	@Column(name ="pro_estado",nullable = true)
 	@Enumerated(value = EnumType.STRING)
-	private EstadoObjetoBD estadoObjeto;
+	private EstadoObjetoBD estadoObjeto = EstadoObjetoBD.ACTIVO;
 	
 	@Column(name ="pro_nombre",nullable = false)
 	private String nombre;

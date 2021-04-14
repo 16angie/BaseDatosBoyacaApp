@@ -51,7 +51,7 @@ public  class Usuario  {
 	@Column(name ="codigoSerguridad",nullable = true, unique = true)
 	private Long codigoSeguridad;
 	
-	@Column(name ="us_estado",nullable = false)
+	@Column(name ="us_estado",nullable = true)
 	@Enumerated(value = EnumType.STRING)
-	private EstadoObjetoBD estadoObjeto;
+	private EstadoObjetoBD estadoObjeto = EstadoObjetoBD.ACTIVO;
 }

@@ -52,9 +52,9 @@ public class Almacen implements Serializable{
 	@Column(name ="al_telefono",nullable = false, length = 10)
 	private String telefono;
 	
-	@Column(name ="al_estado",nullable = false)
+	@Column(name ="al_estado",nullable = true)
 	@Enumerated(value = EnumType.STRING)
-	private EstadoObjetoBD estadoObjeto;
+	private EstadoObjetoBD estadoObjeto = EstadoObjetoBD.ACTIVO;
 	
 	@OneToOne
 	@JsonIgnoreProperties("direccion")

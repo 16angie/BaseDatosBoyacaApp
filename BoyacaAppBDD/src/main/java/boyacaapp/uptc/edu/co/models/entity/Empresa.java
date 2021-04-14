@@ -45,9 +45,9 @@ public class Empresa  implements Serializable{
 	@Enumerated(value = EnumType.STRING)
 	private Categoria categoria;
 	
-	@Column(name ="em_estado",nullable = false)
+	@Column(name ="em_estado",nullable = true)
 	@Enumerated(value = EnumType.STRING)
-	private EstadoObjetoBD estadoObjeto;
+	private EstadoObjetoBD estadoObjeto = EstadoObjetoBD.ACTIVO;
 	
 	@OneToOne
 	private Direccion direccion;
