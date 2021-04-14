@@ -57,8 +57,8 @@ public class CaracteristicaRestController {
 		
 		if(p!=null) {
 			for (Caracteristica caracteristica : lista) {
-				caracteristicaService.save(caracteristica);
 				p.getListaCaracteristicas().add(caracteristica);
+				caracteristicaService.save(caracteristica);
 			}
 		}
 		productoService.save(p);
