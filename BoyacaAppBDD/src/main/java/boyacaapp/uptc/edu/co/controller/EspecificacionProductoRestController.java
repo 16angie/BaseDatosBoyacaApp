@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import boyacaapp.uptc.edu.co.models.entity.EspecificacionProducto;
 import boyacaapp.uptc.edu.co.models.entity.Producto;
 import boyacaapp.uptc.edu.co.services.IEspecificacionProductoService;
@@ -77,10 +76,14 @@ public class EspecificacionProductoRestController {
 		return especificacionService.save(especificacionActual);
 	}
 	
-	@DeleteMapping("/eliminar/{id}")
+	@DeleteMapping("/eliminar/{id_especificacion}/id_prodcuto")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable Long id){
-		// to do como caracteristicas
-		especificacionService.delete(id);
+	public void delete(@PathVariable Long id_especificacion,@PathVariable Long id_prodcuto){
+		Producto producto = productoService.findById(id_prodcuto);
+		EspecificacionProducto especificacion = especificacionService.findById(id_especificacion);
+		if(producto.getListaDeEspecificaciones().contains(especificacion)) {
+			producto.getListaDeEspecificaciones().remove(especificacion);
+		}
+		especificacionService.delete(id_especificacion);
 	}
 }

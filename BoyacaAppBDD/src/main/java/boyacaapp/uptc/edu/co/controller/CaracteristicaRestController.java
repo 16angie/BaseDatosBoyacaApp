@@ -78,7 +78,9 @@ public class CaracteristicaRestController {
 	public void delete(@PathVariable Long id, @PathVariable Long id_prodcuto){
 		Producto producto = productoService.findById(id_prodcuto);
 		Caracteristica caracteristicaActual = caracteristicaService.findById(id);
-	// por hacer //
+		if(producto.getListaCaracteristicas().contains(caracteristicaActual)) {
+			producto.getListaCaracteristicas().remove(caracteristicaActual);
+		}
 		caracteristicaService.delete(id);
 	}
 }
