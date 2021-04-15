@@ -39,7 +39,7 @@ public class ProductoRestController {
 	@Autowired
 	IImagenService imagenesservice;
 	
-	@GetMapping("/listar")
+	@GetMapping("/listarcompleto")
 	public List<Producto> index(){
 	
 		List<Producto> listAux = new ArrayList<Producto>();
@@ -50,6 +50,28 @@ public class ProductoRestController {
 		}
 		return listAux;
 	}
+	
+	
+	@GetMapping("/listarhome")
+	public List<ProductoBasicoDto> indexdto(){
+		List<ProductoBasicoDto> listAux = new ArrayList<ProductoBasicoDto>();
+		for (Producto pr : productoService.findAll()) {
+			if (pr.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
+				ProductoBasicoDto productoBasico = new ProductoBasicoDto();
+				productoBasico.setIdProducto(pr.getIdProducto());
+				productoBasico.setNombre(pr.getNombre());
+				productoBasico.setPrecio(pr.getPrecio());
+				productoBasico.setStock(pr.getStock_total());
+				productoBasico.setGenero(pr.getGenero().getNombre());
+				if (!pr .getListaImagenes().isEmpty()) {
+					productoBasico.setImagenIlustrativa(pr .getListaImagenes().get(0));
+				}
+				listAux.add(productoBasico);
+			}
+		}
+		return listAux;
+	}
+	
 	
 	@GetMapping("/listartodos")
 	public List<Producto> indextodos(){
