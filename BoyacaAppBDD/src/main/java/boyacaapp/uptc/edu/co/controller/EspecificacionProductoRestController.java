@@ -46,6 +46,7 @@ public class EspecificacionProductoRestController {
 	public EspecificacionProducto create(@RequestBody EspecificacionProducto id,@PathVariable Long id_producto){
 		Producto p = productoService.findById(id_producto);
 		p.getListaDeEspecificaciones().add(id);
+		id.setProducto_e(p);
 		return especificacionService.save(id);
 	}
 	
@@ -54,7 +55,6 @@ public class EspecificacionProductoRestController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createsome(@RequestBody List<EspecificacionProducto> lista, @PathVariable Long id_producto){
 		Producto p = productoService.findById(id_producto);
-		
 		if(p!=null) {
 			for (EspecificacionProducto especificacionProducto : lista) {
 				p.getListaDeEspecificaciones().add(especificacionProducto);
@@ -62,22 +62,25 @@ public class EspecificacionProductoRestController {
 			}
 		}
 		productoService.save(p);
-		//return especificacionService.save(id);
 	}
+	
+	
+	// arreglar ajajaj urgente 
 	
 	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public EspecificacionProducto update(@RequestBody EspecificacionProducto especificacion, @PathVariable Long id){
 		EspecificacionProducto especificacionActual = especificacionService.findById(id);
-		especificacionActual.setCantidad(especificacion.getCantidad());
+
 		especificacionActual.setIdEspecificacion(especificacion.getIdEspecificacion());
-		especificacionActual.setNombre(especificacion.getNombre());
+	
 		return especificacionService.save(especificacionActual);
 	}
 	
 	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
+		// to do como caracteristicas
 		especificacionService.delete(id);
 	}
 }

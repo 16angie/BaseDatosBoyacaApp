@@ -75,7 +75,8 @@ public class Producto {
 	private List<Caracteristica> listaCaracteristicas = new ArrayList<Caracteristica>();
 	
 	
-	@OneToMany
+	@OneToMany(mappedBy = "producto_e",fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("producto_e")
 	private List<EspecificacionProducto> listaDeEspecificaciones = new ArrayList<EspecificacionProducto>();
 	
 	
