@@ -71,6 +71,8 @@ public class ProductoRestController {
 				productoBasico.setIdProducto(producto.getIdProducto());
 				productoBasico.setNombre(producto.getNombre());
 				productoBasico.setPrecio(producto.getPrecio());
+				productoBasico.setStock(producto.getStock_total());
+				productoBasico.setGenero(producto.getGenero().getNombre());
 				if (!producto.getListaImagenes().isEmpty()) {
 					productoBasico.setImagenIlustrativa(producto.getListaImagenes().get(0));
 				}
@@ -89,6 +91,8 @@ public class ProductoRestController {
 				productoBasico.setIdProducto(producto.getIdProducto());
 				productoBasico.setNombre(producto.getNombre());
 				productoBasico.setPrecio(producto.getPrecio());
+				productoBasico.setStock(producto.getStock_total());
+				productoBasico.setGenero(producto.getGenero().getNombre());
 				if (!producto.getListaImagenes().isEmpty()) {
 					productoBasico.setImagenIlustrativa(producto.getListaImagenes().get(0));
 				}
@@ -110,6 +114,8 @@ public class ProductoRestController {
 				productoBasico.setIdProducto(producto.getIdProducto());
 				productoBasico.setNombre(producto.getNombre());
 				productoBasico.setPrecio(producto.getPrecio());
+				productoBasico.setStock(producto.getStock_total());
+				productoBasico.setGenero(producto.getGenero().getNombre());
 				if (!producto.getListaImagenes().isEmpty()) {
 					productoBasico.setImagenIlustrativa(producto.getListaImagenes().get(0));
 				}

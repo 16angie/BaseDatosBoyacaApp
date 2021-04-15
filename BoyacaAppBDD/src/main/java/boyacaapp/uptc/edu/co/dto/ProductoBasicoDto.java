@@ -10,4 +10,7 @@ public class ProductoBasicoDto {
 	private String nombre;
 	private double precio;
 	private Imagen imagenIlustrativa;
+	private String genero; 
+	private int stock;
+	
 }

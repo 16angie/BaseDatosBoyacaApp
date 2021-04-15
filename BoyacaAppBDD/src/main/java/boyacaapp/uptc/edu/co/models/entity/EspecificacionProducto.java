@@ -22,10 +22,10 @@ public class EspecificacionProducto {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idEspecificacion;
 	
-	@Column(name ="esp_nombre",nullable = false)
+	@Column(name ="esp_nombre",nullable = true)
 	private String nombreEspecificacionPrimaria;
 	
-	@Column(name ="esp_detalle",nullable = false)
+	@Column(name ="esp_detalle",nullable = true)
 	private String detalleEspecificacionPrimaria;
 	
 	
@@ -44,6 +44,7 @@ public class EspecificacionProducto {
 	// cantidadEspecificacionPrimaria = 3
 	// detallesecundario color 
 	// amarillo 
+	/// De la talla L y el color azul hay 3.
 	
 	
 	@ManyToOne
