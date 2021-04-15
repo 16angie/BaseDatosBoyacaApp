@@ -29,11 +29,10 @@ public class Caracteristica {
 	@Column(name ="ca_descripcion",nullable = false)
 	private String descripcion;
 	
+	
 	@ManyToOne
 	@JoinColumn(name ="id_producto")
-	@JsonIgnoreProperties("caracteristicas")
+	@JsonIgnoreProperties("listaCaracteristicas")
 	private Producto producto;
-	
-	
 	
 }

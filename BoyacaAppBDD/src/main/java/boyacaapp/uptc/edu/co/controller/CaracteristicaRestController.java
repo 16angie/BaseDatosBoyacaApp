@@ -46,8 +46,8 @@ public class CaracteristicaRestController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Caracteristica create(@PathVariable Long id_producto,@RequestBody Caracteristica caracteristica){
 		Producto producto = productoService.findById(id_producto);
-		producto.getListaCaracteristicas().add(caracteristica);
 		caracteristica.setProducto(producto);
+		producto.getListaCaracteristicas().add(caracteristica);
 		return caracteristicaService.save(caracteristica);
 	}
 	
@@ -73,9 +73,12 @@ public class CaracteristicaRestController {
 		return caracteristicaService.save(caracteristicaActual);
 	}
 	
-	@DeleteMapping("/eliminar/{id}")
+	@DeleteMapping("/eliminar/{id_caracterstica}/{id_prodcuto}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable Long id){
+	public void delete(@PathVariable Long id, @PathVariable Long id_prodcuto){
+		Producto producto = productoService.findById(id_prodcuto);
+		Caracteristica caracteristicaActual = caracteristicaService.findById(id);
+	// por hacer //
 		caracteristicaService.delete(id);
 	}
 }
