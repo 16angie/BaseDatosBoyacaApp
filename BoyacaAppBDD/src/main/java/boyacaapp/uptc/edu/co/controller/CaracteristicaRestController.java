@@ -46,6 +46,7 @@ public class CaracteristicaRestController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Caracteristica create(@PathVariable Long id_producto,@RequestBody Caracteristica caracteristica){
 		Producto producto = productoService.findById(id_producto);
+		producto.getListaCaracteristicas().add(caracteristica);
 		caracteristica.setProducto(producto);
 		return caracteristicaService.save(caracteristica);
 	}
@@ -54,7 +55,6 @@ public class CaracteristicaRestController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createsome(@RequestBody List<Caracteristica> lista, @PathVariable Long id_producto){
 		Producto p = productoService.findById(id_producto);
-		
 		if(p!=null) {
 			for (Caracteristica caracteristica : lista) {
 				p.getListaCaracteristicas().add(caracteristica);
