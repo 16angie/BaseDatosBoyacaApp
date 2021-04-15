@@ -41,11 +41,14 @@ public class EspecificacionProductoRestController {
 		return especificacionService.findById(id);
 	}
 	
-	@PostMapping("/nueva")
+	@PostMapping("/nueva/{id_producto}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public EspecificacionProducto create(@RequestBody EspecificacionProducto id){
+	public EspecificacionProducto create(@RequestBody EspecificacionProducto id,@PathVariable Long id_producto){
+		Producto p = productoService.findById(id_producto);
+		p.getListaDeEspecificaciones().add(id);
 		return especificacionService.save(id);
 	}
+	
 	
 	@PostMapping("/nuevasparaproducto/{id_producto}")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -54,8 +57,8 @@ public class EspecificacionProductoRestController {
 		
 		if(p!=null) {
 			for (EspecificacionProducto especificacionProducto : lista) {
-				especificacionService.save(especificacionProducto);
 				p.getListaDeEspecificaciones().add(especificacionProducto);
+				especificacionService.save(especificacionProducto);
 			}
 		}
 		productoService.save(p);
