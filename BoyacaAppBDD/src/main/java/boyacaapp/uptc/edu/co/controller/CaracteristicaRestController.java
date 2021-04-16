@@ -75,12 +75,12 @@ public class CaracteristicaRestController {
 	
 	@DeleteMapping("/eliminar/{id_caracterstica}/{id_prodcuto}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable Long id, @PathVariable Long id_prodcuto){
+	public void delete(@PathVariable Long id_caracterstica, @PathVariable Long id_prodcuto){
 		Producto producto = productoService.findById(id_prodcuto);
-		Caracteristica caracteristicaActual = caracteristicaService.findById(id);
+		Caracteristica caracteristicaActual = caracteristicaService.findById(id_caracterstica);
 		if(producto.getListaCaracteristicas().contains(caracteristicaActual)) {
 			producto.getListaCaracteristicas().remove(caracteristicaActual);
 		}
-		caracteristicaService.delete(id);
+		caracteristicaService.delete(id_caracterstica);
 	}
 }
