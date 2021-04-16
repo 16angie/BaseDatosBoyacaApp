@@ -76,7 +76,7 @@ public class EspecificacionProductoRestController {
 		return especificacionService.save(especificacionActual);
 	}
 	
-	@DeleteMapping("/eliminar/{id_especificacion}/id_prodcuto")
+	@DeleteMapping("/eliminar/{id_especificacion}/{id_prodcuto}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id_especificacion,@PathVariable Long id_prodcuto){
 		Producto producto = productoService.findById(id_prodcuto);
