@@ -20,11 +20,13 @@ import boyacaapp.uptc.edu.co.models.entity.Ciudad;
 import boyacaapp.uptc.edu.co.models.entity.Direccion;
 import boyacaapp.uptc.edu.co.models.entity.Empresa;
 import boyacaapp.uptc.edu.co.models.entity.EstadoObjetoBD;
+import boyacaapp.uptc.edu.co.models.entity.Producto;
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
 import boyacaapp.uptc.edu.co.services.IAlmacenService;
 import boyacaapp.uptc.edu.co.services.ICiudadService;
 import boyacaapp.uptc.edu.co.services.IDireccionService;
 import boyacaapp.uptc.edu.co.services.IEmpresaService;
+import boyacaapp.uptc.edu.co.services.IProductoService;
 import boyacaapp.uptc.edu.co.services.IRepresentanteComercialService;
 
 @CrossOrigin(origins= {"http://localhost:4200"}) // este es para comentariar al frontend
@@ -44,6 +46,9 @@ public class AlmacenRestController {
 	
 	@Autowired
 	IEmpresaService empresaservice;
+	
+	@Autowired
+	IProductoService productoService;
 	
 	@Autowired
 	IRepresentanteComercialService representanteService;
@@ -122,6 +127,13 @@ public class AlmacenRestController {
 	@ResponseStatus(HttpStatus.OK)
 	public void delete(@PathVariable Long id){
 		Almacen almacen = almacenService.findById(id);
+		if (!almacen.getListaProductos().isEmpty()) {
+			for (Producto prod : almacen.getListaProductos()) {
+				Producto producto = productoService.findById(prod.getIdProducto());
+				producto.setEstadoObjeto(EstadoObjetoBD.valueOf("INACTIVO"));
+				productoService.save(producto);
+			}
+		}
 		almacen.setEstadoObjeto(EstadoObjetoBD.INACTIVO);
 		almacenService.save(almacen);
 		//almacenService.delete(id);

@@ -51,6 +51,19 @@ public class ProductoRestController {
 		return listAux;
 	}
 	
+	@GetMapping("/listarporalmacen/{idalmacen}")
+	public List<Producto> listarPorAlmacen(@PathVariable Long idalmacen){
+		Almacen almacen = alamacenservice.findById(idalmacen);
+		List<Producto> listAux = new ArrayList<Producto>();
+		if (!almacen.getListaProductos().isEmpty()) {
+			for (Producto pr : almacen.getListaProductos()) {
+				if (pr.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
+					listAux.add(pr);
+				}
+			}
+		}
+		return listAux;
+	}
 	
 	@GetMapping("/listarhome")
 	public List<ProductoBasicoDto> indexdto(){
