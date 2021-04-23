@@ -40,6 +40,6 @@ public class DetalleCompra {
 	private Producto producto;
 	
 	public void calcularCostoEnvio() {
-		// TO-DO
+		
 	}
 }

@@ -77,6 +77,22 @@ public class ProductoRestController {
 	public List<Producto> indextodos(){
 		return productoService.findAll();
 	}
+
+	
+	@GetMapping("/encontrarporidhome/{id}")
+	public ProductoBasicoDto showhome(@PathVariable Long id){
+		Producto producto = productoService.findById(id);
+		ProductoBasicoDto productoBasico = new ProductoBasicoDto();
+		productoBasico.setIdProducto(producto.getIdProducto());
+		productoBasico.setNombre(producto.getNombre());
+		productoBasico.setPrecio(producto.getPrecio());
+		productoBasico.setStock(producto.getStock_total());
+		productoBasico.setGenero(producto.getGenero().getNombre());
+		if (!producto.getListaImagenes().isEmpty()) {
+			productoBasico.setImagenIlustrativa(producto.getListaImagenes().get(0));
+		}
+		return productoBasico;
+	}
 	
 	@GetMapping("/encontrarporid/{id}")
 	public Producto show(@PathVariable Long id){

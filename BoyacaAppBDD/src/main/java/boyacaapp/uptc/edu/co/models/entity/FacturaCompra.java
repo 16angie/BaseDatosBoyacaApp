@@ -47,12 +47,13 @@ public class FacturaCompra implements Serializable{
 	
 	@Column(name="com_estado_de_compra", nullable = false)
 	@Enumerated(value = EnumType.STRING)
-	private EstadoCompra estadodelacompra;
+	private EstadoCompra estadodelacompra = EstadoCompra.EN_PROCESO;
 	
 
 	
 	@ManyToOne
 	private Cliente cliente;
+	
 	
 	@OneToMany
 	private List<DetalleCompra> detalleCompra;
