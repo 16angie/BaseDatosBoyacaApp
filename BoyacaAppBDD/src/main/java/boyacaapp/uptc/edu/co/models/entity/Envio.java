@@ -19,6 +19,13 @@ import lombok.Data;
 @Entity 
 @Table(name="envios")
 @Data
+
+/**
+ * el Envío define un nvío de uno o varios productos a un destinatario
+ * el estado del envío especifica en que estado se encuentra en un momento determinado
+ * @author Diian_Ramirez
+ *
+ */
 public class Envio {
 
 	@Id   
@@ -43,5 +50,6 @@ public class Envio {
 	@Enumerated(EnumType.STRING)
 	private EstadoEnvio estado_envio;
 	
-	
+	@OneToOne
+	private Domicilio domicilio;
 }

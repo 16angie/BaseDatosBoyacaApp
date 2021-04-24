@@ -20,11 +20,13 @@ import lombok.Data;
 @Entity 
 @Table(name="empresas")
 @Data
+
+/**
+* La empresa es aquella que ofrecerá productos en diferentes almacenes o sedes de ella.
+* el ESTADO de la emprea define si está activa (o disponible) o si no lo está
+*/
 public class Empresa  implements Serializable{
 		
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -63,5 +65,4 @@ public class Empresa  implements Serializable{
 	@OneToMany(mappedBy = "empresa",fetch = FetchType.LAZY)
 	@JsonIgnoreProperties(ignoreUnknown = true, value="empresa")
 	private List<Almacen> listaDeAlamacenes = new ArrayList<Almacen>();
-
 }

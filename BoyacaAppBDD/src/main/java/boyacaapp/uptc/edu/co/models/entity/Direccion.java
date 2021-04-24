@@ -17,11 +17,13 @@ import lombok.Data;
 @Entity 
 @Table(name="direcciones")
 @Data
+
+/**
+ * la clase dirección registra una ubicación dentro de una ciudad específica
+ * por tanto depende de una ciudad para poderse establecer
+ */
 public class Direccion implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id   
@@ -42,5 +44,4 @@ public class Direccion implements Serializable{
 	
 	@ManyToOne
 	private Ciudad ciudad;
-
 }

@@ -1,7 +1,4 @@
 package boyacaapp.uptc.edu.co.models.entity;
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -24,8 +21,13 @@ import lombok.Data;
 @Entity 
 @Table(name="productos")
 @Data
+/**
+ * Se define un producto que será ofertado y/o adquirido.
+ * "genero" define la categoría de clasificación del producto.
+ * @author Diian_Ramirez
+ *
+ */
 public class Producto {
-	
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -54,36 +56,23 @@ public class Producto {
 	
 	@Column(name ="pro_precio_envio",nullable = false)
 	private double precio_envio;
-	
 
 	@ManyToOne
 	@JoinColumn(name ="id_almacen")
 	@JsonIgnoreProperties("listaProductos")
 	private Almacen almacen;
-	
-	
-	/*
-	 * 
-	 * 
-	 * 
-	 */
-	
-
-	
+		
 	@OneToMany(mappedBy = "producto",fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("producto")
 	private List<Caracteristica> listaCaracteristicas = new ArrayList<Caracteristica>();
-	
 	
 	@OneToMany(mappedBy = "producto_e",fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("producto_e")
 	private List<EspecificacionProducto> listaDeEspecificaciones = new ArrayList<EspecificacionProducto>();
 	
-	
 	@OneToMany
 	private List<Imagen> listaImagenes = new ArrayList<Imagen>();
 	
-
 	/*
 	@Column(name ="pro_caracterisicas_des",nullable = false)
 	private ArrayList<String> descripcion_algunas_caracteristicas = new ArrayList<>();

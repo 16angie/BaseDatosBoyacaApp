@@ -28,7 +28,5 @@ public class Imagen {
 	private String tipo ;
 	
 	@Column(name = "tamanoimagen")
-    private Long tamano; 
-	
-	
+    private Long tamano; 	
 }

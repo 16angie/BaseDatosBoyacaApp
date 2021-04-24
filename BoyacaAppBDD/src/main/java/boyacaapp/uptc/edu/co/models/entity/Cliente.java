@@ -13,10 +13,15 @@ import lombok.Data;
 @Table(name ="cliente")
 @Data
 @DiscriminatorValue(value="CLIENTE")
+
+/**
+ * la clase Cliente hace referencia al rol de usuario que realiza compras y adquiere productos,
+ *  es quien consume dichos productos
+ * @author Diian_Ramirez
+ *
+ */
 public class Cliente extends Usuario{
 	
 	@OneToOne
 	private Direccion direccionResidencia;
-	
-
 }

@@ -18,7 +18,10 @@ import lombok.Data;
 @Data
 public class Caracteristica {
 	
-	
+	/**
+	 * Carácterística de un producto 
+	 * una cualidad del producto que se necesita detallar
+	 */
 	@Id   
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_caracteristica;
@@ -33,6 +36,5 @@ public class Caracteristica {
 	@ManyToOne
 	@JoinColumn(name ="id_producto")
 	@JsonIgnoreProperties("listaCaracteristicas")
-	private Producto producto;
-	
+	private Producto producto;	
 }

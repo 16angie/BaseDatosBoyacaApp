@@ -1,8 +1,13 @@
 package boyacaapp.uptc.edu.co.models.entity;
 
+/**
+ * se define el tipo de una empresa según los tipos presentes en Colombia.
+ * @author Diian_Ramirez
+ */
 public enum TipoDeEmpresa {
 	
-	SAS("S.A.S"),LTD("LTA"),SA("S.A"),SCA("S.C.A"),CIA("&CIA"),SOCIEDAD_COLECTIVA("SOCIEDAD COLECTICA "),S_EN_C(" S.EN.C ");
+	SAS("S.A.S"),LTD("LTA"),SA("S.A"),SCA("S.C.A"),CIA("&CIA"),
+	SOCIEDAD_COLECTIVA("SOCIEDAD COLECTICA "),S_EN_C(" S.EN.C ");
 	
 	private String nombre;
 
@@ -17,5 +22,4 @@ public enum TipoDeEmpresa {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
 }

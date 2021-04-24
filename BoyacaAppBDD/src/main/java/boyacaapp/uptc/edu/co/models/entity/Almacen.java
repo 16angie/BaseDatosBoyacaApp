@@ -30,10 +30,10 @@ import lombok.EqualsAndHashCode;
 public class Almacen implements Serializable{
 
 	/**
-	 * 
+	 * La clase almacén hace referencia a una sede de una empresa, es decir, un punto de venta especifico
+	 * de la empresa
 	 */
 	private static final long serialVersionUID = 1L;
-	
 	
 	@Id   
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -44,7 +44,6 @@ public class Almacen implements Serializable{
 	
 	@Column(name ="al_nombre_Persona_Acargo",nullable = false)
 	private  String nombrePersonaAcargo;
-	
 	
 	@Column(name ="al_email",nullable = false)
 	private String email;
@@ -68,6 +67,5 @@ public class Almacen implements Serializable{
 	
 	@OneToMany(mappedBy = "almacen",fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("almacen")
-	private List<Producto> listaProductos = new ArrayList<Producto>();
-	
+	private List<Producto> listaProductos = new ArrayList<Producto>();	
 }

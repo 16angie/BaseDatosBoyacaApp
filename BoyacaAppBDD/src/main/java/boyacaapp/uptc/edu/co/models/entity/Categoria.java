@@ -4,7 +4,8 @@ public enum Categoria {
 	
 	
 	/**
-	 * alguanas categorias son para empresas y para productos. 
+	 * algunas categorias son para empresas y otras son para productos. 
+	 * en el constructor se define a que entidad pertenece cada definición de categoría
 	 */
 	
 	NINO("Niño","Producto"), NINA("Niña","Producto"), HOMBRE("Hombre","Producto"), 
@@ -35,7 +36,5 @@ public enum Categoria {
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
-	}
-	
-	
+	}	
 }

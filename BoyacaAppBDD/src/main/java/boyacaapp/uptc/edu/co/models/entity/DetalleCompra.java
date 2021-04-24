@@ -17,6 +17,11 @@ import lombok.Data;
 @Data
 public class DetalleCompra {
 	
+	/**
+	 * Define un detalle de una compra, ejemplo: "1 ruana $30000"
+	 * la compra puede tener muchos detalles de compra
+	 */
+	
 	@Id   
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_detalles;

@@ -1,6 +1,5 @@
 package boyacaapp.uptc.edu.co.models.entity;
 
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -21,6 +20,14 @@ import lombok.Data;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name ="us_tipo")
 @Data
+/**
+ * Se define un usuario general del sistema, con sus características básicas.
+ * "Codigo de seguridad" establece el código que se envía para recuperar cuenta de usuario.
+ * "estado" define si se encuentra Activo o Inactivo dentro del sistema.
+ * "email" y "contraseña" definen las credenciales necesarias para ingreso al sistema.
+ * @author Diian_Ramirez
+ *
+ */
 public  class Usuario  {
 	
 	@Id   

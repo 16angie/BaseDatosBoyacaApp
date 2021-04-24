@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import boyacaapp.uptc.edu.co.models.entity.DetalleCompra;
+import boyacaapp.uptc.edu.co.models.entity.FacturaCompra;
+import boyacaapp.uptc.edu.co.services.ICompraFacturaService;
 import boyacaapp.uptc.edu.co.services.IDetallesCompraService;
-
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
@@ -25,10 +25,12 @@ public class DetalleCompraRestController {
 	@Autowired
 	IDetallesCompraService detalleCompraService;
 	
+	@Autowired
+	ICompraFacturaService facturaService;
+	
 	@GetMapping("/listar")
 	public List<DetalleCompra> index(){
 		return detalleCompraService.findAll();
-		
 	}
 	
 	@GetMapping("/listarporid/{id}")
@@ -36,10 +38,12 @@ public class DetalleCompraRestController {
 		return detalleCompraService.findById(id);
 	}
 	
-	@PostMapping("/nuevo")
+	@PostMapping("/nuevo/{idfactura}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public DetalleCompra create(@RequestBody DetalleCompra id){
-		return detalleCompraService.save(id);
+	public DetalleCompra create(@RequestBody DetalleCompra detalle, @PathVariable Long idfactura){
+		FacturaCompra compra = facturaService.findById(idfactura);
+		detalle.setFactura(compra);
+		return detalleCompraService.save(detalle);
 	}
 	
 	@PostMapping("/actualizar/{id}")
@@ -54,7 +58,7 @@ public class DetalleCompraRestController {
 	}
 	
 	@DeleteMapping("/eliminar/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@ResponseStatus(HttpStatus.OK)
 	public void delete(@PathVariable Long id){
 		detalleCompraService.delete(id);
 	}

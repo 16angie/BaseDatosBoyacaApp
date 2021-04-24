@@ -16,6 +16,15 @@ import lombok.Data;
 @Entity 
 @Table(name="especificacion")
 @Data
+
+/**
+ * la especificación define características numéricas y contables de un producto.
+ * ejemplo:  nombreEspecificacionPrimaria: talla //  detalleEspecificacionPrimaria : L //cantidadEspecificacionPrimaria = 3;
+	 nombreEspecifSecundaria: color // detallesecundario:  amarillo // cantidad: 3.
+	 El resultado del ejemplo sería: del producto X, De la talla L y el color amarillo hay 3.
+ * @author Diian_Ramirez
+ *
+ */
 public class EspecificacionProducto {
 		
 	@Id
@@ -28,7 +37,6 @@ public class EspecificacionProducto {
 	@Column(name ="esp_detalle",nullable = true)
 	private String detalleEspecificacionPrimaria;
 	
-	
 	@Column(name ="esp_nombre_secundario",nullable = true)
 	private String nombreEspecificacionsecundaria;
 	
@@ -39,19 +47,8 @@ public class EspecificacionProducto {
 	@Column(name ="eso_cantidad_primaria",nullable = false)
 	private int cantidadEspecificacionPrimaria;
 	
-	
-	// ejemplo   nombreEspecificacionPrimaria talla //  detalleEspecificacionPrimaria(L) 
-	// cantidadEspecificacionPrimaria = 3
-	// detallesecundario color 
-	// amarillo 
-	/// De la talla L y el color azul hay 3.
-	
-	
 	@ManyToOne
 	@JoinColumn(name ="id_prodcuto")
 	@JsonIgnoreProperties("listaDeEspecificaciones")
 	Producto producto_e;
-	
-	
-	
 }

@@ -1,5 +1,9 @@
 package boyacaapp.uptc.edu.co.models.entity;
 
+/**
+ * TipoBanco define los bancos presentes en Colombia para vincular a una cuenta bancaria
+ * @author Diian_Ramirez
+ */
 public enum TipoBanco {
 	BANCO_AGRARIO("BANCO AGRARIO"),BANCO_AV_VILLAS("BANCO AV VILLAS"),
 	BANCO_BBVA_COLOMBIA("BANCO BBVA COLOMBIA S.A."),BANCO_CAJA_SOCIAL("BANCO CAJA SOCIAL"),
@@ -12,7 +16,6 @@ public enum TipoBanco {
 	CFA_COOPERATIVA_FINANCIERA("CFA COOPERATIVA FINANCIERA"),CITIBANK("CITIBANK"),
 	CONFIAR_COOPERATIVA_FINANCIERA("CONFIAR COOPERATIVA FINANCIERA"),
 	SCOTIABANK_COLPATRIA("SCOTIABANK COLPATRIA");
-	
 	
 	private String nombre;
 	
@@ -27,5 +30,4 @@ public enum TipoBanco {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
 }

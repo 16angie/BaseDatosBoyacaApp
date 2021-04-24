@@ -1,7 +1,6 @@
 package boyacaapp.uptc.edu.co.models.entity;
 
 public enum EstadoEnvio {
-
 	
 	ENVIADO("Enviado"),RECIBIDO("Recibido"),DEVUELTO("Devuelto");
 	
@@ -17,6 +16,5 @@ public enum EstadoEnvio {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-	
+	}	
 }

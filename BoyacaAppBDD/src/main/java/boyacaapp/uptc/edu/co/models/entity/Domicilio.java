@@ -15,18 +15,18 @@ import lombok.Data;
 @Entity 
 @Table(name="domicilio")
 @Data
+
+/**
+ * un domicilio especifica a nombre de quien se realizará un envío 
+ * por lo tanto necesita una dirección a donde llegará y además los datos del receptor del envío
+ */
 public class Domicilio implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
 
 	@Id   
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_domicilio;
-	
 	
 	@Column(name ="dom_nombre",nullable = false)
 	private String nombre;
@@ -39,5 +39,4 @@ public class Domicilio implements Serializable{
 	
 	@OneToOne
 	private Direccion direccion;
-
 }

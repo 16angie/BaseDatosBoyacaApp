@@ -18,11 +18,13 @@ import lombok.EqualsAndHashCode;
 @Table(name="ciudades")
 @Data
 @EqualsAndHashCode(exclude = "departamento")
+
+/**
+ *Ciudad se usa para especificar la ubicación de clientes, de empresaso de sus almacenes 
+ *debe pertenecer a un departamento para ser válida en este caso
+ */
 public class Ciudad  implements Serializable{
 	
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id   
@@ -36,7 +38,5 @@ public class Ciudad  implements Serializable{
 	@ManyToOne
 	@JoinColumn(name ="id_departamento")
 	@JsonIgnoreProperties("listaCiudades")
-	private Departamento departamento;
-	
-	
+	private Departamento departamento;	
 }
