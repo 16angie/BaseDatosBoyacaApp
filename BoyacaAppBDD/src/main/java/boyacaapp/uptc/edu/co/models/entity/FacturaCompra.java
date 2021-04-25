@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +18,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import boyacaapp.uptc.edu.co.utils.MetodosReusables;
 import lombok.Data;
 
 @Entity 
@@ -45,7 +49,7 @@ public class FacturaCompra implements Serializable{
 	// este valor se calcula
 	
 	@Column(name="com_referencia_pago")
-	private String referenciaDeCompra; // va a ser generado automaticamente ????
+	private String referenciaDeCompra; 
 	
 	@Column(name="com_estado_de_compra", nullable = false)
 	@Enumerated(value = EnumType.STRING)
@@ -54,7 +58,9 @@ public class FacturaCompra implements Serializable{
 	@ManyToOne
 	private Cliente cliente;
 	
-	@OneToMany
+
+	@OneToMany(mappedBy = "factura",fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("factura")
 	private List<DetalleCompra> detalleCompra;
 	
 	@OneToOne
@@ -64,7 +70,11 @@ public class FacturaCompra implements Serializable{
 	private Envio envio;
 	
 	public void generarReferencia() {
-		referenciaDeCompra +=this.id_compra+cliente.getEmail().substring(0,3)
-				+fecha_compra.getWeekYear()+detalleCompra.get(0).getProducto().getNombre().substring(0, 5);
-	}	
+		referenciaDeCompra +=MetodosReusables.metodorandomimg();
+	}
+	
+	public void calcularValorCompraTotal() {
+		
+	}
+	
 }

@@ -49,7 +49,7 @@ public class Producto {
 	
 	@Column(name ="pro_stock_total",nullable = true)
 	private int stock_total;
-	// esta es la suma de las especificaciones calculable
+
 	
 	@Column(name ="pro_peso",nullable = false)
 	private double peso;
@@ -74,7 +74,12 @@ public class Producto {
 	private List<Imagen> listaImagenes = new ArrayList<Imagen>();
 	
 	/*
-	@Column(name ="pro_caracterisicas_des",nullable = false)
-	private ArrayList<String> descripcion_algunas_caracteristicas = new ArrayList<>();
-	*/
+	 * este metodo se hace para calcular el estock total del producto 
+	 */
+	
+	public  void calcularStockTotal() {
+		for (EspecificacionProducto esp : listaDeEspecificaciones) {
+			stock_total+= esp.getCantidadEspecificacionPrimaria();
+		}
+	}
 }

@@ -9,8 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.Data;
 
 @Entity 
 @Table(name="detalles_compra")
@@ -25,26 +26,39 @@ public class DetalleCompra {
 	@Id   
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_detalles;
+
+	@Column(name ="elec_nombre",nullable = true)
+	private String nombreEspecificacionPrimaria;
 	
-	@Column(name ="det_cantidad",nullable = false)
+	@Column(name ="elec_detalle",nullable = true)
+	private String detalleEspecificacionPrimaria;
+	
+	@Column(name ="elec_nombre_secundario",nullable = true)
+	private String nombreEspecificacionsecundaria;
+	
+	@Column(name ="elec_detalle_secundario",nullable = true)
+	private String nombreDetalleSecundario;
+	
+	@Column(name ="elec_cantidad_primaria",nullable = false)
 	private int cantidad;
 	
-	@Column(name ="det_precio",nullable = false)
-	private double precio;
+	@Column(name ="elec_precio",nullable = false)
+	private double precio; 
 	
-	@Column(name ="det_costoEnvio",nullable = false)
-	private int costoEnvio;
-	//calculado de peso y la tablas de empresas de envio
+	@Column(name ="elec_precio_envio",nullable = false)
+	private double precioEnvio;
+	
+	@Column(name ="elec_peso",nullable = true)
+	private double peso;
+
+	@Column(name ="elec_id_especificacion",nullable = true)
+	private Long id_especificacion;
+	
+	@Column(name ="elec_id_producto",nullable = true)
+	private Long idProducto;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_factura_detalles")
+	@JsonIgnoreProperties("detalleCompra")
 	private FacturaCompra factura;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_producto_detalles")
-	private Producto producto;
-	
-	public void calcularCostoEnvio() {
-		
-	}
 }

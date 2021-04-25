@@ -10,12 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import boyacaapp.uptc.edu.co.models.entity.Cliente;
-import boyacaapp.uptc.edu.co.models.entity.DetalleCompra;
 import boyacaapp.uptc.edu.co.models.entity.FacturaCompra;
 import boyacaapp.uptc.edu.co.services.IClienteService;
 import boyacaapp.uptc.edu.co.services.ICompraFacturaService;
@@ -53,18 +50,13 @@ public class CompraRestController {
 	//Revisar el envio si es por aparte o si va incluido en la compra aqui
 	@PostMapping("/nueva/{idcliente}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public FacturaCompra create(@RequestBody FacturaCompra compra, @PathVariable Long idcliente, @RequestParam String estadotransaccion){
-		if (estadotransaccion.equals("ok")) {
+	public FacturaCompra create(@RequestBody FacturaCompra compra, @PathVariable Long idcliente){
 			Cliente cliente = clienteService.findById(idcliente);
 			compra.setCliente(cliente);
-			domicilioService.save(compra.getDomicilioCompra());
-			for (DetalleCompra detalle : compra.getDetalleCompra()) {
-				detalleService.save(detalle);
-			}
-			return compraService.save(compra);
-		}else {
-			return null;
-		}
+			compra.generarReferencia();
+			compraService.save(compra);
+			return compra;
+		
 	}
 	
 	// hacer un metodo para la lista de detalles post????

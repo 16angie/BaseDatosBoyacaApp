@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import boyacaapp.uptc.edu.co.models.entity.DetalleCompra;
+import boyacaapp.uptc.edu.co.models.entity.EspecificacionProducto;
 import boyacaapp.uptc.edu.co.models.entity.FacturaCompra;
 import boyacaapp.uptc.edu.co.services.ICompraFacturaService;
 import boyacaapp.uptc.edu.co.services.IDetallesCompraService;
+import boyacaapp.uptc.edu.co.services.IEspecificacionProductoService;
+import boyacaapp.uptc.edu.co.services.IProductoService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
@@ -24,6 +27,12 @@ public class DetalleCompraRestController {
 
 	@Autowired
 	IDetallesCompraService detalleCompraService;
+	
+	@Autowired
+	IProductoService productoservice;
+	
+	@Autowired
+	IEspecificacionProductoService especificacionProductoService;
 	
 	@Autowired
 	ICompraFacturaService facturaService;
@@ -38,11 +47,15 @@ public class DetalleCompraRestController {
 		return detalleCompraService.findById(id);
 	}
 	
-	@PostMapping("/nuevo/{idfactura}")
+	@PostMapping("/nuevo/{idfactura}/{idespecificacion}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public DetalleCompra create(@RequestBody DetalleCompra detalle, @PathVariable Long idfactura){
+	public DetalleCompra create(@RequestBody DetalleCompra detalle, @PathVariable Long idfactura, @PathVariable Long idespecificacion){
 		FacturaCompra compra = facturaService.findById(idfactura);
+		EspecificacionProducto esp = especificacionProductoService.findById(idespecificacion);
+		detalle.setIdProducto(esp.getProducto_e().getIdProducto());
+		detalle.setId_especificacion(idespecificacion);
 		detalle.setFactura(compra);
+		compra.getDetalleCompra().add(detalle);
 		return detalleCompraService.save(detalle);
 	}
 	
@@ -50,10 +63,7 @@ public class DetalleCompraRestController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public DetalleCompra update(@RequestBody DetalleCompra detalleCompra, @PathVariable Long id){
 		DetalleCompra detalleCompraActual = detalleCompraService.findById(id);
-		detalleCompraActual.setCantidad(detalleCompra.getCantidad());
-		detalleCompraActual.setCostoEnvio(detalleCompra.getCostoEnvio());
 		detalleCompraActual.setFactura(detalleCompra.getFactura());
-		detalleCompraActual.setProducto(detalleCompra.getProducto());
 		return detalleCompraService.save(detalleCompraActual);
 	}
 	

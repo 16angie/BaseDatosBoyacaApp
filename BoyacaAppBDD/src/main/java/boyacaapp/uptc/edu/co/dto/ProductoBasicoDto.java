@@ -12,5 +12,5 @@ public class ProductoBasicoDto {
 	private Imagen imagenIlustrativa;
 	private String genero; 
 	private int stock;
-	
+
 }
