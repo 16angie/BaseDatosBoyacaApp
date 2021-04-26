@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import boyacaapp.uptc.edu.co.dto.ReferenciaDto;
 import boyacaapp.uptc.edu.co.models.entity.Cliente;
 import boyacaapp.uptc.edu.co.models.entity.FacturaCompra;
 import boyacaapp.uptc.edu.co.services.IClienteService;
 import boyacaapp.uptc.edu.co.services.ICompraFacturaService;
 import boyacaapp.uptc.edu.co.services.IDetallesCompraService;
 import boyacaapp.uptc.edu.co.services.IDomicilioService;
+import boyacaapp.uptc.edu.co.utils.MetodosReusables;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
@@ -46,8 +48,41 @@ public class CompraRestController {
 		return compraService.findById(id);
 	}
 	
-	//el domicilio y la lista de detalles se cargan por en body del request
+	
+	@GetMapping("/generarReferenciaUnica")
+	public ReferenciaDto generate(){
+		ReferenciaDto ref = new ReferenciaDto();
+		ref.setReference(MetodosReusables.metodorandomimg()+"-"+System.currentTimeMillis());
+		return ref;
+	}
+	
+	
+	
+	/**
+	 * //el domicilio y la lista de detalles se cargan por en body del request
 	//Revisar el envio si es por aparte o si va incluido en la compra aqui
+	@PostMapping("/nueva/revisardatospasarella")
+	@ResponseStatus(HttpStatus.CREATED)
+	public PasarellaDtp create(@RequestBody PasarellaDto ){
+			Cliente cliente = clienteService.findById(idcliente);
+			compra.setCliente(cliente);
+			compra.generarReferencia();
+			compraService.save(compra);
+			return compra;
+		
+	}
+	 */
+	
+	
+	
+	/**
+	 * //el domicilio y la lista de detalles se cargan por en body del request
+	//Revisar el envio si es por aparte o si va incluido en la compra aqui
+	 * @param compra
+	 * @param idcliente
+	 * @return
+	 */
+	
 	@PostMapping("/nueva/{idcliente}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public FacturaCompra create(@RequestBody FacturaCompra compra, @PathVariable Long idcliente){
@@ -58,6 +93,8 @@ public class CompraRestController {
 			return compra;
 		
 	}
+	
+	
 	
 	// hacer un metodo para la lista de detalles post????
 	@PostMapping("/actualizar/{id}")
