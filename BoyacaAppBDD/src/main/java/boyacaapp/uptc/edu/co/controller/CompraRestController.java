@@ -61,7 +61,7 @@ public class CompraRestController {
 	/**
 	 * //el domicilio y la lista de detalles se cargan por en body del request
 	//Revisar el envio si es por aparte o si va incluido en la compra aqui
-	@PostMapping("/nueva/revisardatospasarella")
+	@PostMapping("/revisardatospasarella")
 	@ResponseStatus(HttpStatus.CREATED)
 	public PasarellaDtp create(@RequestBody PasarellaDto ){
 			Cliente cliente = clienteService.findById(idcliente);
@@ -75,6 +75,7 @@ public class CompraRestController {
 	
 	
 	
+	
 	/**
 	 * //el domicilio y la lista de detalles se cargan por en body del request
 	//Revisar el envio si es por aparte o si va incluido en la compra aqui
@@ -82,11 +83,15 @@ public class CompraRestController {
 	 * @param idcliente
 	 * @return
 	 */
-	
-	@PostMapping("/nueva/{idcliente}")
+	@PostMapping("/nueva/{idcliente}/{idEspecificacion}/{idProducto}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public FacturaCompra create(@RequestBody FacturaCompra compra, @PathVariable Long idcliente){
+	public FacturaCompra update(@RequestBody FacturaCompra compra,@PathVariable Long idcliente,@PathVariable Long idEspecificacion ,@PathVariable Long idProducto){
 			Cliente cliente = clienteService.findById(idcliente);
+			// to-do 
+			/**
+			 * hacer una entidad de refencia entre facturas  y cliente descontar la cantidad que el cliente 
+			 * eliga en dada especificacion.... ....
+			 */
 			compra.setCliente(cliente);
 			compra.generarReferencia();
 			compraService.save(compra);
@@ -95,8 +100,12 @@ public class CompraRestController {
 	}
 	
 	
-	
-	// hacer un metodo para la lista de detalles post????
+	/**
+	 * 
+	 * @param compra
+	 * @param id
+	 * @return
+	 */
 	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public FacturaCompra update(@RequestBody FacturaCompra compra, @PathVariable Long id){
@@ -110,10 +119,15 @@ public class CompraRestController {
 		return compraService.save(compraActual);
 	}
 	
-	// las compras no se pueden borrar solo ver y quedanen e historial
+	
+	
+	/**
+	 * // las compras no se pueden borrar solo ver y quedanen e historial
+	 * @param id
+	 */
 	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id){
-		//compraService.delete(id); 
+		
 	}
 }

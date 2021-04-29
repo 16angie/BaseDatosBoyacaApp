@@ -44,8 +44,8 @@ public class EspecificacionProducto {
 	private String detallesecundario;
 	
 	
-	@Column(name ="eso_cantidad_primaria",nullable = false)
-	private int cantidadEspecificacionPrimaria;
+	@Column(name ="eso_cantidad",nullable = false)
+	private int cantidad;
 	
 	@ManyToOne
 	@JoinColumn(name ="id_prodcuto")

@@ -49,12 +49,11 @@ public class Producto {
 	
 	@Column(name ="pro_stock_total",nullable = true)
 	private int stock_total;
-
 	
 	@Column(name ="pro_peso",nullable = false)
 	private double peso;
 	
-	@Column(name ="pro_precio_envio",nullable = false)
+	@Column(name ="pro_precio_envio",nullable = true)
 	private double precio_envio;
 
 	@ManyToOne
@@ -73,13 +72,16 @@ public class Producto {
 	@OneToMany
 	private List<Imagen> listaImagenes = new ArrayList<Imagen>();
 	
+	
+	
 	/*
 	 * este metodo se hace para calcular el estock total del producto 
 	 */
-	
 	public  void calcularStockTotal() {
-		for (EspecificacionProducto esp : listaDeEspecificaciones) {
-			stock_total+= esp.getCantidadEspecificacionPrimaria();
+		if(!listaDeEspecificaciones.isEmpty()) {
+			for (EspecificacionProducto esp : listaDeEspecificaciones) {
+				stock_total+= esp.getCantidad();
+			}
 		}
 	}
 }

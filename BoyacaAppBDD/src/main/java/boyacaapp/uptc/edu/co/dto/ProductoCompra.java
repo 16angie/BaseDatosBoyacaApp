@@ -13,12 +13,12 @@ public class ProductoCompra {
 	private double precio;
 	private Imagen imagenIlustrativa;
 	private String genero; 
-	private int cantidad;
 	private String nombreEspecificacionPrimaria;
 	private String detalleEspecificacionPrimaria;
 	private String nombreEspecificacionsecundaria;
 	private String nombreDetalleSecundario;
 	private double precioEnvio;
+	private int cantidad;
 	private double peso;
 	private Long id_especificacion;
 	

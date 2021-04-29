@@ -66,6 +66,7 @@ public class FacturaCompra implements Serializable{
 	@OneToOne
 	private Domicilio domicilioCompra;
 	
+	//----empresa---
 	@OneToOne
 	private Envio envio;
 	

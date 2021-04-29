@@ -49,7 +49,11 @@ public class EspecificacionProductoRestController {
 		return especificacionService.save(id);
 	}
 	
-	
+	/**
+	 * 
+	 * @param lista
+	 * @param id_producto
+	 */
 	@PostMapping("/nuevasparaproducto/{id_producto}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createsome(@RequestBody List<EspecificacionProducto> lista, @PathVariable Long id_producto){
@@ -60,22 +64,33 @@ public class EspecificacionProductoRestController {
 				especificacionService.save(especificacionProducto);
 			}
 		}
+		p.calcularStockTotal();
 		productoService.save(p);
 	}
 	
 	
-	// arreglar ajajaj urgente 
+	/**
+	 * @param especificacion caracteristicas de la nueva especificacion
+	 * @param id_especificacion  id de la especificacion para buscarla y re-guardarla
+	 * @param id_producto id del producto para buscarlo y recalcularle el stock
+	 * @return
+	 */
 	
-	@PostMapping("/actualizar/{id}")
+	@PostMapping("/actualizar/{id_especificacion}/{{id_producto}}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public EspecificacionProducto update(@RequestBody EspecificacionProducto especificacion, @PathVariable Long id){
-		EspecificacionProducto especificacionActual = especificacionService.findById(id);
-
+	public EspecificacionProducto update(@RequestBody EspecificacionProducto especificacion, @PathVariable Long id_especificacion,@PathVariable Long id_producto){
+		EspecificacionProducto especificacionActual = especificacionService.findById(id_especificacion);
+		Producto p = productoService.findById(id_producto);
 		especificacionActual.setIdEspecificacion(especificacion.getIdEspecificacion());
-	
+		p.calcularStockTotal();
 		return especificacionService.save(especificacionActual);
 	}
 	
+	/**
+	 * 
+	 * @param id_especificacion
+	 * @param id_prodcuto
+	 */
 	@DeleteMapping("/eliminar/{id_especificacion}/{id_prodcuto}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id_especificacion,@PathVariable Long id_prodcuto){
