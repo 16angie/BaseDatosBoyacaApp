@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import boyacaapp.uptc.edu.co.dto.ReferenciaDto;
+import boyacaapp.uptc.edu.co.dto.RespuestaPasarela;
 import boyacaapp.uptc.edu.co.models.entity.Cliente;
 import boyacaapp.uptc.edu.co.models.entity.FacturaCompra;
 import boyacaapp.uptc.edu.co.services.IClienteService;
@@ -60,21 +61,14 @@ public class CompraRestController {
 	
 	/**
 	 * //el domicilio y la lista de detalles se cargan por en body del request
-	//Revisar el envio si es por aparte o si va incluido en la compra aqui
+	//Revisar el envio si es por aparte o si va incluido en la compra aqui*/
+	
 	@PostMapping("/revisardatospasarella")
 	@ResponseStatus(HttpStatus.CREATED)
-	public PasarellaDtp create(@RequestBody PasarellaDto ){
-			Cliente cliente = clienteService.findById(idcliente);
-			compra.setCliente(cliente);
-			compra.generarReferencia();
-			compraService.save(compra);
-			return compra;
-		
+	public RespuestaPasarela create(@RequestBody RespuestaPasarela respuesta ){
+		RespuestaPasarela res = respuesta;
+			return res;
 	}
-	 */
-	
-	
-	
 	
 	/**
 	 * //el domicilio y la lista de detalles se cargan por en body del request
@@ -110,15 +104,12 @@ public class CompraRestController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public FacturaCompra update(@RequestBody FacturaCompra compra, @PathVariable Long id){
 		FacturaCompra compraActual = compraService.findById(id);
-		compraActual.setDomicilioCompra(compra.getDomicilioCompra());
-		compraActual.setEnvio(compra.getEnvio());
 		compraActual.setEstadodelacompra(compra.getEstadodelacompra());
 		compraActual.setFecha_compra(compra.getFecha_compra());
 		compraActual.setValor_total_compra(compra.getValor_total_compra());
 		compraActual.setReferenciaDeCompra(compraActual.getReferenciaDeCompra());
 		return compraService.save(compraActual);
 	}
-	
 	
 	
 	/**

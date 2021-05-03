@@ -9,10 +9,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
@@ -28,18 +32,19 @@ import lombok.Data;
  */
 public class Envio {
 
+	
 	@Id   
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_envio;
 	
-	@Column(name="env_numero_guia",nullable = false)
+	@Column(name="env_numero_guia",nullable = true)
 	private String numeroGuia;
 	
-	@Column(name="env_fecha_envio",nullable = false)
+	@Column(name="env_fecha_envio",nullable = true)
 	@Temporal(TemporalType.DATE)
 	private Calendar fecha_envio;
 	
-	@Column(name="env_fecha_relativa_llegada",nullable = false)
+	@Column(name="env_fecha_relativa_llegada",nullable = true)
 	@Temporal(TemporalType.DATE)
 	private Calendar fecha_relativa_llegada;
 	
@@ -52,4 +57,9 @@ public class Envio {
 	
 	@OneToOne
 	private Domicilio domicilio;
+	
+	@ManyToOne
+	@JoinColumn(name ="id_facturaCompra")
+	@JsonIgnoreProperties("envios")
+	private FacturaCompra facturaCompra;
 }

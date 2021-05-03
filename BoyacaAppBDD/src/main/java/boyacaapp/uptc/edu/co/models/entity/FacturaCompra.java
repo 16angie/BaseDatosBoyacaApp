@@ -63,19 +63,17 @@ public class FacturaCompra implements Serializable{
 	@JsonIgnoreProperties("factura")
 	private List<DetalleCompra> detalleCompra;
 	
-	@OneToOne
-	private Domicilio domicilioCompra;
 	
 	//----empresa---
-	@OneToOne
-	private Envio envio;
+	@OneToMany(mappedBy = "facturaCompra",fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("facturaCompra")
+	private List<Envio>envios;
+	
+	
 	
 	public void generarReferencia() {
 		referenciaDeCompra +=MetodosReusables.metodorandomimg();
 	}
 	
-	public void calcularValorCompraTotal() {
 		
-	}
-	
 }
