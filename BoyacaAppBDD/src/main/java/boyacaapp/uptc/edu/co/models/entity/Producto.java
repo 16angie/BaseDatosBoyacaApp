@@ -45,7 +45,7 @@ public class Producto {
 	
 	@Column(name ="pro_genero",nullable = false)
 	@Enumerated(value = EnumType.STRING)
-	private Categoria genero;
+	private CategoriaProductos genero;
 	
 	@Column(name ="pro_stock_total",nullable = true)
 	private int stock_total;

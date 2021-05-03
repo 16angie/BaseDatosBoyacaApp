@@ -13,8 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import boyacaapp.uptc.edu.co.models.entity.Domicilio;
 import boyacaapp.uptc.edu.co.models.entity.Envio;
+import boyacaapp.uptc.edu.co.models.entity.FacturaCompra;
+import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
+import boyacaapp.uptc.edu.co.services.ICompraFacturaService;
+import boyacaapp.uptc.edu.co.services.IDomicilioService;
 import boyacaapp.uptc.edu.co.services.IEnvioService;
+import boyacaapp.uptc.edu.co.services.IRepresentanteComercialService;
 
 
 @CrossOrigin(origins= {"http://localhost:4200"})
@@ -24,6 +30,15 @@ public class EnvioRestController {
 
 	@Autowired
 	IEnvioService envioService;
+	
+	@Autowired
+	IRepresentanteComercialService repservice;
+	
+	@Autowired
+	ICompraFacturaService facturaService;
+	
+	@Autowired
+	IDomicilioService domicilioService;
 	
 	@GetMapping("/listar")
 	public List<Envio> index(){
@@ -36,9 +51,30 @@ public class EnvioRestController {
 		return envioService.findById(id);
 	}
 	
-	@PostMapping("/nuevo")
+	
+	/**
+	 * envios por representante comercial y por cliente.PENDIENTE
+	 */
+	
+	
+	
+	/**
+	 * 
+	 * @param id
+	 * @param idRepresentate
+	 * @param idFactura
+	 * @param idDomicilio
+	 * @return
+	 */
+	@PostMapping("/nuevo/{idRepresentate}/{idFactura}/{idDomicilio}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Envio create(@RequestBody Envio id){
+	public Envio create(@RequestBody Envio id,  @PathVariable Long  idRepresentate,  @PathVariable Long idFactura,@PathVariable Long  idDomicilio ){
+		RepresentanteComercial rep = repservice.findById(idRepresentate);
+		FacturaCompra fact = facturaService.findById(idFactura);
+		Domicilio dom = domicilioService.findById(idDomicilio);
+		id.setDomicilio(dom);
+		id.setFacturaCompra(fact);
+		id.setRepresentante_hizo_envio(rep);
 		return envioService.save(id);
 	}
 	

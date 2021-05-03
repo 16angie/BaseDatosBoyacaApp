@@ -8,11 +8,10 @@ public enum Categoria {
 	 * en el constructor se define a que entidad pertenece cada definición de categoría
 	 */
 	
-	NINO("Niño","Producto"), NINA("Niña","Producto"), HOMBRE("Hombre","Producto"), 
-	MUJER("Mujer","Producto"), PARA_TODOS("Para todos","Producto"),
 	BISUTERIA("Bisuteria","Empresa"),ARTESANIAS("Artesanias","Empresa"),
 	PRODUCTOS_NATURALES("Productos Naturales","Empresa"),MUEBLES("Muebles","Empresa"),
 	TEXTILES("Textiles","Empresa");
+	
 	
 	private String  nombre;
 	private String tipo;
