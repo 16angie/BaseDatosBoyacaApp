@@ -53,7 +53,7 @@ public class Envio {
 	
 	@Column(name="env_estado_envio", nullable = true)
 	@Enumerated(EnumType.STRING)
-	private EstadoEnvio estado_envio ;
+	private EstadoEnvio estado_envio = EstadoEnvio.EN_PROCESO;
 	
 	@OneToOne
 	private Domicilio domicilio;

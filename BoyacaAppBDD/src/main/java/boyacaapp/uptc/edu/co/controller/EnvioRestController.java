@@ -1,5 +1,6 @@
 package boyacaapp.uptc.edu.co.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import boyacaapp.uptc.edu.co.models.entity.Domicilio;
+import boyacaapp.uptc.edu.co.models.entity.Cliente;
 import boyacaapp.uptc.edu.co.models.entity.Envio;
+import boyacaapp.uptc.edu.co.models.entity.EstadoEnvio;
+import boyacaapp.uptc.edu.co.models.entity.EstadoObjetoBD;
 import boyacaapp.uptc.edu.co.models.entity.FacturaCompra;
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
+import boyacaapp.uptc.edu.co.services.IClienteService;
 import boyacaapp.uptc.edu.co.services.ICompraFacturaService;
 import boyacaapp.uptc.edu.co.services.IDomicilioService;
 import boyacaapp.uptc.edu.co.services.IEnvioService;
@@ -32,7 +35,11 @@ public class EnvioRestController {
 	IEnvioService envioService;
 	
 	@Autowired
+	IClienteService clienteservice;
+	
+	@Autowired
 	IRepresentanteComercialService repservice;
+	
 	
 	@Autowired
 	ICompraFacturaService facturaService;
@@ -52,11 +59,38 @@ public class EnvioRestController {
 	}
 	
 	
-	/**
-	 * envios por representante comercial y por cliente.PENDIENTE
-	 */
+	@GetMapping("/listarporcliente/{idCliente}")
+	public List<Envio> shows(@PathVariable Long idCliente) {
+		Cliente cliente = clienteservice.findById(idCliente);
+		List<Envio> a = envioService.findAll();
+		List<Envio> b = new ArrayList<Envio>();
+		if (cliente != null && cliente.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
+			for (Envio envio : a) {
+
+				if (envio.getEstado_envio().equals(EstadoEnvio.EN_PROCESO)
+						&& envio.getFacturaCompra().getCliente().getId() == idCliente) {
+					b.add(envio);
+				}
+			}
+		}
+		return b;
+	}
 	
-	
+	@GetMapping("/listarporepesentante/{idRepresentante}")
+	public List<Envio> showa(@PathVariable Long idRepresentante){
+		RepresentanteComercial cliente = repservice.findById(idRepresentante);
+		List<Envio> a = envioService.findAll();
+		List<Envio> b = new ArrayList<Envio>();
+		if (cliente != null && cliente.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
+			for (Envio envio : a) {
+				if (envio.getEstado_envio().equals(EstadoEnvio.EN_PROCESO)
+						&& envio.getRepresentante_hizo_envio().getId() == cliente.getId()) {
+					b.add(envio);
+				}
+			}
+		}
+		return b;
+	}
 	
 	/**
 	 * 
@@ -66,13 +100,11 @@ public class EnvioRestController {
 	 * @param idDomicilio
 	 * @return
 	 */
-	@PostMapping("/nuevo/{idRepresentate}/{idFactura}/{idDomicilio}")
+	@PostMapping("/nuevo/{idRepresentate}/{idFactura}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Envio create(@RequestBody Envio id,  @PathVariable Long  idRepresentate,  @PathVariable Long idFactura,@PathVariable Long  idDomicilio ){
+	public Envio create(@RequestBody Envio id,  @PathVariable Long  idRepresentate,  @PathVariable Long idFactura){
 		RepresentanteComercial rep = repservice.findById(idRepresentate);
 		FacturaCompra fact = facturaService.findById(idFactura);
-		Domicilio dom = domicilioService.findById(idDomicilio);
-		id.setDomicilio(dom);
 		id.setFacturaCompra(fact);
 		id.setRepresentante_hizo_envio(rep);
 		return envioService.save(id);

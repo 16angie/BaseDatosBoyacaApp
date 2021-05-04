@@ -42,7 +42,7 @@ public class DomicilioRestController {
 		return domicilioService.save(id);
 	}
 	
-	@PostMapping("/actualizar/{id}")
+	@PostMapping("/actualizar/{id}/{idEnvio}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Domicilio update(@RequestBody Domicilio domicilio, @PathVariable Long id){
 		Domicilio domicilioActual = domicilioService.findById(id);
