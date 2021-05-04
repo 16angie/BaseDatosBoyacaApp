@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import boyacaapp.uptc.edu.co.models.entity.Domicilio;
+import boyacaapp.uptc.edu.co.models.entity.Envio;
 import boyacaapp.uptc.edu.co.services.IDomicilioService;
+import boyacaapp.uptc.edu.co.services.IEnvioService;
 
 
 @CrossOrigin(origins= {"http://localhost:4200"})
@@ -24,6 +26,9 @@ public class DomicilioRestController {
 
 	@Autowired
 	IDomicilioService domicilioService;
+	
+	@Autowired
+	IEnvioService envioService;
 	
 	@GetMapping("/listar")
 	public List<Domicilio> index(){
@@ -36,10 +41,13 @@ public class DomicilioRestController {
 		return domicilioService.findById(id);
 	}
 	
-	@PostMapping("/nuevo")
+	@PostMapping("/nuevo/{idEnvio}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Domicilio create(@RequestBody Domicilio id){
-		return domicilioService.save(id);
+	public Domicilio create(@RequestBody Domicilio domicilio, @PathVariable Long idEnvio){
+		Envio envio = envioService.findById(idEnvio);
+		envio.setDomicilio(domicilio);
+		envioService.save(envio);
+		return domicilioService.save(domicilio);
 	}
 	
 	@PostMapping("/actualizar/{id}/{idEnvio}")
