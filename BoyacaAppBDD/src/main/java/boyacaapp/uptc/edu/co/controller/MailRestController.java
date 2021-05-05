@@ -1,7 +1,6 @@
 package boyacaapp.uptc.edu.co.controller;
 
 import javax.mail.MessagingException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +48,7 @@ public class MailRestController {
 			try {
 				mailService.construirMensaje();
 				System.out.println(mailService.getEmisor()+ "  emisor");
-				System.out.println(mailService.getNumero() + "  cod enciadoo");
+				System.out.println(mailService.getNumero() + "  cod generado");
 				System.out.println(mailService.getMsg().getSubject()+ "  asuntoo");
 			} catch (MessagingException e) {
 				// e.printStackTrace();
@@ -63,6 +62,7 @@ public class MailRestController {
 				success = true;
 			} catch (MessagingException e) {
 				success = false;
+				e.printStackTrace();
 				System.out.println("no se pudo enviar el mensaje");
 			}
 			

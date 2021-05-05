@@ -1,12 +1,8 @@
 package boyacaapp.uptc.edu.co.services;
-
 import org.springframework.stereotype.Service;
-
 import lombok.Data;
-
 import java.util.Date;
 import java.util.Properties;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -33,9 +29,10 @@ public class MailService {
 		   this.props = new Properties();
 		   props.put("mail.transport.protocol", "smtp");
 		   props.put("mail.smtp.port", "587");
+		   props.put("mail.smtp.host", "smtp.gmail.com");
 		   props.put("mail.smtp.starttls.enable", "true");
 		   props.put("mail.smtp.auth", "true");
-		   //props.put("mail.smtp.host", "smtp.gmail.com");
+		   
 		   //props.put("mail.smtp.host", "smtp.hotmail.com");
 		   //definir emisor y receptor
 	}
