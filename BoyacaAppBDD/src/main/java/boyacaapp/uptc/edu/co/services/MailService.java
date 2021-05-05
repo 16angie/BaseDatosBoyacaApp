@@ -31,19 +31,18 @@ public class MailService {
 	public void crearPropiedadesMail() {
 		// definir el puerto, protocolo, autorizacion
 		   this.props = new Properties();
-		   props.put("mail.smtp.auth", "true");
-		   props.put("mail.smtp.starttls.enable", "true");
-		   props.put("mail.smtp.host", "smtp.gmail.com");
-		   //props.put("mail.smtp.host", "smtp.hotmail.com");
+		   props.put("mail.transport.protocol", "smtp");
 		   props.put("mail.smtp.port", "587");
-		   
+		   props.put("mail.smtp.starttls.enable", "true");
+		   props.put("mail.smtp.auth", "true");
+		   //props.put("mail.smtp.host", "smtp.gmail.com");
+		   //props.put("mail.smtp.host", "smtp.hotmail.com");
 		   //definir emisor y receptor
-		
 	}
 	
 	public void definirEmisor() {
 			emisor="BoyacaApp@gmail.com";
-		   	  session = Session.getInstance(props, new javax.mail.Authenticator() {
+		   	  this.session = Session.getInstance(props, new javax.mail.Authenticator() {
 		      protected PasswordAuthentication getPasswordAuthentication() {
 		         return new PasswordAuthentication("BoyacaApp@gmail.com","Boyaca_1App.");
 		      }
@@ -58,8 +57,8 @@ public class MailService {
 		numero = (long)(Math.random()*1000000+10000000);
 		String asunto = "Cambio de contraseña para tu cuenta en BoyacaApp";
 		String contenido ="Este es tu codigo de verificacion:  "+ numero;
-		   msg = new MimeMessage(session);
-		   msg.setFrom(new InternetAddress(emisor, false));
+		   msg = new MimeMessage(this.session);
+		   msg.setFrom(new InternetAddress(emisor, true));
 		   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receptor));
 		   msg.setSubject(asunto);
 		   msg.setContent(contenido, "text/html");
@@ -69,5 +68,4 @@ public class MailService {
 	public void enviarMensaje() throws MessagingException {
 		Transport.send(msg);
 	}
-
 }

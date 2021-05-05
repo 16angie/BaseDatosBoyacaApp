@@ -37,20 +37,36 @@ public class MailRestController {
 	public boolean enviarCodigo(@RequestParam(value = "email") String correoReceptor) {
 		boolean success = true;
 		Usuario usuario = usuariosService.findByCorreo(correoReceptor);
+		//System.out.println(usuario.getNombre()+"");
 
 		if (usuario != null) {
 			mailService.crearPropiedadesMail();
 			mailService.definirEmisor();
 			mailService.definirReceptor(correoReceptor);
+
+			System.out.println(mailService.getReceptor()+ "  receptor");
+		
 			try {
 				mailService.construirMensaje();
+				System.out.println(mailService.getEmisor()+ "  emisor");
+				System.out.println(mailService.getNumero() + "  cod enciadoo");
+				System.out.println(mailService.getMsg().getSubject()+ "  asuntoo");
 			} catch (MessagingException e) {
 				// e.printStackTrace();
-				System.out.println("no se pudo crear el mensaje error de datos");
+				success = false;
+				System.out.println("no se pudo crear el mensaje, error de datos");
 			}
 
 			try {
+				System.out.println("props  "+ mailService.getMsg().getSession().getProperties().toString());
 				mailService.enviarMensaje();
+				success = true;
+			} catch (MessagingException e) {
+				success = false;
+				System.out.println("no se pudo enviar el mensaje");
+			}
+			
+			if (success) {
 				if (usuario instanceof Cliente) {
 					usuario.setCodigoSeguridad(mailService.getNumero());
 					clienteservice.save((Cliente) usuario);
@@ -58,11 +74,8 @@ public class MailRestController {
 					usuario.setCodigoSeguridad(mailService.getNumero());
 					representanteserive.save((RepresentanteComercial) usuario);
 				}
-
-			} catch (MessagingException e) {
-				System.out.println("no se pudo enviar el mensaje");
 			}
-			success = true;
+			
 		} else {
 			success = false;
 		}
