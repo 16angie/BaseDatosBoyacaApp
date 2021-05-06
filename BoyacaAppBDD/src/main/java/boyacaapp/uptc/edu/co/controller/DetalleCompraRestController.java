@@ -47,6 +47,7 @@ public class DetalleCompraRestController {
 		return detalleCompraService.findById(id);
 	}
 	
+	//aqui falta verificar la cantidad del detalle xq no cuadra
 	@PostMapping("/nuevo/{idfactura}/{idespecificacion}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public DetalleCompra create(@RequestBody DetalleCompra detalle, @PathVariable Long idfactura, @PathVariable Long idespecificacion){
@@ -56,6 +57,7 @@ public class DetalleCompraRestController {
 		detalle.setId_especificacion(idespecificacion);
 		detalle.setFactura(compra);
 		compra.getDetalleCompra().add(detalle);
+		detalle.setFactura(compra);
 		return detalleCompraService.save(detalle);
 	}
 	

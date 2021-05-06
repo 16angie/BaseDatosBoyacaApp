@@ -77,9 +77,9 @@ public class CompraRestController {
 	 * @param idcliente
 	 * @return
 	 */
-	@PostMapping("/nueva/{idcliente}/{idEspecificacion}/{idProducto}")
+	@PostMapping("/nueva/{idcliente}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public FacturaCompra update(@RequestBody FacturaCompra compra,@PathVariable Long idcliente,@PathVariable Long idEspecificacion ,@PathVariable Long idProducto){
+	public FacturaCompra createbasic(@RequestBody FacturaCompra compra,@PathVariable Long idcliente){
 			Cliente cliente = clienteService.findById(idcliente);
 			// to-do 
 			/**

@@ -39,4 +39,7 @@ public class Domicilio implements Serializable{
 	
 	@OneToOne
 	private Direccion direccion;
+	
+	@OneToOne
+	private Envio envio;
 }

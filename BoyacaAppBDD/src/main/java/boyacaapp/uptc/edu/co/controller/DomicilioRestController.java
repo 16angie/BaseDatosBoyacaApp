@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import boyacaapp.uptc.edu.co.models.entity.Domicilio;
 import boyacaapp.uptc.edu.co.models.entity.Envio;
+import boyacaapp.uptc.edu.co.services.IDireccionService;
 import boyacaapp.uptc.edu.co.services.IDomicilioService;
 import boyacaapp.uptc.edu.co.services.IEnvioService;
 
@@ -29,6 +30,9 @@ public class DomicilioRestController {
 	
 	@Autowired
 	IEnvioService envioService;
+	
+	@Autowired
+	IDireccionService direccionService;
 	
 	@GetMapping("/listar")
 	public List<Domicilio> index(){
@@ -46,6 +50,8 @@ public class DomicilioRestController {
 	public Domicilio create(@RequestBody Domicilio domicilio, @PathVariable Long idEnvio){
 		Envio envio = envioService.findById(idEnvio);
 		envio.setDomicilio(domicilio);
+		domicilio.setEnvio(envio);
+		direccionService.save(domicilio.getDireccion());
 		envioService.save(envio);
 		return domicilioService.save(domicilio);
 	}
