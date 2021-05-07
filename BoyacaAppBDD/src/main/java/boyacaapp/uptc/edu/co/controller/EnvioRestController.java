@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import boyacaapp.uptc.edu.co.models.entity.Ciudad;
 import boyacaapp.uptc.edu.co.models.entity.Cliente;
-import boyacaapp.uptc.edu.co.models.entity.Envio;
+import boyacaapp.uptc.edu.co.models.entity.Envio;import boyacaapp.uptc.edu.co.models.entity.EstadoCompra;
 import boyacaapp.uptc.edu.co.models.entity.EstadoEnvio;
 import boyacaapp.uptc.edu.co.models.entity.EstadoObjetoBD;
 import boyacaapp.uptc.edu.co.models.entity.FacturaCompra;
@@ -77,7 +77,8 @@ public class EnvioRestController {
 		if (cliente != null && cliente.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
 			for (Envio envio : a) {
 				if (envio.getEstado_envio().equals(EstadoEnvio.EN_PROCESO)
-						&& envio.getFacturaCompra().getCliente().getId() == idCliente) {
+						&& envio.getFacturaCompra().getCliente().getId() == idCliente
+						&& envio.getFacturaCompra().getEstadodelacompra().equals(EstadoCompra.ACEPTADA)) {
 					b.add(envio);
 				}
 			}
@@ -91,14 +92,17 @@ public class EnvioRestController {
 		RepresentanteComercial cliente = repservice.findById(idRepresentante);
 		List<Envio> a = envioService.findAll();
 		List<Envio> b = new ArrayList<Envio>();
+	
 		if (cliente != null && cliente.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
 			for (Envio envio : a) {
-				if (envio.getEstado_envio().equals(EstadoEnvio.EN_PROCESO)
+				if (envio.getEstado_envio().equals(EstadoEnvio.EN_PROCESO )
+						&& envio.getFacturaCompra().getEstadodelacompra().equals(EstadoCompra.ACEPTADA)
 						&& envio.getRepresentante_hizo_envio().getId() == cliente.getId()) {
 					b.add(envio);
 				}
 			}
 		}
+		
 		return b;
 	}
 	

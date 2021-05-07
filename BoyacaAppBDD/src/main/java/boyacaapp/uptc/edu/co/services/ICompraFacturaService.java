@@ -10,5 +10,6 @@ public interface ICompraFacturaService {
 	public FacturaCompra findById(Long id);
 	public FacturaCompra save(FacturaCompra client);
 	public void delete(Long id);
+	public FacturaCompra findByReference(String reference);
 
 }

@@ -38,4 +38,11 @@ public class CompraFacturaImpl implements ICompraFacturaService{
 	public void delete(Long id) {	
 		facturaCompradao.deleteById(id);
 	}
+
+	@Override
+	public FacturaCompra findByReference(String reference) {
+		return facturaCompradao.findByReferenciaDeCompra(reference);
+	}
+
+	
 }

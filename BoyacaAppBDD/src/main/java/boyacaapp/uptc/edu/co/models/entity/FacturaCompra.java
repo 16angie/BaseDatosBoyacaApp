@@ -49,7 +49,7 @@ public class FacturaCompra implements Serializable{
 	// este valor se calcula
 	
 	@Column(name="com_referencia_pago",nullable = true)
-	private String referenciaDeCompra = MetodosReusables.metodorandomimg(); 
+	private String referenciaDeCompra ; 
 	
 	@Column(name="com_estado_de_compra", nullable = false)
 	@Enumerated(value = EnumType.STRING)
