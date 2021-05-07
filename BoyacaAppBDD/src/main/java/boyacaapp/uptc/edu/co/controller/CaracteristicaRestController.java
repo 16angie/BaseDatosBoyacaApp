@@ -57,7 +57,6 @@ public class CaracteristicaRestController {
 		Producto p = productoService.findById(id_producto);
 		if(p!=null) {
 			for (Caracteristica caracteristica : lista) {
-				caracteristica.setProducto(p);
 				p.getListaCaracteristicas().add(caracteristica);
 				caracteristicaService.save(caracteristica);
 			}

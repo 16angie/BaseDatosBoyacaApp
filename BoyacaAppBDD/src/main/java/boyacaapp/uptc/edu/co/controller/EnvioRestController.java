@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import boyacaapp.uptc.edu.co.models.entity.Ciudad;
 import boyacaapp.uptc.edu.co.models.entity.Cliente;
 import boyacaapp.uptc.edu.co.models.entity.Envio;
 import boyacaapp.uptc.edu.co.models.entity.EstadoEnvio;
 import boyacaapp.uptc.edu.co.models.entity.EstadoObjetoBD;
 import boyacaapp.uptc.edu.co.models.entity.FacturaCompra;
 import boyacaapp.uptc.edu.co.models.entity.RepresentanteComercial;
+import boyacaapp.uptc.edu.co.services.ICiudadService;
 import boyacaapp.uptc.edu.co.services.IClienteService;
 import boyacaapp.uptc.edu.co.services.ICompraFacturaService;
+import boyacaapp.uptc.edu.co.services.IDireccionService;
 import boyacaapp.uptc.edu.co.services.IDomicilioService;
 import boyacaapp.uptc.edu.co.services.IEnvioService;
 import boyacaapp.uptc.edu.co.services.IRepresentanteComercialService;
@@ -33,6 +36,13 @@ public class EnvioRestController {
 
 	@Autowired
 	IEnvioService envioService;
+	
+	@Autowired()
+	ICiudadService ciudadservice;
+	
+	@Autowired
+	IDireccionService direccionservice;
+	
 	
 	@Autowired
 	IClienteService clienteservice;
@@ -66,7 +76,6 @@ public class EnvioRestController {
 		List<Envio> b = new ArrayList<Envio>();
 		if (cliente != null && cliente.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
 			for (Envio envio : a) {
-
 				if (envio.getEstado_envio().equals(EstadoEnvio.EN_PROCESO)
 						&& envio.getFacturaCompra().getCliente().getId() == idCliente) {
 					b.add(envio);
@@ -75,6 +84,7 @@ public class EnvioRestController {
 		}
 		return b;
 	}
+	
 	
 	@GetMapping("/listarporepesentante/{idRepresentante}")
 	public List<Envio> showa(@PathVariable Long idRepresentante){
@@ -100,14 +110,20 @@ public class EnvioRestController {
 	 * @param idDomicilio
 	 * @return
 	 */
-	@PostMapping("/nuevo/{idRepresentate}/{idFactura}")
+
+	@PostMapping("/nuevo/{idFactura}/{id_ciudad}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Envio create(@RequestBody Envio id,  @PathVariable Long  idRepresentate,  @PathVariable Long idFactura){
-		RepresentanteComercial rep = repservice.findById(idRepresentate);
+	public Envio create(@RequestBody Envio envio, @PathVariable Long idFactura,@PathVariable Long id_ciudad){
 		FacturaCompra fact = facturaService.findById(idFactura);
-		id.setFacturaCompra(fact);
-		id.setRepresentante_hizo_envio(rep);
-		return envioService.save(id);
+		Ciudad ciudad = ciudadservice.findById(id_ciudad);
+		direccionservice.save(envio.getDomicilio().getDireccion());
+		envio.getDomicilio().getDireccion().setCiudad(ciudad);
+		envio.setFacturaCompra(fact);
+		domicilioService.save(envio.getDomicilio());
+		envio.setDomicilio(envio.getDomicilio());
+		fact.getEnvios().add(envio);
+		facturaService.save(fact);//
+		return envioService.save(envio);
 	}
 	
 	@PostMapping("/actualizar/{id}")
@@ -121,6 +137,8 @@ public class EnvioRestController {
 		envioActual.setRepresentante_hizo_envio(envio.getRepresentante_hizo_envio());
 		return envioService.save(envioActual);
 	}
+	
+	
 	
 	@DeleteMapping("/eliminar/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

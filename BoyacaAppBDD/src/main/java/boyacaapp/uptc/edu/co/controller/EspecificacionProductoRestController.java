@@ -60,9 +60,7 @@ public class EspecificacionProductoRestController {
 		Producto p = productoService.findById(id_producto);
 		if(p!=null) {
 			for (EspecificacionProducto especificacionProducto : lista) {
-				especificacionProducto.setProducto_e(p);
 				p.getListaDeEspecificaciones().add(especificacionProducto);
-				productoService.save(p);
 				especificacionService.save(especificacionProducto);
 			}
 		}

@@ -48,7 +48,7 @@ public class EspecificacionProducto {
 	private int cantidad;
 	
 	@ManyToOne
-	@JoinColumn(name ="id_prodcuto")
+	@JoinColumn(name ="id_producto_e")
 	@JsonIgnoreProperties("listaDeEspecificaciones")
 	Producto producto_e;
 }

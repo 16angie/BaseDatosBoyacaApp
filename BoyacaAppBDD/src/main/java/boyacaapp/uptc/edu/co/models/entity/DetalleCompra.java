@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -27,38 +28,17 @@ public class DetalleCompra {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_detalles;
 
-	@Column(name ="elec_nombre",nullable = true)
-	private String nombreEspecificacionPrimaria;
-	
-	@Column(name ="elec_detalle",nullable = true)
-	private String detalleEspecificacionPrimaria;
-	
-	@Column(name ="elec_nombre_secundario",nullable = true)
-	private String nombreEspecificacionsecundaria;
-	
-	@Column(name ="elec_detalle_secundario",nullable = true)
-	private String nombreDetalleSecundario;
-	
 	@Column(name ="elec_cantidad_primaria",nullable = false)
 	private int cantidad;
 	
-	@Column(name ="elec_precio",nullable = false)
-	private double precio; 
+	@OneToOne
+	private EspecificacionProducto idEspecificacionElegida;
 	
-	@Column(name ="elec_precio_envio",nullable = false)
-	private double precioEnvio;
-	
-	@Column(name ="elec_peso",nullable = true)
-	private double peso;
-
-	@Column(name ="elec_id_especificacion",nullable = true)
-	private Long id_especificacion;
-	
-	@Column(name ="elec_id_producto",nullable = true)
-	private Long idProducto;
+	@OneToOne
+	private Producto idProducto;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_factura_detalles")
+	@JoinColumn(name ="detalleCompra")
 	@JsonIgnoreProperties("detalleCompra")
-	private FacturaCompra factura;
+	private Envio envio_c;
 }

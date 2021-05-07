@@ -79,20 +79,12 @@ public class CompraRestController {
 	 */
 	@PostMapping("/nueva/{idcliente}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public FacturaCompra createbasic(@RequestBody FacturaCompra compra,@PathVariable Long idcliente){
+	public FacturaCompra crear(@RequestBody FacturaCompra compra,@PathVariable Long idcliente){
 			Cliente cliente = clienteService.findById(idcliente);
-			// to-do 
-			/**
-			 * hacer una entidad de refencia entre facturas  y cliente descontar la cantidad que el cliente 
-			 * eliga en dada especificacion.... ....
-			 */
 			compra.setCliente(cliente);
-			compra.generarReferencia();
 			compraService.save(compra);
 			return compra;
-		
 	}
-	
 	
 	/**
 	 * 
@@ -107,7 +99,6 @@ public class CompraRestController {
 		compraActual.setEstadodelacompra(compra.getEstadodelacompra());
 		compraActual.setFecha_compra(compra.getFecha_compra());
 		compraActual.setValor_total_compra(compra.getValor_total_compra());
-		compraActual.setReferenciaDeCompra(compraActual.getReferenciaDeCompra());
 		return compraService.save(compraActual);
 	}
 	

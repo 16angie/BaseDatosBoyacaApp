@@ -2,6 +2,7 @@ package boyacaapp.uptc.edu.co.models.entity;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,16 +40,16 @@ public class FacturaCompra implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id_compra;
 	
-	@Column(name="com_fecha_compra",nullable = false)
+	@Column(name="com_fecha_compra",nullable = true)
 	@Temporal(TemporalType.DATE)
-	private Calendar fecha_compra;
+	private Calendar fecha_compra = GregorianCalendar.getInstance();
 	
-	@Column(name ="com_valor_total",nullable = true)
+	@Column(name ="com_valor_total",nullable = false)
 	private double valor_total_compra;
 	// este valor se calcula
 	
-	@Column(name="com_referencia_pago")
-	private String referenciaDeCompra; 
+	@Column(name="com_referencia_pago",nullable = true)
+	private String referenciaDeCompra = MetodosReusables.metodorandomimg(); 
 	
 	@Column(name="com_estado_de_compra", nullable = false)
 	@Enumerated(value = EnumType.STRING)
@@ -56,23 +57,11 @@ public class FacturaCompra implements Serializable{
 	
 	@ManyToOne
 	private Cliente cliente;
-	
-
-	@OneToMany(mappedBy = "factura",fetch = FetchType.LAZY)
-	@JsonIgnoreProperties("factura")
-	private List<DetalleCompra> detalleCompra;
-	
-	
-	//----empresa---
+		
+	//------
 	@OneToMany(mappedBy = "facturaCompra",fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("facturaCompra")
 	private List<Envio>envios;
 	
-	
-	
-	public void generarReferencia() {
-		referenciaDeCompra +=MetodosReusables.metodorandomimg();
-	}
-	
-		
+
 }

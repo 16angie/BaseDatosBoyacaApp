@@ -1,16 +1,19 @@
 package boyacaapp.uptc.edu.co.models.entity;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -48,18 +51,24 @@ public class Envio {
 	@Temporal(TemporalType.DATE)
 	private Calendar fecha_relativa_llegada;
 	
-	@OneToOne
-	private RepresentanteComercial representante_hizo_envio;
-	
 	@Column(name="env_estado_envio", nullable = true)
 	@Enumerated(EnumType.STRING)
 	private EstadoEnvio estado_envio = EstadoEnvio.EN_PROCESO;
+	
+	// sacarlo del id  de la emrpresa 
+	@OneToOne
+	private RepresentanteComercial representante_hizo_envio;
+		
+	
+	@OneToMany(mappedBy = "envio_c",fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("envio_c")
+	private List<DetalleCompra> detalleCompra;
 	
 	@OneToOne
 	private Domicilio domicilio;
 	
 	@ManyToOne
-	@JoinColumn(name ="id_facturaCompra")
+	@JoinColumn(name ="id_envio_factura")
 	@JsonIgnoreProperties("envios")
 	private FacturaCompra facturaCompra;
 }
