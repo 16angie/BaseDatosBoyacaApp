@@ -158,6 +158,7 @@ public class CompraRestController {
 		fact.setFecha_compra(GregorianCalendar.getInstance());
 		if (status.equals("APPROVED")) {
 			fact.setEstadodelacompra(EstadoCompra.ACEPTADA);
+			compraService.save(fact);
 		}else {
 			fact.setEstadodelacompra(EstadoCompra.RECHAZADA);
 		}

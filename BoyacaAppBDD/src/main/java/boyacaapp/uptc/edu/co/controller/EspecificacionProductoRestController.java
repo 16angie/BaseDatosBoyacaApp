@@ -106,6 +106,7 @@ public class EspecificacionProductoRestController {
 			producto.getListaDeEspecificaciones().remove(especificacion);
 		}
 		producto.calcularStockTotal();
+		productoService.save(producto);
 		especificacionService.delete(id_especificacion);
 	}
 }
