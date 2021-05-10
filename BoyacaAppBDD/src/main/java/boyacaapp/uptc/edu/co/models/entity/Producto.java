@@ -78,6 +78,7 @@ public class Producto {
 	 * este metodo se hace para calcular el estock total del producto 
 	 */
 	public  void calcularStockTotal() {
+		this.stock_total = 0;
 		if(!listaDeEspecificaciones.isEmpty()) {
 			for (EspecificacionProducto esp : listaDeEspecificaciones) {
 				this.stock_total+= esp.getCantidad();
