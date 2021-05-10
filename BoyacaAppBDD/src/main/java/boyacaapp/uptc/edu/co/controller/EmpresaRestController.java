@@ -109,7 +109,7 @@ public class EmpresaRestController {
 		Empresa empresaActual = empresaService.findById(id);
 		empresaActual.setCategoria(empresa.getCategoria());
 		empresaActual.setCodigoPostal(empresa.getCodigoPostal());
-		//empresaActual.setDireccion(empresa.getDireccion());
+		empresaActual.setNit(empresa.getNit());
 		empresaActual.setRazonSocial(empresa.getRazonSocial());
 		empresaActual.setTipoEmpresa(empresa.getTipoEmpresa());
 		return empresaService.save(empresaActual);

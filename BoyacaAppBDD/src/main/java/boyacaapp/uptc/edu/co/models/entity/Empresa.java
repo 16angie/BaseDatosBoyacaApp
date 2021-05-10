@@ -39,6 +39,9 @@ public class Empresa  implements Serializable{
 	@Column(name="em_codigo_postal", nullable = false)
 	private String codigoPostal;
 	
+	@Column(name="em_nit", nullable = false)
+	private String nit;
+	
 	@Column(name="em_tipo_empresa", nullable = false)
 	@Enumerated(value = EnumType.STRING)
 	private TipoDeEmpresa tipoEmpresa;
