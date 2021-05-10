@@ -80,7 +80,7 @@ public class Producto {
 	public  void calcularStockTotal() {
 		if(!listaDeEspecificaciones.isEmpty()) {
 			for (EspecificacionProducto esp : listaDeEspecificaciones) {
-				stock_total+= esp.getCantidad();
+				this.stock_total+= esp.getCantidad();
 			}
 		}
 	}

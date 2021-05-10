@@ -66,7 +66,7 @@ public class ProductoRestController {
 	public List<ProductoBasicoDto> indexdto(){
 		List<ProductoBasicoDto> listAux = new ArrayList<ProductoBasicoDto>();
 		for (Producto pr : productoService.findAll()) {
-			if (pr.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)&& !pr.getListaImagenes().isEmpty() ) {
+			if (pr.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)&& !pr.getListaImagenes().isEmpty()) {
 				ProductoBasicoDto productoBasico = new ProductoBasicoDto();
 				productoBasico.setIdProducto(pr.getIdProducto());
 				productoBasico.setNombre(pr.getNombre());
@@ -114,7 +114,7 @@ public class ProductoRestController {
 		ArrayList<ProductoBasicoDto> found = new ArrayList<ProductoBasicoDto>();
 		for (Producto producto : productoService.findAll()) {
 			if (producto.getNombre().toLowerCase().contains(criterio.toLowerCase()) || 
-					producto.getNombre().toLowerCase().equals(criterio.toLowerCase())) {
+					producto.getNombre().toLowerCase().equals(criterio.toLowerCase()) && !producto.getListaImagenes().isEmpty()) {
 				ProductoBasicoDto productoBasico = new ProductoBasicoDto();
 				productoBasico.setIdProducto(producto.getIdProducto());
 				productoBasico.setNombre(producto.getNombre());
@@ -134,7 +134,7 @@ public class ProductoRestController {
 	public ArrayList<ProductoBasicoDto> filterByCategoria(@RequestParam(value = "categoria") String categoria){
 		ArrayList<ProductoBasicoDto> found = new ArrayList<ProductoBasicoDto>();
 		for (Producto producto : productoService.findAll()) {
-			if (producto.getGenero().getNombre().toLowerCase().equals(categoria.toLowerCase())) {
+			if (producto.getGenero().getNombre().toLowerCase().equals(categoria.toLowerCase()) && !producto.getListaImagenes().isEmpty()) {
 				ProductoBasicoDto productoBasico = new ProductoBasicoDto();
 				productoBasico.setIdProducto(producto.getIdProducto());
 				productoBasico.setNombre(producto.getNombre());
@@ -157,7 +157,7 @@ public class ProductoRestController {
 			if (producto.getNombre().toLowerCase().contains(criterio.toLowerCase()) || 
 					producto.getNombre().equals(criterio.toLowerCase()) || 
 					producto.getGenero().getNombre().toLowerCase().equals(categoria.toLowerCase())
-					) {
+					&& !producto.getListaImagenes().isEmpty()) {
 				ProductoBasicoDto productoBasico = new ProductoBasicoDto();
 				productoBasico.setIdProducto(producto.getIdProducto());
 				productoBasico.setNombre(producto.getNombre());
