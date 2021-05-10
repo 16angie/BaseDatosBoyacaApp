@@ -45,6 +45,7 @@ public class EspecificacionProductoRestController {
 	public EspecificacionProducto create(@RequestBody EspecificacionProducto id,@PathVariable Long id_producto){
 		Producto p = productoService.findById(id_producto);
 		p.getListaDeEspecificaciones().add(id);
+		p.calcularStockTotal();
 		id.setProducto_e(p);
 		return especificacionService.save(id);
 	}
@@ -104,6 +105,7 @@ public class EspecificacionProductoRestController {
 		if(producto.getListaDeEspecificaciones().contains(especificacion)) {
 			producto.getListaDeEspecificaciones().remove(especificacion);
 		}
+		producto.calcularStockTotal();
 		especificacionService.delete(id_especificacion);
 	}
 }
