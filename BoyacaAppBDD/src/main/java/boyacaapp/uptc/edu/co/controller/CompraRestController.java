@@ -92,7 +92,6 @@ public class CompraRestController {
 		ref.setReference(MetodosReusables.metodorandomimg()+"-"+System.currentTimeMillis());
 		HashMap<Long ,List<DetalleCompra> > representantes = new HashMap<>();
 		for (DetalleTransitorio detallet : facturat.getDetalles()) {
-			
 			DetalleCompra detallec = new DetalleCompra();
 			detallec.setCantidad(detallet.getCantidad());
 			EspecificacionProducto esp = especificacionService.findById(detallet.getIdEspecificacion());

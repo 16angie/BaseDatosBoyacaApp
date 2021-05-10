@@ -76,13 +76,18 @@ public class EspecificacionProductoRestController {
 	 * @return
 	 */
 	
-	@PostMapping("/actualizar/{id_especificacion}/{{id_producto}}")
+	@PostMapping("/actualizar/{id_especificacion}/{id_producto}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public EspecificacionProducto update(@RequestBody EspecificacionProducto especificacion, @PathVariable Long id_especificacion,@PathVariable Long id_producto){
 		EspecificacionProducto especificacionActual = especificacionService.findById(id_especificacion);
 		Producto p = productoService.findById(id_producto);
-		especificacionActual.setIdEspecificacion(especificacion.getIdEspecificacion());
+		especificacionActual.setCantidad(especificacion.getCantidad());
+		especificacionActual.setDetalleEspecificacionPrimaria(especificacion.getDetalleEspecificacionPrimaria());
+		especificacionActual.setDetallesecundario(especificacion.getDetallesecundario());
+		especificacionActual.setNombreEspecificacionPrimaria(especificacion.getNombreEspecificacionPrimaria());
+		especificacionActual.setNombreEspecificacionsecundaria(especificacion.getNombreEspecificacionsecundaria());
 		p.calcularStockTotal();
+		productoService.save(p);
 		return especificacionService.save(especificacionActual);
 	}
 	

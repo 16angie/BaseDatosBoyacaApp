@@ -64,9 +64,9 @@ public class CaracteristicaRestController {
 		productoService.save(p);
 	}
 	
-	@PostMapping("/actualizar/{id}")
+	@PostMapping("/actualizar/{id}/{id_prodcuto}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Caracteristica update(@RequestBody Caracteristica caracteristica, @PathVariable Long id){
+	public Caracteristica update(@RequestBody Caracteristica caracteristica, @PathVariable Long id) {
 		Caracteristica caracteristicaActual = caracteristicaService.findById(id);
 		caracteristicaActual.setDescripcion(caracteristica.getDescripcion());
 		caracteristicaActual.setNombre(caracteristica.getNombre());
