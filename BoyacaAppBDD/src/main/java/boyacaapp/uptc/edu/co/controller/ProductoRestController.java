@@ -66,7 +66,7 @@ public class ProductoRestController {
 	public List<ProductoBasicoDto> indexdto(){
 		List<ProductoBasicoDto> listAux = new ArrayList<ProductoBasicoDto>();
 		for (Producto pr : productoService.findAll()) {
-			if (pr.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
+			if (pr.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)&& !pr.getListaImagenes().isEmpty() ) {
 				ProductoBasicoDto productoBasico = new ProductoBasicoDto();
 				productoBasico.setIdProducto(pr.getIdProducto());
 				productoBasico.setNombre(pr.getNombre());
@@ -74,7 +74,7 @@ public class ProductoRestController {
 				productoBasico.setStock(pr.getStock_total());
 				productoBasico.setGenero(pr.getGenero().getNombre());
 				if (!pr .getListaImagenes().isEmpty()) {
-					productoBasico.setImagenIlustrativa(pr .getListaImagenes().get(0));
+					productoBasico.setImagenIlustrativa(pr.getListaImagenes().get(0));
 				}
 				listAux.add(productoBasico);
 			}
