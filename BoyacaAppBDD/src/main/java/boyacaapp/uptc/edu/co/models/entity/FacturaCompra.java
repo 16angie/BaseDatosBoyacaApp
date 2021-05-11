@@ -17,10 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import boyacaapp.uptc.edu.co.utils.MetodosReusables;
 import lombok.Data;
 
 @Entity 
@@ -62,6 +59,5 @@ public class FacturaCompra implements Serializable{
 	@OneToMany(mappedBy = "facturaCompra",fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("facturaCompra")
 	private List<Envio>envios;
-	
 
 }

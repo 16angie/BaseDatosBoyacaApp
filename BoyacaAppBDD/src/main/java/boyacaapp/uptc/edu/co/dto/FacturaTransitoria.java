@@ -1,5 +1,6 @@
 package boyacaapp.uptc.edu.co.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -17,6 +18,6 @@ public class FacturaTransitoria {
 		private String numero_dir; 
 		private String datosAdicionales_dir;
 		private Long id_ciudad;
-		private List<DetalleTransitorio> detalles;
+		private List<DetalleTransitorio> detalles = new ArrayList<DetalleTransitorio>();
 		
 }

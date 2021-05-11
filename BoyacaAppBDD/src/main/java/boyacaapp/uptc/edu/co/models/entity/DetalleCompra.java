@@ -37,8 +37,11 @@ public class DetalleCompra {
 	@OneToOne
 	private Producto idProducto;
 	
+	
 	@ManyToOne
-	@JoinColumn(name ="detalleCompra")
+	@JoinColumn(name ="envio_compra")
 	@JsonIgnoreProperties("detalleCompra")
 	private Envio envio_c;
+	
+	
 }

@@ -3,6 +3,7 @@ package boyacaapp.uptc.edu.co.controller;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,9 @@ import boyacaapp.uptc.edu.co.services.ICiudadService;
 import boyacaapp.uptc.edu.co.services.IClienteService;
 import boyacaapp.uptc.edu.co.services.ICompraFacturaService;
 import boyacaapp.uptc.edu.co.services.IDetallesCompraService;
+import boyacaapp.uptc.edu.co.services.IDireccionService;
 import boyacaapp.uptc.edu.co.services.IDomicilioService;
+import boyacaapp.uptc.edu.co.services.IEnvioService;
 import boyacaapp.uptc.edu.co.services.IEspecificacionProductoService;
 import boyacaapp.uptc.edu.co.services.IProductoService;
 import boyacaapp.uptc.edu.co.services.IRepresentanteComercialService;
@@ -71,15 +74,32 @@ public class CompraRestController {
 	@Autowired
 	IRepresentanteComercialService representanteService;
 	
+	@Autowired
+	IEnvioService envioService;
+	
+	@Autowired
+	IDireccionService direccionService;
+	
+	@Autowired
+	IDetallesCompraService detalleCompraService;
+	
+	
 	@GetMapping("/listar")
 	public List<FacturaCompra> index(){
 		return compraService.findAll();	
 	}
 	
+	
 	@GetMapping("/listarcomprasporid/{id}")
 	public FacturaCompra show(@PathVariable Long id){
 		return compraService.findById(id);
 	}
+	
+	@GetMapping("/listarcompraporreferencia/{referencia}")
+	public FacturaCompra showByReference(@PathVariable String referencia){
+		return compraService.findByReference(referencia);
+	}
+	
 	
 	/**
 	 * 
@@ -90,6 +110,36 @@ public class CompraRestController {
 	public ReferenciaDto generate(@RequestBody FacturaTransitoria facturat){
 		ReferenciaDto ref = new ReferenciaDto();
 		ref.setReference(MetodosReusables.metodorandomimg()+"-"+System.currentTimeMillis());
+		
+		Cliente cli = clienteService.findById(facturat.getId_cliente());
+		FacturaCompra fac = new FacturaCompra();
+		fac.setCliente(cli);
+		fac.setReferenciaDeCompra(ref.getReference());
+		fac.setValor_total_compra(facturat.getValor_total_compra());
+		
+		compraService.save(fac);
+		
+		Direccion direccion = new Direccion();
+		
+		direccion.setBarrio(facturat.getBarrio_dir());
+		direccion.setNumero(facturat.getNumero_dir());
+		direccion.setVia(facturat.getVia_dir());
+		direccion.setDatosAdicionales(facturat.getDatosAdicionales_dir());
+		
+		Ciudad ciudad = ciudadService.findById(facturat.getId_ciudad());
+		direccion.setCiudad(ciudad);
+		
+		direccionService.save(direccion);
+		
+		Domicilio dom = new Domicilio();
+		dom.setNombre(facturat.getNombre_dom());
+		dom.setApellido(facturat.getApellido_dom());
+		dom.setNumero_telefono(facturat.getNumero_telefono_dom());
+
+		dom.setDireccion(direccion);
+		domicilioService.save(dom);
+		
+		
 		HashMap<Long ,List<DetalleCompra> > representantes = new HashMap<>();
 		for (DetalleTransitorio detallet : facturat.getDetalles()) {
 			DetalleCompra detallec = new DetalleCompra();
@@ -106,43 +156,42 @@ public class CompraRestController {
 				list.add(detallec);
 				representantes.put(idRep, list);
 			}
+			detalleService.save(detallec);
 		}
 		
-		Domicilio dom = new Domicilio();
-		dom.setNombre(facturat.getNombre_dom());
-		dom.setApellido(facturat.getApellido_dom());
-		dom.setNumero_telefono(facturat.getNumero_telefono_dom());
-		
-		Direccion direccion = new Direccion();
-		
-		direccion.setBarrio(facturat.getBarrio_dir());
-		direccion.setNumero(facturat.getNumero_dir());
-		direccion.setVia(facturat.getVia_dir());
-		direccion.setDatosAdicionales(facturat.getDatosAdicionales_dir());
-		
-		Ciudad ciudad = ciudadService.findById(facturat.getId_ciudad());
-		
-		direccion.setCiudad(ciudad);
-		dom.setDireccion(direccion);
-		
+
 		List<Envio> envios = new ArrayList<Envio>();
 		for (Long id : representantes.keySet() ) {
 			Envio envio = new Envio();
 			RepresentanteComercial rep = representanteService.findById(id);
 			envio.setRepresentante_hizo_envio(rep);
 			envio.setDomicilio(dom);
-			envio.setDetalleCompra(representantes.get(id));
 			envios.add(envio);
 		}
-		Cliente cli = clienteService.findById(facturat.getId_cliente());
-		FacturaCompra fac = new FacturaCompra();
-		fac.setCliente(cli);
-		fac.setReferenciaDeCompra(ref.getReference());
-		fac.setValor_total_compra(facturat.getValor_total_compra());
+		
+		for (Envio envio : envios) {
+			for (Long id : representantes.keySet() ) {
+				for (DetalleCompra detalle: representantes.get(id)) {
+					if(envio.getRepresentante_hizo_envio().getId() == id) {
+						detalle.setEnvio_c(envio);
+						envio.setFacturaCompra(fac);
+						envioService.save(envio);
+					}
+				}
+			}
+		}
+		
+		
 		fac.setEnvios(envios);
 		compraService.save(fac);
+		
 		return ref;
 	}
+	
+	
+
+	
+	
 	
 	/**
 	 * //el domicilio y la lista de detalles se cargan por en body del request
@@ -158,10 +207,20 @@ public class CompraRestController {
 		fact.setFecha_compra(GregorianCalendar.getInstance());
 		if (status.equals("APPROVED")) {
 			fact.setEstadodelacompra(EstadoCompra.ACEPTADA);
+			for (Envio envio :fact.getEnvios()) {
+				for ( DetalleCompra deta : envio.getDetalleCompra()) {
+					EspecificacionProducto e = especificacionService.findById(deta.getIdEspecificacionElegida().getIdEspecificacion());
+					e.setCantidad(e.getCantidad()-deta.getCantidad());
+					especificacionService.save(e);
+				}
+			}
 			compraService.save(fact);
 		}else {
 			fact.setEstadodelacompra(EstadoCompra.RECHAZADA);
 		}
+		
+		
+		
 		return respuesta;
 	}
 	

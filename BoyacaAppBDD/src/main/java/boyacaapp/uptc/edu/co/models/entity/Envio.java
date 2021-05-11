@@ -61,7 +61,6 @@ public class Envio {
 		
 	
 	@OneToMany(mappedBy = "envio_c",fetch = FetchType.LAZY)
-	@JsonIgnoreProperties("envio_c")
 	private List<DetalleCompra> detalleCompra;
 	
 	@OneToOne
