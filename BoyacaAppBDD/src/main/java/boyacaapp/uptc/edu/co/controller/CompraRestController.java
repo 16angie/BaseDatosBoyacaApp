@@ -218,9 +218,6 @@ public class CompraRestController {
 		}else {
 			fact.setEstadodelacompra(EstadoCompra.RECHAZADA);
 		}
-		
-		
-		
 		return respuesta;
 	}
 	
