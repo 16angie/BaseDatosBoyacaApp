@@ -130,6 +130,7 @@ public class EnvioRestController {
 		return envioService.save(envio);
 	}
 	
+	
 	@PostMapping("/actualizar/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Envio update(@RequestBody Envio envio, @PathVariable Long id){
@@ -138,10 +139,8 @@ public class EnvioRestController {
 		envioActual.setFecha_envio(envio.getFecha_envio());
 		envioActual.setFecha_relativa_llegada(envio.getFecha_relativa_llegada());
 		envioActual.setNumeroGuia(envio.getNumeroGuia());
-		envioActual.setRepresentante_hizo_envio(envio.getRepresentante_hizo_envio());
 		return envioService.save(envioActual);
 	}
-	
 	
 	
 	@DeleteMapping("/eliminar/{id}")
