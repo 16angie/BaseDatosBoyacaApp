@@ -20,4 +20,5 @@ public class FacturaTransitoria {
 		private Long id_ciudad;
 		private List<DetalleTransitorio> detalles = new ArrayList<DetalleTransitorio>();
 		
+		
 }

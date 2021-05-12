@@ -140,25 +140,28 @@ public class CompraRestController {
 		domicilioService.save(dom);
 		
 		
-		HashMap<Long ,List<DetalleCompra> > representantes = new HashMap<>();
+		HashMap<Long, List<DetalleCompra>> representantes = new HashMap<>();
 		for (DetalleTransitorio detallet : facturat.getDetalles()) {
 			DetalleCompra detallec = new DetalleCompra();
 			detallec.setCantidad(detallet.getCantidad());
-			EspecificacionProducto esp = especificacionService.findById(detallet.getIdEspecificacion());
-			detallec.setIdEspecificacionElegida( esp);
+			if (detallet.getIdEspecificacion() != -1) {
+				EspecificacionProducto esp = especificacionService.findById(detallet.getIdEspecificacion());
+				detallec.setIdEspecificacionElegida(esp);
+			} else {
+				detallec.setIdEspecificacionElegida(null);
+			}
 			Producto pro = productoService.findById(detallet.getIdProducto());
 			detallec.setIdProducto(pro);
 			Long idRep = pro.getAlmacen().getEmpresa().getRepresentante().getId();
 			if (representantes.containsKey(idRep)) {
 				representantes.get(idRep).add(detallec);
-			}else {
+			} else {
 				List<DetalleCompra> list = new ArrayList<DetalleCompra>();
 				list.add(detallec);
 				representantes.put(idRep, list);
 			}
 			detalleService.save(detallec);
 		}
-		
 
 		List<Envio> envios = new ArrayList<Envio>();
 		for (Long id : representantes.keySet() ) {
@@ -210,8 +213,14 @@ public class CompraRestController {
 			for (Envio envio :fact.getEnvios()) {
 				for ( DetalleCompra deta : envio.getDetalleCompra()) {
 					EspecificacionProducto e = especificacionService.findById(deta.getIdEspecificacionElegida().getIdEspecificacion());
-					e.setCantidad(e.getCantidad()-deta.getCantidad());
-					especificacionService.save(e);
+					if(e!=null) {
+						e.setCantidad(e.getCantidad()-deta.getCantidad());
+						especificacionService.save(e);
+					}else {
+						Producto producto = productoService.findById(deta.getIdProducto().getIdProducto());
+						producto.setStock_total(producto.getStock_total()- deta.getCantidad());
+						productoService.save(producto);
+					}
 				}
 			}
 			compraService.save(fact);

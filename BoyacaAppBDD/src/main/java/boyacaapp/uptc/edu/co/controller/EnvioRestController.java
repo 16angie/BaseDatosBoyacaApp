@@ -74,11 +74,10 @@ public class EnvioRestController {
 		Cliente cliente = clienteservice.findById(idCliente);
 		List<Envio> a = envioService.findAll();
 		List<Envio> b = new ArrayList<Envio>();
+	
 		if (cliente != null && cliente.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
 			for (Envio envio : a) {
-				if (envio.getEstado_envio().equals(EstadoEnvio.EN_PROCESO)
-						&& envio.getFacturaCompra().getCliente().getId() == idCliente
-						&& envio.getFacturaCompra().getEstadodelacompra().equals(EstadoCompra.ACEPTADA)) {
+				if ( envio.getFacturaCompra().getCliente().getId() == cliente.getId()) {
 					b.add(envio);
 				}
 			}
@@ -87,17 +86,18 @@ public class EnvioRestController {
 	}
 	
 	
+	
 	@GetMapping("/listarporepesentante/{idRepresentante}")
 	public List<Envio> showa(@PathVariable Long idRepresentante){
-		RepresentanteComercial cliente = repservice.findById(idRepresentante);
+		RepresentanteComercial rep = repservice.findById(idRepresentante);
 		List<Envio> a = envioService.findAll();
 		List<Envio> b = new ArrayList<Envio>();
 	
-		if (cliente != null && cliente.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
+		if (rep != null && rep.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
 			for (Envio envio : a) {
 				if (envio.getEstado_envio().equals(EstadoEnvio.EN_PROCESO )
 						&& envio.getFacturaCompra().getEstadodelacompra().equals(EstadoCompra.ACEPTADA)
-						&& envio.getRepresentante_hizo_envio().getId() == cliente.getId()) {
+						&& envio.getRepresentante_hizo_envio().getId() == rep.getId()) {
 					b.add(envio);
 				}
 			}
