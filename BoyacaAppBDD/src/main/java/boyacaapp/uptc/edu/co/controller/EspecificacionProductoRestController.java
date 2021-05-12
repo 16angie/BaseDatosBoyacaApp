@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import boyacaapp.uptc.edu.co.dto.EspecificacionDto;
 import boyacaapp.uptc.edu.co.models.entity.EspecificacionProducto;
 import boyacaapp.uptc.edu.co.models.entity.Producto;
 import boyacaapp.uptc.edu.co.services.IEspecificacionProductoService;
@@ -39,6 +41,20 @@ public class EspecificacionProductoRestController {
 	public EspecificacionProducto show(@PathVariable Long id){
 		return especificacionService.findById(id);
 	}
+	
+	@GetMapping("/listarporIdDto/{id}")
+	public EspecificacionDto shows(@PathVariable Long id){
+		EspecificacionDto espe = new EspecificacionDto();
+		EspecificacionProducto esp = especificacionService.findById(id);
+		espe.setCantidad(esp.getCantidad());
+		espe.setDetalleEspecificacionPrimaria(esp.getDetalleEspecificacionPrimaria());
+		espe.setDetallesecundario(esp.getDetallesecundario());
+		espe.setNombreEspecificacionPrimaria(esp.getNombreEspecificacionPrimaria());
+		espe.setNombreEspecificacionsecundaria(esp.getNombreEspecificacionsecundaria());
+		espe.setIdProducto(esp.getProducto_e().getIdProducto());
+		return espe;
+	}
+	
 	
 	@PostMapping("/nueva/{id_producto}")
 	@ResponseStatus(HttpStatus.CREATED)
