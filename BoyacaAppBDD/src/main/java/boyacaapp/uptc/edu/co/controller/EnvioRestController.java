@@ -77,7 +77,7 @@ public class EnvioRestController {
 	
 		if (cliente != null && cliente.getEstadoObjeto().equals(EstadoObjetoBD.ACTIVO)) {
 			for (Envio envio : a) {
-				if ( envio.getFacturaCompra().getCliente().getId() == cliente.getId()) {
+				if ( envio.getFacturaCompra().getCliente().getId() == cliente.getId() && envio.getFacturaCompra().getCliente()!=null) {
 					b.add(envio);
 				}
 			}
