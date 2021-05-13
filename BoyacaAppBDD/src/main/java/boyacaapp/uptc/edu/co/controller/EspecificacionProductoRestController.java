@@ -46,6 +46,7 @@ public class EspecificacionProductoRestController {
 	public EspecificacionDto shows(@PathVariable Long id){
 		EspecificacionDto espe = new EspecificacionDto();
 		EspecificacionProducto esp = especificacionService.findById(id);
+		espe.setIdEspecificacion(esp.getIdEspecificacion());
 		espe.setCantidad(esp.getCantidad());
 		espe.setDetalleEspecificacionPrimaria(esp.getDetalleEspecificacionPrimaria());
 		espe.setDetallesecundario(esp.getDetallesecundario());
