@@ -20,14 +20,11 @@ public class AlmacenServiceImpl implements IAlmacenService{
 
 	@Transactional(readOnly= true)
 	public List<Almacen> findAll() {
-		
 		return (List<Almacen>) almacendao.findAll();
-		
 	}
 
 	@Transactional(readOnly= true)
 	public Almacen findById(Long id) {
-		
 		return almacendao.findById(id).orElse(null);
 	}
 

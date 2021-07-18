@@ -3,7 +3,6 @@ package boyacaapp.uptc.edu.co.controller;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import boyacaapp.uptc.edu.co.dto.DetalleTransitorio;
 import boyacaapp.uptc.edu.co.dto.FacturaTransitoria;
 import boyacaapp.uptc.edu.co.dto.ReferenciaDto;
@@ -190,12 +188,7 @@ public class CompraRestController {
 		
 		return ref;
 	}
-	
-	
-
-	
-	
-	
+		
 	/**
 	 * //el domicilio y la lista de detalles se cargan por en body del request
 	//Revisar el envio si es por aparte o si va incluido en la compra aqui*/
@@ -204,29 +197,44 @@ public class CompraRestController {
 	@PostMapping("/revisardatospasarela")
 	@ResponseStatus(HttpStatus.OK)
 	public RespuestaPasarela create(@RequestBody RespuestaPasarela respuesta){
-		String status = respuesta.getData().getTransaction().getStatus();
-		String referencia = respuesta.getData().getTransaction().getReference();
-		FacturaCompra fact = compraService.findByReference(referencia);
-		fact.setFecha_compra(GregorianCalendar.getInstance());
-		if (status.equals("APPROVED")) {
-			fact.setEstadodelacompra(EstadoCompra.ACEPTADA);
-			for (Envio envio :fact.getEnvios()) {
-				for ( DetalleCompra deta : envio.getDetalleCompra()) {
-					EspecificacionProducto e = especificacionService.findById(deta.getIdEspecificacionElegida().getIdEspecificacion());
-					if(e!=null) {
-						e.setCantidad(e.getCantidad()-deta.getCantidad());
-						especificacionService.save(e);
-					}else {
-						Producto producto = productoService.findById(deta.getIdProducto().getIdProducto());
-						producto.setStock_total(producto.getStock_total()- deta.getCantidad());
-						productoService.save(producto);
+		try {
+			String status = respuesta.getData().getTransaction().getStatus();
+			respuesta.setEnvironment(status);
+			String referencia = respuesta.getData().getTransaction().getReference();
+			respuesta.setEnvironment(referencia);
+			FacturaCompra fact = compraService.findByReference(referencia);
+			respuesta.setEnvironment(""+fact.getValor_total_compra());
+			fact.setFecha_compra(GregorianCalendar.getInstance());
+			if (status.equals("APPROVED")) {
+				fact.setEstadodelacompra(EstadoCompra.ACEPTADA);
+				respuesta.setEnvironment(""+fact.getEstadodelacompra());
+				for (Envio envio :fact.getEnvios()) {
+					respuesta.setEnvironment("envios:--> "+envio.getId_envio());
+					for ( DetalleCompra deta : envio.getDetalleCompra()) {
+						respuesta.setEnvironment("detalle envio:--> "+envio.getId_envio() + "id_detalle:"+deta.getId_detalles());
+						if(deta.getIdEspecificacionElegida()!=null) {
+							EspecificacionProducto e = deta.getIdEspecificacionElegida();
+							e.setCantidad(e.getCantidad()-deta.getCantidad());
+							especificacionService.save(e);
+						}
+						else {
+							Producto producto = deta.getIdProducto();
+							producto.setStock_total(producto.getStock_total()- deta.getCantidad());
+							productoService.save(producto);
+						}
 					}
 				}
+				compraService.save(fact);
+			}else {
+				fact.setEstadodelacompra(EstadoCompra.RECHAZADA);
+				compraService.save(fact);
 			}
-			compraService.save(fact);
-		}else {
-			fact.setEstadodelacompra(EstadoCompra.RECHAZADA);
+			
+		} catch (Exception e) {
+			return respuesta;
+			//respuesta.setEnvironment(e.getMessage()+": "+ e.getStackTrace() );
 		}
+		
 		return respuesta;
 	}
 	
